@@ -936,6 +936,48 @@ nav a:active {
 
 }
 
+/* =========================
+   ACCOUNT MENU
+========================= */
+
+.account-menu {
+    display: none;
+    width: fit-content;
+    max-width: calc(100% - 20px);
+    margin: 8px auto 12px;
+    padding: 6px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    overflow-x: auto;
+}
+
+.account-tab {
+    display: block;
+    flex: 0 0 auto;
+    text-decoration: none;
+    color: #222;
+    background: linear-gradient(145deg,#ffffff,#f1f1f1);
+    border: 1px solid #d5d5d5;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 0 #b5b5b5;
+}
+
+.account-tab:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #b5b5b5;
+}
+
+
 </style>
 
 </head>
@@ -1106,17 +1148,34 @@ nav a:active {
 </a>
 
 
-    <a href="customer-login.html">
-        👤 Customer Login
-    </a>
-
-    <a href="customer-orders.html">
-        📦 My Orders
-    </a>
-
 </nav>
 
 
+
+<!-- =========================
+     ACCOUNT MENU
+========================= -->
+
+<div
+    id="accountMenu"
+    class="account-menu"
+>
+
+    <a
+        href="customer-login.html"
+        class="account-tab"
+    >
+        👤 Customer Login
+    </a>
+
+    <a
+        href="customer-orders.html"
+        class="account-tab"
+    >
+        📦 My Orders
+    </a>
+
+</div>
 
 
 <!-- =========================
@@ -2130,6 +2189,36 @@ function() {
         "admin-login.html";
 
 };
+
+/* =====================================================
+   ACCOUNT MENU
+===================================================== */
+
+window.toggleAccountMenu =
+function() {
+
+    const accountMenu =
+        document.getElementById(
+            "accountMenu"
+        );
+
+    if (
+        accountMenu.style.display ===
+        "flex"
+    ) {
+
+        accountMenu.style.display =
+            "none";
+
+    } else {
+
+        accountMenu.style.display =
+            "flex";
+
+    }
+
+};
+
 
 /* =====================================================
    ADMIN MENU VISIBILITY
