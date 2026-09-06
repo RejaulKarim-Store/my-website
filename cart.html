@@ -578,6 +578,23 @@
                 ) || [];
 
 
+
+/* =====================================================
+   UPDATE MOBILE FOOTER CART COUNT
+   Shows number of different products
+===================================================== */
+
+const mobileCartCount =
+    document.getElementById("mobileCartCount");
+
+if (mobileCartCount) {
+
+    mobileCartCount.textContent =
+        cart.length;
+
+}
+
+
             /*
              * Old cart item হলে quantity
              * ঠিক করে দেওয়া হবে।
