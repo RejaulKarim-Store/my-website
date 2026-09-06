@@ -2416,6 +2416,38 @@ function() {
 
 
 /* =====================================================
+   FOOTER ACCOUNT MENU
+===================================================== */
+
+window.toggleFooterAccountMenu =
+function() {
+
+    const footerMenu =
+        document.getElementById(
+            "footerAccountMenu"
+        );
+
+    if (
+        footerMenu.style.display ===
+        "flex"
+    ) {
+
+        footerMenu.style.display =
+            "none";
+
+    } else {
+
+        footerMenu.style.display =
+            "flex";
+
+    }
+
+};
+
+
+
+
+/* =====================================================
    ADMIN MENU VISIBILITY
 ===================================================== */
 
