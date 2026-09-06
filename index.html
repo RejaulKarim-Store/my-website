@@ -1162,6 +1162,125 @@ nav a:active {
 }
 
 
+/* =========================
+   FULL SCREEN ACCOUNT PAGE
+========================= */
+
+.footer-account-page {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: #f5f5f5;
+
+    z-index: 6000;
+
+    overflow-y: auto;
+}
+
+/* Account page top buttons */
+
+.footer-account-page-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    width: 100%;
+
+    padding: 10px;
+
+    background: white;
+
+    border-bottom: 1px solid #ddd;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.12);
+}
+
+.footer-account-page-buttons a,
+.footer-account-page-buttons button {
+
+    flex: 1;
+
+    min-width: 0;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f1f1f1
+        );
+
+    color: #222;
+
+    border: 1px solid #d5d5d5;
+
+    border-radius: 8px;
+
+    padding: 10px 5px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 2px 0 #b5b5b5;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.footer-account-page-buttons a:active,
+.footer-account-page-buttons button:active {
+
+    transform: translateY(2px);
+
+    box-shadow:
+        0 1px 0 #b5b5b5;
+}
+
+
+/* Account page content */
+
+.footer-account-page-content {
+
+    text-align: center;
+
+    padding: 30px 15px;
+}
+
+.footer-account-page-content h2 {
+
+    margin: 10px 0;
+
+    color: #ff6600;
+
+    font-size: 24px;
+}
+
+.footer-account-page-content p {
+
+    color: #666;
+
+    font-size: 15px;
+}
+
+
 </style>
 
 </head>
@@ -2445,6 +2564,27 @@ function() {
 };
 
 
+/* =====================================================
+   OPEN FULL SCREEN ACCOUNT PAGE
+===================================================== */
+
+window.openFooterAccountPage =
+function() {
+
+    const accountPage =
+        document.getElementById(
+            "footerAccountPage"
+        );
+
+    if (!accountPage) {
+        return;
+    }
+
+    accountPage.style.display =
+        "block";
+
+};
+
 
 
 /* =====================================================
@@ -2948,6 +3088,48 @@ if ("serviceWorker" in navigator) {
 
 </div>
 
+
+<!-- =========================
+     FULL SCREEN ACCOUNT PAGE
+========================= -->
+
+<div
+    id="footerAccountPage"
+    class="footer-account-page"
+>
+
+    <div class="footer-account-page-buttons">
+
+        <a href="customer-login.html">
+            👤 Customer Login
+        </a>
+
+        <a href="customer-orders.html">
+            📦 My Orders
+        </a>
+
+        <button type="button">
+            🚪 Logout
+        </button>
+
+    </div>
+
+    <div class="footer-account-page-content">
+
+        <h2>
+            My Account
+        </h2>
+
+        <p>
+            Welcome to RK Store
+        </p>
+
+    </div>
+
+</div>
+
+
+
 <!-- =========================
      MOBILE FIXED FOOTER
 ========================= -->
@@ -2982,7 +3164,7 @@ if ("serviceWorker" in navigator) {
 
     <a
     href="#"
-    onclick="toggleFooterAccountMenu(); return false;"
+    onclick="openFooterAccountPage(); return false;"
 >
 
     <span class="mobile-footer-icon">
