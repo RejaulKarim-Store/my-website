@@ -1214,6 +1214,14 @@ nav a:active {
 
     min-width: 0;
 
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
     text-align: center;
 
     text-decoration: none;
@@ -3076,19 +3084,22 @@ if ("serviceWorker" in navigator) {
 
     <div class="footer-account-page-buttons">
 
-        <a href="customer-login.html">
-            👤 Customer Login
-        </a>
+    <a href="customer-login.html">
+        <span>👤</span>
+        <span>Customer Login</span>
+    </a>
 
-        <a href="customer-orders.html">
-            📦 My Orders
-        </a>
+    <a href="customer-orders.html">
+        <span>📦</span>
+        <span>My Orders</span>
+    </a>
 
-        <button type="button">
-            🚪 Logout
-        </button>
+    <button type="button">
+        <span>🚪</span>
+        <span>Logout</span>
+    </button>
 
-    </div>
+</div>
 
     <div class="footer-account-page-content">
 
