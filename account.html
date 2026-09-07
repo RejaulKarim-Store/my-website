@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RK Store - My Account</title>
+
+<link
+    rel="manifest"
+    href="./manifest.json"
+>
+
+<meta
+    name="theme-color"
+    content="#ff6600"
+>
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="RK Store"
+>
+
+<link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="./icon-192.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="./icon-192.png"
+>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background-color: #f5f5f5;
+
+    padding-bottom: 65px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+
+    background-color: #ff6600;
+
+    color: white;
+
+    min-height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    padding: 10px 60px;
+
+}
+
+.header-title {
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-button {
+
+    position: absolute;
+
+    left: 10px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    padding: 5px 8px;
+
+}
+
+
+/* =========================
+   ACCOUNT CONTENT
+========================= */
+
+.account-container {
+
+    max-width: 600px;
+
+    margin: 20px auto;
+
+    padding: 15px;
+
+}
+
+
+.account-card {
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.10);
+
+    text-align: center;
+
+}
+
+
+.account-card h2 {
+
+    margin: 5px 0 8px;
+
+    color: #ff6600;
+
+    font-size: 24px;
+
+}
+
+
+.account-card p {
+
+    margin: 0 0 20px;
+
+    color: #666;
+
+    font-size: 15px;
+
+}
+
+
+/* =========================
+   ACCOUNT BUTTONS
+========================= */
+
+.account-button {
+
+    display: block;
+
+    width: 100%;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f1f1f1
+        );
+
+    color: #222;
+
+    border: 1px solid #d5d5d5;
+
+    border-radius: 9px;
+
+    padding: 13px 10px;
+
+    margin: 9px 0;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 3px 0 #b5b5b5;
+
+    cursor: pointer;
+
+}
+
+
+.account-button:active {
+
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 1px 0 #b5b5b5;
+
+}
+
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+
+.logout-button {
+
+    width: 100%;
+
+    background: #dc3545;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 13px 10px;
+
+    margin-top: 9px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================
+   FIXED FOOTER
+========================= */
+
+.account-footer {
+
+    position: fixed;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 62px;
+
+    background: white;
+
+    border-top: 1px solid #ddd;
+
+    box-shadow:
+        0 -2px 10px rgba(0,0,0,0.12);
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: space-around;
+
+    z-index: 5000;
+
+}
+
+
+.account-footer a {
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+.account-footer a:active {
+
+    transform:
+        scale(0.94);
+
+}
+
+
+.account-footer a:hover {
+
+    color: #f57224;
+
+}
+
+
+.account-footer-icon {
+
+    font-size: 23px;
+
+    line-height: 25px;
+
+}
+
+
+.account-footer-text {
+
+    white-space: nowrap;
+
+}
+
+
+/* Current page */
+
+.account-footer a:last-child {
+
+    color: #f57224;
+
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 701px) {
+
+    .account-container {
+
+        max-width: 700px;
+
+    }
+
+    .account-card {
+
+        padding: 30px;
+
+    }
+
+    .account-footer a {
+
+        flex-direction: row;
+
+        gap: 5px;
+
+        font-size: 14px;
+
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .header-title {
+
+        font-size: 24px;
+
+    }
+
+    .account-container {
+
+        margin-top: 15px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <button
+        type="button"
+        class="back-button"
+        onclick="goBackHome()"
+        aria-label="Back"
+    >
+        ←
+    </button>
+
+    <div class="header-title">
+        RK Store
+    </div>
+
+</header>
+
+
+<!-- =========================
+     ACCOUNT CONTENT
+========================= -->
+
+<main class="account-container">
+
+    <div class="account-card">
+
+        <h2>
+            👤 My Account
+        </h2>
+
+        <p>
+            Welcome to RK Store
+        </p>
+
+
+        <a
+            href="customer-login.html"
+            class="account-button"
+        >
+            👤 Customer Login
+        </a>
+
+
+        <a
+            href="customer-orders.html"
+            class="account-button"
+        >
+            📦 My Orders
+        </a>
+
+
+        <button
+            type="button"
+            class="logout-button"
+            onclick="logoutCustomer()"
+        >
+            🚪 Logout
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     FIXED FOOTER
+========================= -->
+
+<div class="account-footer">
+
+    <a href="index.html">
+
+        <span class="account-footer-icon">
+            🏠
+        </span>
+
+        <span class="account-footer-text">
+            Home
+        </span>
+
+    </a>
+
+
+    <a href="cart.html">
+
+        <span class="account-footer-icon">
+            🛒
+        </span>
+
+        <span class="account-footer-text">
+            Cart
+            (<span id="cartCount">0</span>)
+        </span>
+
+    </a>
+
+
+    <a href="account.html">
+
+        <span class="account-footer-icon">
+            👤
+        </span>
+
+        <span class="account-footer-text">
+            Account
+        </span>
+
+    </a>
+
+</div>
+
+
+<!-- =========================
+     FIREBASE AUTH
+========================= -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCkBQaphKKz_Wxd1GgKAVoxqR4taKvzdEM",
+
+    authDomain:
+        "rk-store-5fb24.firebaseapp.com",
+
+    projectId:
+        "rk-store-5fb24",
+
+    storageBucket:
+        "rk-store-5fb24.firebasestorage.app",
+
+    messagingSenderId:
+        "407275549697",
+
+    appId:
+        "1:407275549697:web:41043b49bf7182cecffc00"
+
+};
+
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const auth =
+    getAuth(app);
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+window.logoutCustomer =
+async function() {
+
+    try {
+
+        await signOut(auth);
+
+        alert(
+            "You have been logged out."
+        );
+
+        window.location.href =
+            "index.html";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Logout Error:",
+            error
+        );
+
+        alert(
+            "Logout failed. Please try again."
+        );
+
+    }
+
+};
+
+
+/* =========================
+   CART COUNT
+========================= */
+
+function updateCartCount() {
+
+    const cart =
+        JSON.parse(
+            localStorage.getItem(
+                "cart"
+            )
+        ) || [];
+
+
+    let totalQuantity = 0;
+
+
+    cart.forEach(
+        function(item) {
+
+            totalQuantity +=
+                Number(
+                    item.quantity
+                ) || 1;
+
+        }
+    );
+
+
+    const count =
+        document.getElementById(
+            "cartCount"
+        );
+
+
+    if (count) {
+
+        count.innerText =
+            totalQuantity;
+
+    }
+
+}
+
+
+updateCartCount();
+
+</script>
+
+
+<!-- =========================
+     BACK TO HOME
+========================= -->
+
+<script>
+
+function goBackHome() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+
+<!-- =========================
+     SERVICE WORKER
+========================= -->
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            navigator.serviceWorker
+                .register("./sw.js")
+                .then(
+                    function(registration) {
+
+                        console.log(
+                            "RK Store Service Worker registered:",
+                            registration.scope
+                        );
+
+                    }
+                )
+                .catch(
+                    function(error) {
+
+                        console.error(
+                            "Service Worker registration failed:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
