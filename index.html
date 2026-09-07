@@ -3420,7 +3420,7 @@ if ("serviceWorker" in navigator) {
 
 <div class="mobile-footer">
 
-   <a href="index.html" onclick="window.location.replace('index.html'); return false;">
+   <a href="index.html" onclick="goHome(); return false;">
 
         <span class="mobile-footer-icon">
             🏠
@@ -3485,14 +3485,16 @@ if ("serviceWorker" in navigator) {
 <script>
 
 /* =========================
-   RK STORE HOME HISTORY
+   RK STORE HOME
 ========================= */
 
-history.replaceState(
-    null,
-    "",
-    window.location.href
-);
+function goHome() {
+
+    window.location.replace(
+        "index.html"
+    );
+
+}
 
 </script>
 
