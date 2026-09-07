@@ -739,6 +739,31 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
+<script>
+
+/* =========================
+   ACCOUNT PAGE BACK → HOME
+========================= */
+
+window.addEventListener(
+    "popstate",
+    function() {
+
+        window.location.replace(
+            "index.html"
+        );
+
+    }
+);
+
+history.pushState(
+    null,
+    "",
+    window.location.href
+);
+
+</script>
+
 </body>
 
 </html>
