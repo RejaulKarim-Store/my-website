@@ -207,6 +207,28 @@
         }
 
 
+/* =========================
+   REFUND BUTTON
+========================= */
+
+.refund-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #27ae60;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.refund-btn:hover {
+    background: #219150;
+}
+
+
         /* =========================
            NO ORDERS
         ========================= */
@@ -1304,6 +1326,19 @@ ${
                     >
                         Delete Order
                     </button>
+
+${
+    status === "Cancelled"
+        ? `
+            <button
+                class="refund-btn"
+                data-index="${index}"
+            >
+                💰 Refund
+            </button>
+          `
+        : ""
+}
 
                 </div>
 
