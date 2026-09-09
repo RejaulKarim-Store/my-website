@@ -1445,6 +1445,37 @@ document
 
             }
 
+/* =========================
+   REFUND
+========================= */
+
+if (
+    event.target.classList.contains(
+        "refund-btn"
+    )
+) {
+
+    const index =
+        Number(
+            event.target.dataset.index
+        );
+
+    const order =
+        orders[index];
+
+    if (!order) {
+
+        return;
+
+    }
+
+    alert(
+        "Refund button clicked for Order ID: " +
+        (order.orderId || "N/A")
+    );
+
+}
+
 
             /* =========================
                DELETE
