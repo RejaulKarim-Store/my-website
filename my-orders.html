@@ -272,7 +272,7 @@ import {
 import {
     getFirestore,
     collection,
-    getDocs
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
@@ -337,121 +337,122 @@ async function loadMyOrders(user) {
             "ordersContainer"
         );
 
+    onSnapshot(
+        collection(db, "orders"),
 
-    try {
+        (snapshot) => {
 
-        const snapshot =
-            await getDocs(
-                collection(db, "orders")
+            myOrders = [];
+
+            snapshot.forEach(
+                (docSnapshot) => {
+
+                    const order =
+                        docSnapshot.data();
+
+                    if (
+                        order.customerId === user.uid
+                    ) {
+
+                        myOrders.push({
+
+                            ...order,
+
+                            firebaseId:
+                                docSnapshot.id
+
+                        });
+
+                    }
+
+                }
             );
 
 
-        /*
-         * আগের মতোই customer ID
-         * দিয়ে শুধু নিজের order নেওয়া হবে
-         */
+            /* =========================
+               NO ORDERS
+            ========================= */
 
-        myOrders = [];
+            if (
+                myOrders.length === 0
+            ) {
 
+                container.innerHTML = `
 
-        snapshot.forEach(
-            (docSnapshot) => {
+                    <div class="no-orders">
 
-                const order =
-                    docSnapshot.data();
+                        <h2>
+                            No Orders Yet
+                        </h2>
 
+                        <p>
+                            You have not placed any orders yet.
+                        </p>
 
-                if (
-                    order.customerId === user.uid
-                ) {
+                        <a
+                            class="login-btn"
+                            href="index.html"
+                        >
+                            Continue Shopping
+                        </a>
 
-                    myOrders.push({
+                    </div>
 
-                        ...order,
+                `;
 
-                        firebaseId:
-                            docSnapshot.id
-
-                    });
-
-                }
+                return;
 
             }
-        );
 
 
-        /* =========================
-           NO ORDERS
-        ========================= */
+            /* =========================
+               KEEP CURRENT FILTER
+            ========================= */
+
+            const filter =
+                document.getElementById(
+                    "orderStatusFilter"
+                );
+
+            const selectedStatus =
+                filter
+                    ? filter.value
+                    : "All";
 
 
-        if (
-            myOrders.length === 0
-        ) {
+            displayOrders(
+                selectedStatus
+            );
+
+        },
+
+        (error) => {
+
+            console.error(
+                "My Orders Realtime Error:",
+                error
+            );
 
             container.innerHTML = `
 
                 <div class="no-orders">
 
                     <h2>
-                        No Orders Yet
+                        Orders Could Not Be Loaded
                     </h2>
 
                     <p>
-                        You have not placed any orders yet.
+                        ${error.message}
                     </p>
-
-                    <a
-                        class="login-btn"
-                        href="index.html"
-                    >
-                        Continue Shopping
-                    </a>
 
                 </div>
 
             `;
 
-            return;
-
         }
-
-
-        /*
-         * প্রথমবার সব order দেখাবে
-         */
-
-        displayOrders("All");
-
-
-    } catch (error) {
-
-        console.error(
-            "My Orders Error:",
-            error
-        );
-
-
-        container.innerHTML = `
-
-            <div class="no-orders">
-
-                <h2>
-                    Orders Could Not Be Loaded
-                </h2>
-
-                <p>
-                    ${error.message}
-                </p>
-
-            </div>
-
-        `;
-
-    }
+    );
 
 }
-
 
 /* =========================
    FILTER MY ORDERS
