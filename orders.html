@@ -1214,14 +1214,42 @@ const deliveryTime =
 
 ${
     status === "Cancelled"
-        ? `
-            <button
-                class="refund-btn"
-                data-index="${index}"
-            >
-                💰 Refund
-            </button>
-          `
+        ? (
+            order.refundStatus === "Pending"
+                ? `
+                    <button
+                        class="refund-btn"
+                        data-index="${index}"
+                    >
+                        💰 Mark as Refunded
+                    </button>
+                  `
+                : order.refundStatus === "Refunded"
+                    ? `
+                        <span
+                            style="
+                                display:inline-block;
+                                padding:8px 12px;
+                                margin-left:8px;
+                                border-radius:5px;
+                                background:#27ae60;
+                                color:white;
+                                font-size:15px;
+                                font-weight:bold;
+                            "
+                        >
+                            ✅ Refunded
+                        </span>
+                      `
+                    : `
+                        <button
+                            class="refund-btn"
+                            data-index="${index}"
+                        >
+                            💰 Refund
+                        </button>
+                      `
+          )
         : ""
 }
 
@@ -1445,6 +1473,8 @@ document
 
             }
 
+
+
 /* =========================
    REFUND
 ========================= */
@@ -1464,113 +1494,260 @@ if (
         orders[index];
 
     if (!order) {
+        return;
+    }
+
+
+    /* =========================
+       MARK AS REFUNDED
+    ========================= */
+
+    if (
+        order.refundStatus === "Pending"
+    ) {
+
+        const confirmRefund =
+            confirm(
+                "Have you completed the refund?\n\n" +
+                "Order ID: " +
+                (order.orderId || "N/A") +
+                "\n" +
+                "Refund Amount: ৳" +
+                (Number(order.refundAmount) || 0) +
+                "\n" +
+                "bKash Number: " +
+                (order.refundBkashNumber || "N/A") +
+                "\n\n" +
+                "Click OK to mark this refund as Refunded."
+            );
+
+
+        if (!confirmRefund) {
+            return;
+        }
+
+
+        try {
+
+            const refundDateTime =
+                new Date().toLocaleString();
+
+
+            /* =========================
+               FIREBASE UPDATE
+            ========================= */
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "orders",
+                    order.firebaseId
+                ),
+
+                {
+
+                    refundStatus:
+                        "Refunded",
+
+                    refundDateTime:
+                        refundDateTime
+
+                }
+
+            );
+
+
+            /* =========================
+               UPDATE LOCAL ORDER
+            ========================= */
+
+            orders[index].refundStatus =
+                "Refunded";
+
+            orders[index].refundDateTime =
+                refundDateTime;
+
+
+            /* =========================
+               LOCAL STORAGE
+            ========================= */
+
+            saveOrdersToLocalStorage();
+
+
+            /* =========================
+               REFRESH ORDERS
+            ========================= */
+
+            displayOrders();
+
+
+            alert(
+                "Refund marked as Refunded successfully.\n\n" +
+                "Order ID: " +
+                (order.orderId || "N/A") +
+                "\n" +
+                "Refund Amount: ৳" +
+                (Number(order.refundAmount) || 0) +
+                "\n" +
+                "Refund Status: Refunded"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Refund Status Update Error:",
+                error
+            );
+
+
+            alert(
+                "Refund status could not be updated.\n\n" +
+                error.message
+            );
+
+        }
+
 
         return;
 
     }
 
-    const refundAmount =
-    Number(order.totalAmount) || 0;
 
-const bkashNumber =
-    prompt(
-        "Customer bKash Number:",
-        ""
-    );
+    /* =========================
+       NEW REFUND
+    ========================= */
 
-if (!bkashNumber) {
-    return;
-}
+    if (
+        !order.refundStatus
+    ) {
 
-const amount =
-    prompt(
-        "Refund Amount:",
-        refundAmount
-    );
+        const refundAmount =
+            Number(order.totalAmount) || 0;
 
-if (!amount) {
-    return;
-}
 
-try {
+        const bkashNumber =
+            prompt(
+                "Customer bKash Number:",
+                ""
+            );
 
-    await updateDoc(
 
-        doc(
-            db,
-            "orders",
-            order.firebaseId
-        ),
-
-        {
-            refundAmount:
-                Number(amount),
-
-            refundBkashNumber:
-                bkashNumber.trim(),
-
-            refundStatus:
-                "Pending",
-
-            refundDateTime:
-                new Date().toLocaleString()
+        if (!bkashNumber) {
+            return;
         }
 
-    );
+
+        const amount =
+            prompt(
+                "Refund Amount:",
+                refundAmount
+            );
 
 
-    /* =========================
-       UPDATE LOCAL ORDER
-    ========================= */
-
-    orders[index].refundAmount =
-        Number(amount);
-
-    orders[index].refundBkashNumber =
-        bkashNumber.trim();
-
-    orders[index].refundStatus =
-        "Pending";
-
-    orders[index].refundDateTime =
-        new Date().toLocaleString();
+        if (!amount) {
+            return;
+        }
 
 
-    /* =========================
-       LOCAL STORAGE
-    ========================= */
+        try {
 
-    saveOrdersToLocalStorage();
-
-
-    alert(
-        "Refund information saved successfully.\n\n" +
-        "Order ID: " +
-        (order.orderId || "N/A") +
-        "\n" +
-        "bKash Number: " +
-        bkashNumber +
-        "\n" +
-        "Refund Amount: ৳" +
-        amount +
-        "\n" +
-        "Refund Status: Pending"
-    );
+            const refundDateTime =
+                new Date().toLocaleString();
 
 
-} catch (error) {
+            /* =========================
+               FIREBASE UPDATE
+            ========================= */
 
-    console.error(
-        "Refund Save Error:",
-        error
-    );
+            await updateDoc(
 
-    alert(
-        "Refund information could not be saved.\n\n" +
-        error.message
-    );
+                doc(
+                    db,
+                    "orders",
+                    order.firebaseId
+                ),
 
-}
+                {
+
+                    refundAmount:
+                        Number(amount),
+
+                    refundBkashNumber:
+                        bkashNumber.trim(),
+
+                    refundStatus:
+                        "Pending",
+
+                    refundDateTime:
+                        refundDateTime
+
+                }
+
+            );
+
+
+            /* =========================
+               UPDATE LOCAL ORDER
+            ========================= */
+
+            orders[index].refundAmount =
+                Number(amount);
+
+            orders[index].refundBkashNumber =
+                bkashNumber.trim();
+
+            orders[index].refundStatus =
+                "Pending";
+
+            orders[index].refundDateTime =
+                refundDateTime;
+
+
+            /* =========================
+               LOCAL STORAGE
+            ========================= */
+
+            saveOrdersToLocalStorage();
+
+
+            displayOrders();
+
+
+            alert(
+                "Refund information saved successfully.\n\n" +
+                "Order ID: " +
+                (order.orderId || "N/A") +
+                "\n" +
+                "bKash Number: " +
+                bkashNumber +
+                "\n" +
+                "Refund Amount: ৳" +
+                amount +
+                "\n" +
+                "Refund Status: Pending"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Refund Save Error:",
+                error
+            );
+
+
+            alert(
+                "Refund information could not be saved.\n\n" +
+                error.message
+            );
+
+        }
+
+    }
+
 }
 
 
