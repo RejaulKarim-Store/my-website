@@ -2230,7 +2230,7 @@ body {
         }
 
 
-        ${
+              ${
             order.transactionId
             ? `
 
@@ -2254,6 +2254,105 @@ body {
         }
 
     </div>
+
+
+    <!-- Refund Information -->
+
+    ${
+        order.refundStatus
+        ? `
+
+            <div
+                class="info-box"
+                style="margin-top:25px;"
+            >
+
+                <h3>
+                    💰 Refund Information
+                </h3>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Refund Status
+                    </span>
+
+
+                    <span class="info-value">
+
+                        ${order.refundStatus}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        bKash Number
+                    </span>
+
+
+                    <span class="info-value">
+
+                        ${
+                            order.refundBkashNumber ||
+                            "Not available"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Refund Amount
+                    </span>
+
+
+                    <span class="info-value">
+
+                        ৳${
+                            Number(
+                                order.refundAmount
+                            ) || 0
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Refund Date/Time
+                    </span>
+
+
+                    <span class="info-value">
+
+                        ${
+                            order.refundDateTime ||
+                            "Not available"
+                        }
+
+                    </span>
+
+                </div>
+
+            </div>
+
+          `
+        : ""
+    }
+
+
+
 
 
     <!-- Products -->
