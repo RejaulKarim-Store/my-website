@@ -126,6 +126,32 @@
         }
 
 
+/* =========================
+   REFUND INFORMATION
+========================= */
+
+.refund-info {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8fff9;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+}
+
+.refund-info h3 {
+    margin-top: 0;
+    color: #27ae60;
+}
+
+.refund-row {
+    margin: 8px 0;
+}
+
+.refund-label {
+    font-weight: bold;
+}
+
+
         /* =========================
            LOADING / NO ORDERS
         ========================= */
@@ -718,6 +744,84 @@ function displayOrders(
 
             const statusClass =
                 status.toLowerCase();
+/* =========================
+   REFUND INFORMATION
+========================= */
+
+let refundHTML = "";
+
+if (
+    status === "Cancelled" &&
+    order.refundStatus
+) {
+
+    refundHTML = `
+
+        <div class="refund-info">
+
+            <h3>
+                💰 Refund Information
+            </h3>
+
+
+            <div class="refund-row">
+
+                <span class="refund-label">
+                    Refund Status:
+                </span>
+
+                ${order.refundStatus}
+
+            </div>
+
+
+            <div class="refund-row">
+
+                <span class="refund-label">
+                    Refund Amount:
+                </span>
+
+                ৳${
+                    Number(
+                        order.refundAmount
+                    ) || 0
+                }
+
+            </div>
+
+
+            <div class="refund-row">
+
+                <span class="refund-label">
+                    bKash Number:
+                </span>
+
+                ${
+                    order.refundBkashNumber ||
+                    "Not available"
+                }
+
+            </div>
+
+
+            <div class="refund-row">
+
+                <span class="refund-label">
+                    Refund Date/Time:
+                </span>
+
+                ${
+                    order.refundDateTime ||
+                    "Not available"
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 
             /* =========================
@@ -774,7 +878,7 @@ function displayOrders(
 
 
                     ${productsHTML}
-
+${refundHTML}
 
                     <p>
 
