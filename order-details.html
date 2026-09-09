@@ -1251,6 +1251,90 @@ const productImage =
         </div>
 
 
+        <!-- Refund Information -->
+
+        ${
+            order.refundStatus
+                ? `
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            💰 Refund Information
+                        </div>
+
+
+                        <div class="info-row">
+
+                            <span class="label">
+                                Refund Status
+                            </span>
+
+                            <span class="value">
+                                ${order.refundStatus}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-row">
+
+                            <span class="label">
+                                bKash Number
+                            </span>
+
+                            <span class="value">
+                                ${
+                                    order.refundBkashNumber ||
+                                    "Not available"
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-row">
+
+                            <span class="label">
+                                Refund Amount
+                            </span>
+
+                            <span class="value">
+                                ৳${
+                                    Number(
+                                        order.refundAmount
+                                    ) || 0
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-row">
+
+                            <span class="label">
+                                Refund Date/Time
+                            </span>
+
+                            <span class="value">
+                                ${
+                                    order.refundDateTime ||
+                                    "Not available"
+                                }
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `
+                : ""
+        }
+
+
+       
+
+
         <!-- Customer Information -->
 
         <div class="card">
