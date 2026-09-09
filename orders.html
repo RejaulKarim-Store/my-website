@@ -1469,10 +1469,40 @@ if (
 
     }
 
-    alert(
-        "Refund button clicked for Order ID: " +
-        (order.orderId || "N/A")
+    const refundAmount =
+    Number(order.totalAmount) || 0;
+
+const bkashNumber =
+    prompt(
+        "Customer bKash Number:",
+        ""
     );
+
+if (!bkashNumber) {
+    return;
+}
+
+const amount =
+    prompt(
+        "Refund Amount:",
+        refundAmount
+    );
+
+if (!amount) {
+    return;
+}
+
+alert(
+    "Refund Information\n\n" +
+    "Order ID: " +
+    (order.orderId || "N/A") +
+    "\n" +
+    "bKash Number: " +
+    bkashNumber +
+    "\n" +
+    "Refund Amount: ৳" +
+    amount
+);
 
 }
 
