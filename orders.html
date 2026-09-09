@@ -1492,18 +1492,85 @@ if (!amount) {
     return;
 }
 
-alert(
-    "Refund Information\n\n" +
-    "Order ID: " +
-    (order.orderId || "N/A") +
-    "\n" +
-    "bKash Number: " +
-    bkashNumber +
-    "\n" +
-    "Refund Amount: ৳" +
-    amount
-);
+try {
 
+    await updateDoc(
+
+        doc(
+            db,
+            "orders",
+            order.firebaseId
+        ),
+
+        {
+            refundAmount:
+                Number(amount),
+
+            refundBkashNumber:
+                bkashNumber.trim(),
+
+            refundStatus:
+                "Pending",
+
+            refundDateTime:
+                new Date().toLocaleString()
+        }
+
+    );
+
+
+    /* =========================
+       UPDATE LOCAL ORDER
+    ========================= */
+
+    orders[index].refundAmount =
+        Number(amount);
+
+    orders[index].refundBkashNumber =
+        bkashNumber.trim();
+
+    orders[index].refundStatus =
+        "Pending";
+
+    orders[index].refundDateTime =
+        new Date().toLocaleString();
+
+
+    /* =========================
+       LOCAL STORAGE
+    ========================= */
+
+    saveOrdersToLocalStorage();
+
+
+    alert(
+        "Refund information saved successfully.\n\n" +
+        "Order ID: " +
+        (order.orderId || "N/A") +
+        "\n" +
+        "bKash Number: " +
+        bkashNumber +
+        "\n" +
+        "Refund Amount: ৳" +
+        amount +
+        "\n" +
+        "Refund Status: Pending"
+    );
+
+
+} catch (error) {
+
+    console.error(
+        "Refund Save Error:",
+        error
+    );
+
+    alert(
+        "Refund information could not be saved.\n\n" +
+        error.message
+    );
+
+}
 }
 
 
