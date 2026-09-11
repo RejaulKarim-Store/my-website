@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.rejaulkarim_store.twa",
+      "sha256_cert_fingerprints": ["C2:73:EF:4B:72:A2:8B:25:C6:D6:3F:46:86:C8:47:C9:6A:8F:52:58:3E:2A:F9:2A:28:4D:83:2D:11:ED:C9:9E"]
+    }
+  }
+]
