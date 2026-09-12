@@ -1945,6 +1945,11 @@ body {
 
 @media print {
 
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
     body {
         background: white;
         padding: 0;
@@ -1952,6 +1957,7 @@ body {
 
     .invoice {
         max-width: 100%;
+        margin: 0;
         box-shadow: none;
         padding: 15px;
     }
