@@ -292,6 +292,27 @@
             display: none;
         }
 
+/* Print Header */
+
+.print-order-header {
+    display: none;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.print-order-header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #ff6600;
+}
+
+.print-order-header p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #777;
+}
+
+
         /* Print */
 
         @media print {
@@ -301,6 +322,10 @@
             .action-buttons {
                 display: none;
             }
+
+.print-order-header {
+    display: block;
+}
 
             body {
                 background-color: white;
