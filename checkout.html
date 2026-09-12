@@ -179,7 +179,9 @@ h1 {
 <input
     type="tel"
     id="mobile"
-    placeholder="Enter your mobile number"
+    placeholder="Enter 11 digit mobile number"
+    maxlength="11"
+    inputmode="numeric"
 >
 
 
@@ -1597,6 +1599,24 @@ async function() {
             )
             .value
             .trim();
+
+/* =========================================
+   MOBILE NUMBER VALIDATION
+========================================= */
+
+if (!/^01[0-9]{9}$/.test(mobile)) {
+
+    alert(
+        "Please enter a valid 11 digit Bangladesh mobile number.\n\nExample: 01712345678"
+    );
+
+    document
+        .getElementById("mobile")
+        .focus();
+
+    return;
+
+}
 
 
 
