@@ -2181,11 +2181,39 @@ if (cart.length === 0) {
         ====================================== */
 
 
-        localStorage.removeItem(
-            "cart"
+        /* =====================================
+   CLEAR ORDERED PRODUCTS ONLY
+===================================== */
+
+let mainCart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+const orderedProductIds =
+    new Set(
+        cart.map(function(product) {
+            return String(product.productId);
+        })
+    );
+
+mainCart =
+    mainCart.filter(function(product) {
+
+        return !orderedProductIds.has(
+            String(product.productId)
         );
 
+    });
 
+localStorage.setItem(
+    "cart",
+    JSON.stringify(mainCart)
+);
+
+localStorage.removeItem(
+    "checkoutCart"
+);
 
         /* =====================================
            SUCCESS
