@@ -2426,6 +2426,31 @@ if (cart.length === 0) {
         );
 
 
+/* =====================================
+   SAVE CUSTOMER ADDRESS
+===================================== */
+
+localStorage.setItem(
+    getSavedAddressKey(),
+    JSON.stringify({
+        name: name,
+        mobile: mobile,
+
+        divisionValue: divisionValue,
+        districtValue: districtValue,
+        upazilaValue: upazilaValue,
+        unionValue: unionValue,
+        wardValue: wardValue,
+
+        divisionName: divisionName,
+        districtName: districtName,
+        upazilaName: upazilaName,
+        unionName: unionName,
+
+        detailedAddress: detailedAddress
+    })
+);
+
 
         /* =====================================
            LOCAL COPY
