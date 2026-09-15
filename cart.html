@@ -831,6 +831,22 @@ if (mobileCartCount) {
 
                     }
 
+
+        /*
+         * নতুন cart item হলে default হিসেবে
+         * selected রাখা হবে।
+         * পুরোনো cart-এর feature ঠিক থাকবে।
+         */
+
+        if (
+            typeof product.selected !== "boolean"
+        ) {
+
+            product.selected = true;
+
+        }
+
+
                 }
             );
 
@@ -861,6 +877,57 @@ if (mobileCartCount) {
                 return;
 
             }
+
+/* =================================================
+   SELECT ALL
+================================================= */
+
+const selectAllDiv =
+    document.createElement("div");
+
+selectAllDiv.style.background =
+    "#ffffff";
+
+selectAllDiv.style.padding =
+    "10px 12px";
+
+selectAllDiv.style.marginBottom =
+    "12px";
+
+selectAllDiv.style.borderRadius =
+    "8px";
+
+selectAllDiv.style.border =
+    "1px solid #ddd";
+
+selectAllDiv.innerHTML = `
+
+    <label style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        font-weight:bold;
+        cursor:pointer;
+    ">
+
+        <input
+            type="checkbox"
+            class="product-select"
+            id="selectAllTop"
+            onchange="selectAllProducts(this.checked)"
+        >
+
+        <span>
+            Select All
+        </span>
+
+    </label>
+
+`;
+
+container.appendChild(
+    selectAllDiv
+);
 
 
             let total =
