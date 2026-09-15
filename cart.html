@@ -1015,6 +1015,28 @@ container.appendChild(
 
                     item.innerHTML = `
 
+    <div style="
+        display:flex;
+        align-items:center;
+        margin-bottom:10px;
+    ">
+
+        <input
+            type="checkbox"
+            class="product-select"
+            ${product.selected !== false ? "checked" : ""}
+            onchange="toggleProductSelection(${index}, this.checked)"
+        >
+
+        <span style="
+            font-weight:bold;
+            font-size:14px;
+        ">
+            Select Product
+        </span>
+
+    </div>
+
                         <img
                             src="${product.image}"
                             alt="${product.name}"
