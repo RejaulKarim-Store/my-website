@@ -882,6 +882,12 @@ if (mobileCartCount) {
    SELECT ALL
 ================================================= */
 
+const allSelected =
+    cart.length > 0 &&
+    cart.every(function(product) {
+        return product.selected !== false;
+    });
+
 const selectAllDiv =
     document.createElement("div");
 
@@ -914,6 +920,7 @@ selectAllDiv.innerHTML = `
             type="checkbox"
             class="product-select"
             id="selectAllTop"
+            ${allSelected ? "checked" : ""}
             onchange="selectAllProducts(this.checked)"
         >
 
@@ -928,7 +935,6 @@ selectAllDiv.innerHTML = `
 container.appendChild(
     selectAllDiv
 );
-
 
             let total =
                 0;
