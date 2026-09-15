@@ -1450,6 +1450,74 @@ container.appendChild(
         };
 
 
+/* =====================================================
+   SELECT ALL PRODUCTS
+===================================================== */
+
+window.selectAllProducts =
+function(checked) {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+
+    cart.forEach(
+        function(product) {
+
+            product.selected =
+                checked;
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    showCart();
+
+};
+
+
+/* =====================================================
+   TOGGLE PRODUCT SELECTION
+===================================================== */
+
+window.toggleProductSelection =
+function(index, checked) {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+
+    if (!cart[index]) {
+
+        return;
+
+    }
+
+
+    cart[index].selected =
+        checked;
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    showCart();
+
+};
+
 
         /* =====================================================
            REMOVE FROM CART
