@@ -1010,334 +1010,532 @@ container.appendChild(
 );
 
             let total =
-                0;
+    0;
+
+let selectedSubtotal =
+    0;
+
+let totalDiscount =
+    0;
 
 
-            cart.forEach(
-                function(product, index) {
+/* =====================================================
+   SHOP / SELLER GROUPING
+===================================================== */
 
-                    const quantity =
-                        Number(
-                            product.quantity
-                        ) || 1;
-
-
-                    const price =
-                        Number(
-                            product.price
-                        ) || 0;
+const shopGroups = [];
+const shopMap = {};
 
 
-                    total +=
-                        price *
-                        quantity;
+cart.forEach(
+    function(product, index) {
+
+        const shopName =
+            getShopName(product);
+
+        if (!shopMap[shopName]) {
+
+            shopMap[shopName] = {
+                shopName: shopName,
+                items: []
+            };
+
+            shopGroups.push(
+                shopMap[shopName]
+            );
+        }
+
+        shopMap[shopName].items.push({
+            product: product,
+            index: index
+        });
+
+    }
+);
 
 
-                    const item =
-                        document.createElement(
-                            "div"
-                        );
+/* =====================================================
+   SHOW PRODUCTS BY SHOP
+===================================================== */
+
+shopGroups.forEach(
+    function(group) {
+
+        const shopGroup =
+            document.createElement("div");
+
+        shopGroup.className =
+            "shop-group";
 
 
-                    item.className =
-                        "cart-item";
+        const shopHeader =
+            document.createElement("div");
+
+        shopHeader.className =
+            "shop-header";
+
+        shopHeader.innerHTML =
+
+            "🏪 Shop: <span>" +
+            group.shopName +
+            "</span>";
 
 
-                    const stock =
-                        Number(
-                            product.stock
-                        );
+        shopGroup.appendChild(
+            shopHeader
+        );
 
 
-                    let stockHTML =
-                        "";
+        group.items.forEach(
+            function(entry) {
+
+                const product =
+                    entry.product;
+
+                const index =
+                    entry.index;
 
 
-                    if (
-                        Number.isFinite(stock)
-                    ) {
+                const quantity =
+                    Number(product.quantity) || 1;
 
-                        if (
-                            stock <= 0
-                        ) {
-
-                            stockHTML = `
-                                <p class="out-of-stock">
-                                    ❌ Out of Stock
-                                </p>
-                            `;
-
-                        }
-
-                        else {
-
-                            stockHTML = `
-                                <p class="stock-info">
-                                    In Stock: ${stock} pcs
-                                </p>
-                            `;
-
-                        }
-
-                    }
+                const price =
+                    Number(product.price) || 0;
 
 
-                    /*
-                     * + button stock অনুযায়ী disabled হবে।
-                     */
-
-                    const plusDisabled =
-                        Number.isFinite(stock)
-                        &&
-                        quantity >= stock;
+                const itemSubtotal =
+                    price * quantity;
 
 
-                    item.innerHTML = `
+                total +=
+                    itemSubtotal;
 
-    <div style="
-        display:flex;
-        align-items:center;
-        margin-bottom:10px;
-    ">
 
-        <input
-            type="checkbox"
-            class="product-select"
-            ${product.selected !== false ? "checked" : ""}
-            onchange="toggleProductSelection(${index}, this.checked)"
-        >
+                /* Selected product হিসাব */
 
-        <span style="
-            font-weight:bold;
-            font-size:14px;
-        ">
-            Select Product
-        </span>
+                if (
+                    product.selected !== false
+                ) {
 
-    </div>
+                    selectedSubtotal +=
+                        itemSubtotal;
 
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}"
-                            style="
-                                width:100%;
-                                max-width:200px;
-                                height:180px;
-                                object-fit:cover;
-                                border-radius:8px;
+
+                    totalDiscount +=
+                        getDiscountAmount(product)
+                        * quantity;
+
+                }
+
+
+                const item =
+                    document.createElement("div");
+
+
+                item.className =
+                    "cart-item";
+
+
+                if (
+                    product.selected !== false
+                ) {
+
+                    item.classList.add(
+                        "selected-item"
+                    );
+
+                }
+
+
+                item.innerHTML = `
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        margin-bottom:10px;
+                    ">
+
+                        <input
+                            type="checkbox"
+                            class="product-select"
+                            ${
+                                product.selected !== false
+                                ? "checked"
+                                : ""
+                            }
+                            onchange="
+                                toggleProductSelection(
+                                    ${index},
+                                    this.checked
+                                )
                             "
                         >
 
-                        <h2>
-                            ${product.name}
-                        </h2>
+                        <span style="
+                            font-weight:bold;
+                            font-size:14px;
+                        ">
+                            Select Product
+                        </span>
 
-                        <p class="price">
-                            Price: ৳${price} × ${quantity}
-                        </p>
+                    </div>
 
-                        ${stockHTML}
 
-                        <p>
-                            Subtotal:
-                            ৳${price * quantity}
-                        </p>
+                    <img
+                        src="./product${product.productId}/product1.jpg"
+                        alt="${product.name || "Product"}"
+                        style="
+                            width:100%;
+                            max-height:250px;
+                            object-fit:contain;
+                            border-radius:6px;
+                        "
+                    >
 
-                        <div class="quantity-control">
 
-                            <button
-                                onclick="decreaseQuantity(${index})"
-                                ${quantity <= 1 ? "disabled" : ""}
-                            >
-                                −
-                            </button>
+                    <h3>
+                        ${product.name || "Product"}
+                    </h3>
 
-                            <span>
-                                ${quantity}
-                            </span>
 
-                            <button
-                                onclick="increaseQuantity(${index})"
-                                ${plusDisabled ? "disabled" : ""}
-                            >
-                                +
-                            </button>
+                    <p>
+                        Price:
+                        ৳${price}
+                    </p>
 
-                        </div>
+
+                    <p>
+                        Stock:
+                        ${
+                            product.stock !== undefined
+                            ? product.stock
+                            : "Checking..."
+                        }
+                    </p>
+
+
+                    <p>
+                        Subtotal:
+                        ৳${itemSubtotal}
+                    </p>
+
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        gap:10px;
+                        margin:10px 0;
+                    ">
 
                         <button
-                            class="remove-btn"
-                            onclick="removeFromCart(${index})"
+                            onclick="
+                                decreaseQuantity(${index})
+                            "
                         >
-                            Remove
+                            −
                         </button>
 
-                    `;
+
+                        <span>
+                            ${quantity}
+                        </span>
 
 
-                    container.appendChild(
-                        item
+                        <button
+                            onclick="
+                                increaseQuantity(${index})
+                            "
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        onclick="
+                            removeFromCart(${index})
+                        "
+                        style="
+                            background:#ff4444;
+                            color:white;
+                            border:none;
+                            padding:7px 12px;
+                            border-radius:5px;
+                            cursor:pointer;
+                        "
+                    >
+                        Remove
+                    </button>
+
+                `;
+
+
+                shopGroup.appendChild(
+                    item
+                );
+
+            }
+        );
+
+
+        container.appendChild(
+            shopGroup
+        );
+
+    }
+);
+
+
+/* =====================================================
+   OLD TOTAL — ALL CART PRODUCTS
+===================================================== */
+
+const totalDiv =
+    document.createElement("div");
+
+
+totalDiv.style.fontWeight =
+    "bold";
+
+totalDiv.style.fontSize =
+    "18px";
+
+totalDiv.style.marginTop =
+    "15px";
+
+totalDiv.style.padding =
+    "12px";
+
+totalDiv.style.background =
+    "#ffffff";
+
+totalDiv.style.borderRadius =
+    "8px";
+
+
+totalDiv.textContent =
+    "Total: ৳" + total;
+
+
+container.appendChild(
+    totalDiv
+);
+
+
+/* =====================================================
+   FIXED CHECKOUT BAR
+===================================================== */
+
+const allSelected =
+    cart.length > 0 &&
+    cart.every(
+        function(product) {
+
+            return product.selected !== false;
+
+        }
+    );
+
+
+const cartSummaryBar =
+    document.createElement("div");
+
+
+cartSummaryBar.className =
+    "cart-summary-bar";
+
+
+cartSummaryBar.innerHTML = `
+
+    <div class="cart-summary-inner">
+
+        <label class="select-all-bottom">
+
+            <input
+                type="checkbox"
+                class="product-select"
+                ${
+                    allSelected
+                    ? "checked"
+                    : ""
+                }
+                onchange="
+                    selectAllProducts(this.checked)
+                "
+            >
+
+            <span>
+                All
+            </span>
+
+        </label>
+
+
+        <div class="selected-summary">
+
+            <div>
+                Selected Subtotal:
+                <span class="selected-subtotal">
+                    ৳${selectedSubtotal}
+                </span>
+            </div>
+
+
+            <div class="total-discount">
+
+                Total Discount:
+                ৳${totalDiscount}
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="fixed-checkout-btn"
+            id="fixedCheckoutBtn"
+            ${
+                selectedSubtotal <= 0
+                ? "disabled"
+                : ""
+            }
+        >
+            Check Out
+        </button>
+
+    </div>
+
+`;
+
+
+container.appendChild(
+    cartSummaryBar
+);
+
+
+/* =====================================================
+   CHECKOUT — SELECTED PRODUCTS ONLY
+===================================================== */
+
+const fixedCheckoutBtn =
+    document.getElementById(
+        "fixedCheckoutBtn"
+    );
+
+
+fixedCheckoutBtn.onclick =
+    async function() {
+
+        let currentCart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+        const selectedCart =
+            currentCart.filter(
+                function(product) {
+
+                    return (
+                        product.selected !== false &&
+                        (Number(product.quantity) || 0) > 0
                     );
 
                 }
             );
 
 
-            const totalDiv =
-                document.createElement(
-                    "div"
+        if (
+            selectedCart.length === 0
+        ) {
+
+            alert(
+                "Please select at least one product."
+            );
+
+            return;
+
+        }
+
+
+        fixedCheckoutBtn.disabled =
+            true;
+
+        fixedCheckoutBtn.textContent =
+            "Checking Stock...";
+
+
+        /* =================================================
+           FIREBASE STOCK VALIDATION
+        ================================================= */
+
+        for (
+            const product of selectedCart
+        ) {
+
+            const currentStock =
+                await getProductStock(
+                    product.productId
                 );
 
 
-            totalDiv.className =
-                "total";
+            if (
+                currentStock === null
+            ) {
 
-
-            totalDiv.textContent =
-                "Total: ৳" + total;
-
-
-            container.appendChild(
-                totalDiv
-            );
-
-
-
-            /* =================================================
-               CHECKOUT BUTTON
-            ================================================= */
-
-            const checkoutBtn =
-                document.createElement(
-                    "button"
+                alert(
+                    "Unable to check stock for " +
+                    (product.name || "this product") +
+                    ". Please try again."
                 );
 
+                await loadCartStocks();
 
-            checkoutBtn.textContent =
-                "Checkout";
+                return;
 
-
-            checkoutBtn.className =
-                "checkout-btn";
+            }
 
 
-            checkoutBtn.onclick =
-            async function() {
-
-                /*
-                 * Checkout যাওয়ার আগে
-                 * আবার Firebase stock যাচাই করা হবে।
-                 */
-
-                checkoutBtn.disabled =
-                    true;
+            const quantity =
+                Number(product.quantity) || 0;
 
 
-                checkoutBtn.textContent =
-                    "Checking Stock...";
+            if (
+                currentStock <= 0
+                ||
+                quantity > currentStock
+            ) {
+
+                alert(
+                    (product.name || "This product") +
+                    " does not have enough stock."
+                );
+
+                await loadCartStocks();
+
+                return;
+
+            }
+
+        }
 
 
-                const currentCart =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "cart"
-                        )
-                    ) || [];
+        /* =================================================
+           SAVE ONLY SELECTED PRODUCTS FOR CHECKOUT
+        ================================================= */
+
+        localStorage.setItem(
+            "checkoutCart",
+            JSON.stringify(selectedCart)
+        );
 
 
-                let stockProblem =
-                    false;
+        window.location.href =
+            "checkout.html";
 
-
-                for (
-                    const product
-                    of currentCart
-                ) {
-
-                    const currentStock =
-                        await getProductStock(
-                            product.productId
-                        );
-
-
-                    if (
-                        currentStock === null
-                    ) {
-
-                        alert(
-                            "Unable to check product stock. Please try again."
-                        );
-
-                        stockProblem =
-                            true;
-
-                        break;
-
-                    }
-
-
-                    const quantity =
-                        Number(
-                            product.quantity
-                        ) || 0;
-
-
-                    if (
-                        currentStock <= 0
-                        ||
-                        quantity > currentStock
-                    ) {
-
-                        alert(
-                            product.name +
-                            " has only " +
-                            currentStock +
-                            " pcs in stock."
-                        );
-
-                        stockProblem =
-                            true;
-
-                        break;
-
-                    }
-
-                }
-
-
-                checkoutBtn.disabled =
-                    false;
-
-
-                checkoutBtn.textContent =
-                    "Checkout";
-
-
-                if (
-                    stockProblem
-                ) {
-
-                    /*
-                     * নতুন stock নিয়ে Cart refresh।
-                     */
-
-                    await loadCartStocks();
-
-                    return;
-
-                }
-
-
-                window.location.href =
-                    "checkout.html";
-
-            };
-
-
-            container.appendChild(
-                checkoutBtn
-            );
-
+    };
         }
 
 
