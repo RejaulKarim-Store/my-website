@@ -117,6 +117,32 @@
         }
 
 
+.product-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-image-placeholder {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
         /* =========================
            STATUS SELECT
         ========================= */
@@ -979,6 +1005,39 @@ const deliveryTime =
                         productsHTML += `
 
     <div class="product">
+
+        ${
+            product.image
+                ? `
+                    <img
+                        class="product-image"
+                        src="${escapeHTML(product.image)}"
+                        alt="${escapeHTML(product.name || "Product")}"
+                        onerror="
+                            this.onerror=null;
+                            this.src='./product${product.productSerial || product.productId}/product1.jpg';
+                        "
+                    >
+                  `
+                : `
+                    <img
+                        class="product-image"
+                        src="./product${product.productSerial || product.productId}/product1.jpg"
+                        alt="${escapeHTML(product.name || "Product")}"
+                        onerror="
+                            this.style.display='none';
+                            this.nextElementSibling.style.display='flex';
+                        "
+                    >
+
+                    <div
+                        class="product-image-placeholder"
+                        style="display:none;"
+                    >
+                        Image not available
+                    </div>
+                  `
+        }
 
         <p>
 
