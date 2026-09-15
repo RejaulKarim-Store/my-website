@@ -779,6 +779,79 @@ body {
         }
 
 
+/* =====================================================
+   SHOP / SELLER + DISCOUNT HELPERS
+===================================================== */
+
+function getShopName(product) {
+
+    return (
+        product.shopName ||
+        product.sellerName ||
+        product.storeName ||
+        product.shop ||
+        product.seller ||
+        "RK Store"
+    );
+
+}
+
+
+function getDiscountAmount(product) {
+
+    const price =
+        Number(product.price) || 0;
+
+
+    /*
+     * যদি সরাসরি discountAmount থাকে
+     */
+    const discountAmount =
+        Number(product.discountAmount);
+
+
+    if (
+        Number.isFinite(discountAmount)
+        &&
+        discountAmount > 0
+    ) {
+
+        return discountAmount;
+
+    }
+
+
+    /*
+     * যদি আগের/original price দেওয়া থাকে
+     */
+    const oldPrice =
+        Number(
+            product.originalPrice ||
+            product.oldPrice ||
+            product.regularPrice ||
+            product.mrp
+        );
+
+
+    if (
+        Number.isFinite(oldPrice)
+        &&
+        oldPrice > price
+    ) {
+
+        return oldPrice - price;
+
+    }
+
+
+    /*
+     * কোনো Discount তথ্য না থাকলে
+     * Discount = 0
+     */
+    return 0;
+
+}
+
 
         /* =====================================================
            SHOW CART
