@@ -101,6 +101,25 @@ h1 {
     padding: 10px 0;
 }
 
+.summary-product {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.summary-product-image {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+.summary-product-info {
+    flex: 1;
+}
+
 
 .total {
     text-align: right;
@@ -654,26 +673,52 @@ function showOrderSummary() {
             total += subtotal;
 
 
-            html += `
+            const productImage =
+    product.image ||
+    product.imageUrl ||
+    product.imagePath ||
+    (
+        "./product" +
+        product.productId +
+        "/product1.jpg"
+    );
 
-                <div class="summary-item">
 
-                    <strong>
-                        ${product.name}
-                    </strong>
+html += `
 
-                    <p>
-                        Price: ৳${price}
-                        × ${quantity}
-                    </p>
+    <div class="summary-item">
 
-                    <p>
-                        Subtotal: ৳${subtotal}
-                    </p>
+        <div class="summary-product">
 
-                </div>
+            <img
+                src="${productImage}"
+                alt="${product.name}"
+                class="summary-product-image"
+                onerror="this.style.display='none';"
+            >
 
-            `;
+            <div class="summary-product-info">
+
+                <strong>
+                    ${product.name}
+                </strong>
+
+                <p>
+                    Price: ৳${price}
+                    × ${quantity}
+                </p>
+
+                <p>
+                    Subtotal: ৳${subtotal}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+`;
 
         }
 
