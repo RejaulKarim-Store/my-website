@@ -688,6 +688,8 @@ onAuthStateChanged(
 
             }
 
+renderSavedAddress();
+
         }
 
         else {
@@ -871,6 +873,162 @@ const locationLoading =
         "locationLoading"
     );
 
+/* =========================================
+   SAVED ADDRESS
+========================================= */
+
+function getSavedAddressKey() {
+
+    if (!currentUser) {
+        return null;
+    }
+
+    return "rkSavedAddress_" + currentUser.uid;
+}
+
+
+function renderSavedAddress() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const savedAddressCard =
+        document.getElementById(
+            "savedAddressCard"
+        );
+
+
+    const savedAddressText =
+        document.getElementById(
+            "savedAddressText"
+        );
+
+
+    const key =
+        getSavedAddressKey();
+
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(key) || "null"
+        );
+
+
+    if (!saved) {
+
+        savedAddressCard.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    savedAddressText.textContent =
+        saved.name +
+        " • " +
+        saved.mobile +
+        " | " +
+        saved.divisionName +
+        ", " +
+        saved.districtName +
+        ", " +
+        saved.upazilaName +
+        ", " +
+        saved.unionName +
+        ", Ward " +
+        saved.wardValue +
+        " | " +
+        saved.detailedAddress;
+
+
+    savedAddressCard.style.display =
+        "flex";
+
+}
+
+
+function useSavedAddress() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const key =
+        getSavedAddressKey();
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(key) || "null"
+        );
+
+    if (!saved) {
+        alert("No saved address found.");
+        return;
+    }
+
+    document.getElementById("name").value =
+        saved.name || "";
+
+    document.getElementById("mobile").value =
+        saved.mobile || "";
+
+    if (
+        !Array.isArray(locationData) ||
+        locationData.length === 0
+    ) {
+        alert(
+            "Address list is still loading. Please try again."
+        );
+        return;
+    }
+
+    divisionSelect.value =
+        saved.divisionValue || "";
+
+    divisionSelect.dispatchEvent(
+        new Event("change")
+    );
+
+    districtSelect.value =
+        saved.districtValue || "";
+
+    districtSelect.dispatchEvent(
+        new Event("change")
+    );
+
+    upazilaSelect.value =
+        saved.upazilaValue || "";
+
+    upazilaSelect.dispatchEvent(
+        new Event("change")
+    );
+
+    unionSelect.value =
+        saved.unionValue || "";
+
+    unionSelect.dispatchEvent(
+        new Event("change")
+    );
+
+    wardSelect.value =
+        saved.wardValue || "";
+
+    document.getElementById("address").value =
+        saved.detailedAddress || "";
+
+    alert("Saved address loaded.");
+}
+
+
+document
+    .getElementById("useSavedAddressButton")
+    .addEventListener(
+        "click",
+        useSavedAddress
+    );
 
 
 /* ==================================================
