@@ -1228,20 +1228,12 @@ const plusDisabled =
                     </p>
 
 
-                    <p>
-                        Stock:
-                        ${
-                            product.stock !== undefined
-                            ? product.stock
-                            : "Checking..."
-                        }
-                    </p>
+                    ${stockHTML}
 
-
-                    <p>
-                        Subtotal:
-                        ৳${itemSubtotal}
-                    </p>
+<p>
+    Subtotal:
+    ৳${itemSubtotal}
+</p>
 
 
                     <div style="
@@ -1266,13 +1258,14 @@ const plusDisabled =
                         </span>
 
 
-                        <button
-                            onclick="
-                                increaseQuantity(${index})
-                            "
-                        >
-                            +
-                        </button>
+                       <button
+    onclick="
+        increaseQuantity(${index})
+    "
+    ${plusDisabled ? "disabled" : ""}
+>
+    +
+</button>
 
                     </div>
 
