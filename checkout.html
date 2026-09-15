@@ -607,9 +607,9 @@ function showOrderSummary() {
 
 
     const cart =
-        JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("checkoutCart")
+    ) || [];
 
 
     const summary =
@@ -1679,20 +1679,20 @@ if (
 
 
     const cart =
-        JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("checkoutCart")
+    ) || [];
 
 
-    if (cart.length === 0) {
+if (cart.length === 0) {
 
-        alert(
-            "Your cart is empty."
-        );
+    alert(
+        "No products selected for checkout."
+    );
 
-        return;
+    return;
 
-    }
+}
 
 
 
