@@ -528,56 +528,11 @@ position: relative;
 
 </div>
 
-
 <!-- =========================
-     FIREBASE AUTH
+     CART COUNT
 ========================= -->
 
-<script type="module">
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
-
-
-
-
-const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyCkBQaphKKz_Wxd1GgKAVoxqR4taKvzdEM",
-
-    authDomain:
-        "rk-store-5fb24.firebaseapp.com",
-
-    projectId:
-        "rk-store-5fb24",
-
-    storageBucket:
-        "rk-store-5fb24.firebasestorage.app",
-
-    messagingSenderId:
-        "407275549697",
-
-    appId:
-        "1:407275549697:web:41043b49bf7182cecffc00"
-
-};
-
-
-const app =
-    initializeApp(
-        firebaseConfig
-    );
-
-
-
-
-
-/* =========================
-   CART COUNT
-========================= */
+<script>
 
 function updateCartCount() {
 
@@ -625,6 +580,8 @@ updateCartCount();
 </script>
 
 
+
+    
 
 <!-- =========================
      SERVICE WORKER
