@@ -2257,6 +2257,11 @@ const firebaseProducts = [];
                         const productData =
                             productSnapshot.data();
 
+const currentName =
+    productData.name ||
+    product.name ||
+    "Product";
+
 
                         const currentStock =
                             Number(
