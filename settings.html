@@ -223,16 +223,101 @@
     </div>
 
 
-    <script>
+    <script type="module">
 
-        function goHome() {
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+    import {
+        getAuth,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    const firebaseConfig = {
+
+        apiKey:
+            "AIzaSyCkBQaphKKz_Wxd1GgKAVoxqR4taKvzdEM",
+
+        authDomain:
+            "rk-store-5fb24.firebaseapp.com",
+
+        projectId:
+            "rk-store-5fb24",
+
+        storageBucket:
+            "rk-store-5fb24.firebasestorage.app",
+
+        messagingSenderId:
+            "407275549697",
+
+        appId:
+            "1:407275549697:web:41043b49bf7182cecffc00"
+
+    };
+
+
+    const app =
+        initializeApp(
+            firebaseConfig
+        );
+
+
+    const auth =
+        getAuth(app);
+
+
+    /* =========================
+       BACK TO HOME
+    ========================= */
+
+    window.goHome =
+    function() {
+
+        window.location.href =
+            "index.html";
+
+    };
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    window.logoutCustomer =
+    async function() {
+
+        try {
+
+            await signOut(auth);
+
+            alert(
+                "You have been logged out."
+            );
 
             window.location.href =
                 "index.html";
 
         }
 
-    </script>
+        catch (error) {
+
+            console.error(
+                "Logout Error:",
+                error
+            );
+
+            alert(
+                "Logout failed. Please try again."
+            );
+
+        }
+
+    };
+
+</script>
 
 
 </body>
