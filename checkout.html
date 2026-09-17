@@ -2019,36 +2019,14 @@ if (cart.length === 0) {
 
 
 
+    
     /* =========================================
-       TOTAL
-    ========================================== */
+   TOTAL
+   Firebase current product price will be
+   used during the transaction.
+========================================= */
 
-
-    let totalAmount = 0;
-
-
-    cart.forEach(
-
-        function(product) {
-
-            const quantity =
-                Number(
-                    product.quantity
-                ) || 1;
-
-
-            const price =
-                Number(
-                    product.price
-                ) || 0;
-
-
-            totalAmount +=
-                price * quantity;
-
-        }
-
-    );
+let totalAmount = 0;
 
 
 
@@ -2160,23 +2138,9 @@ if (cart.length === 0) {
             transactionId,
 
 
-        products:
-    cart.map(function(product) {
+        products: [],
 
-        return {
-
-            ...product,
-
-            productSerial:
-                product.productSerial ||
-                product.productId
-
-        };
-
-    }),
-
-        totalAmount:
-            totalAmount,
+totalAmount: 0,
 
 
         status:
