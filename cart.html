@@ -693,6 +693,72 @@ body {
 
         }
 
+        /* =====================================================
+           LOAD CURRENT PRODUCT NAME + PRICE FROM FIREBASE
+        ===================================================== */
+
+        async function getProductInfo(productId) {
+
+            try {
+
+                const productRef =
+                    doc(
+                        db,
+                        "productDescriptions",
+                        String(productId)
+                    );
+
+
+                const snapshot =
+                    await getDocFromServer(
+                        productRef
+                    );
+
+
+                if (
+                    !snapshot.exists()
+                ) {
+
+                    return null;
+
+                }
+
+
+                const data =
+                    snapshot.data();
+
+
+                const price =
+                    Number(data.price);
+
+
+                return {
+
+                    name:
+                        data.name || "",
+
+                    price:
+                        Number.isFinite(price)
+                            ? price
+                            : null
+
+                };
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Product information loading error:",
+                    error
+                );
+
+                return null;
+
+            }
+
+        }
+
 
 
         /* =====================================================
