@@ -2272,6 +2272,50 @@ const currentPrice =
                             );
 
 
+const currentSerial =
+    productData.serial ||
+    product.serial ||
+    productId;
+
+
+const currentImage =
+    productData.image ||
+    productData.imageUrl ||
+    productData.imagePath ||
+    product.image ||
+    (
+        "./product" +
+        productId +
+        "/product1.jpg"
+    );
+
+
+firebaseProducts.push({
+
+    productId:
+        productId,
+
+    productSerial:
+        currentSerial,
+
+    name:
+        currentName,
+
+    price:
+        currentPrice,
+
+    quantity:
+        quantity,
+
+    image:
+        currentImage
+
+});
+
+
+totalAmount +=
+    currentPrice * quantity;
+
                         if (
                             !Number.isFinite(
                                 currentStock
