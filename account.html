@@ -108,36 +108,6 @@ body {
 }
 
 
-/* =========================
-   BACK BUTTON
-========================= */
-
-.back-button {
-
-    position: absolute;
-
-    left: 10px;
-
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    border: none;
-
-    background: transparent;
-
-    color: white;
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    padding: 5px 8px;
-
-}
-
 
 /* =========================
    HEADER SETTINGS BUTTON
@@ -637,40 +607,7 @@ const auth =
     getAuth(app);
 
 
-/* =========================
-   LOGOUT
-========================= */
 
-window.logoutCustomer =
-async function() {
-
-    try {
-
-        await signOut(auth);
-
-        alert(
-            "You have been logged out."
-        );
-
-        window.location.href =
-            "index.html";
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Logout Error:",
-            error
-        );
-
-        alert(
-            "Logout failed. Please try again."
-        );
-
-    }
-
-};
 
 
 /* =========================
