@@ -745,75 +745,144 @@ async function showOrderSummary() {
         "<h2>Order Summary</h2>";
 
 
-    cart.forEach(
+    for (const product of cart) {
 
-        function(product) {
-
-            const quantity =
-                Number(product.quantity) || 1;
+    const quantity =
+        Number(product.quantity) || 1;
 
 
-            const price =
-                Number(product.price) || 0;
+    let currentName =
+        product.name || "Product";
 
 
-            const subtotal =
-                price * quantity;
+    let currentPrice =
+        Number(product.price) || 0;
 
 
-            total += subtotal;
+    let productImage =
+        product.image ||
+        product.imageUrl ||
+        product.imagePath ||
+        (
+            "./product" +
+            product.productId +
+            "/product1.jpg"
+        );
 
 
-            const productImage =
-    product.image ||
-    product.imageUrl ||
-    product.imagePath ||
-    (
-        "./product" +
-        product.productId +
-        "/product1.jpg"
-    );
+    const productId =
+        String(product.productId || "");
 
 
-html += `
+    if (productId) {
 
-    <div class="summary-item">
+        try {
 
-        <div class="summary-product">
+            const productRef =
+                doc(
+                    db,
+                    "productDescriptions",
+                    productId
+                );
 
-            <img
-                src="${productImage}"
-                alt="${product.name}"
-                class="summary-product-image"
-                onerror="this.style.display='none';"
-            >
 
-            <div class="summary-product-info">
+            const productSnapshot =
+                await getDoc(productRef);
 
-                <strong>
-                    ${product.name}
-                </strong>
 
-                <p>
-                    Price: ৳${price}
-                    × ${quantity}
-                </p>
+            if (productSnapshot.exists()) {
 
-                <p>
-                    Subtotal: ৳${subtotal}
-                </p>
+                const productData =
+                    productSnapshot.data();
+
+
+                currentName =
+                    productData.name ||
+                    currentName;
+
+
+                const firebasePrice =
+                    Number(productData.price);
+
+
+                if (
+                    Number.isFinite(
+                        firebasePrice
+                    )
+                ) {
+
+                    currentPrice =
+                        firebasePrice;
+
+                }
+
+
+                productImage =
+                    productData.image ||
+                    productData.imageUrl ||
+                    productData.imagePath ||
+                    productImage;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Order Summary Product Error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    const subtotal =
+        currentPrice * quantity;
+
+
+    total += subtotal;
+
+
+    html += `
+
+        <div class="summary-item">
+
+            <div class="summary-product">
+
+                <img
+                    src="${productImage}"
+                    alt="${currentName}"
+                    class="summary-product-image"
+                    onerror="this.style.display='none';"
+                >
+
+                <div class="summary-product-info">
+
+                    <strong>
+                        ${currentName}
+                    </strong>
+
+                    <p>
+                        Price: ৳${currentPrice}
+                        × ${quantity}
+                    </p>
+
+                    <p>
+                        Subtotal: ৳${subtotal}
+                    </p>
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
+    `;
 
-`;
-
-        }
-
-    );
+}
 
 
     html += `
