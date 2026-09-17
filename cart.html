@@ -765,156 +765,239 @@ body {
            LOAD STOCK FOR ALL CART PRODUCTS
         ===================================================== */
 
-        async function loadCartStocks() {
+        /* =====================================================
+   LOAD CURRENT STOCK + NAME + PRICE FOR CART PRODUCTS
+===================================================== */
 
-            let cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "cart"
-                    )
-                ) || [];
+async function loadCartStocks() {
 
+    let cart =
+        JSON.parse(
+            localStorage.getItem(
+                "cart"
+            )
+        ) || [];
+
+
+    if (
+        cart.length === 0
+    ) {
+
+        showCart();
+
+        return;
+
+    }
+
+
+    /*
+     * Firebase থেকে Stock এবং
+     * Name + Price নেওয়া হচ্ছে।
+     *
+     * getProductStock() এবং getProductInfo()
+     * আলাদা রাখা হয়েছে যাতে আগের
+     * stock system নষ্ট না হয়।
+     */
+
+    const productPromises =
+        cart.map(
+            async function(product) {
+
+                const stock =
+                    await getProductStock(
+                        product.productId
+                    );
+
+                const info =
+                    await getProductInfo(
+                        product.productId
+                    );
+
+                return {
+                    stock: stock,
+                    info: info
+                };
+
+            }
+        );
+
+
+    const productResults =
+        await Promise.all(
+            productPromises
+        );
+
+
+    let cartChanged =
+        false;
+
+
+    cart.forEach(
+        function(product, index) {
+
+            const result =
+                productResults[index];
+
+
+            const stock =
+                result.stock;
+
+
+            const info =
+                result.info;
+
+
+            /*
+             * Firebase Stock loading error হলে
+             * আগের Cart quantity নষ্ট করা হবে না।
+             */
 
             if (
-                cart.length === 0
+                stock === null
             ) {
-
-                showCart();
 
                 return;
 
             }
 
 
-            const stockPromises =
-                cart.map(
-                    function(product) {
+            /*
+             * সর্বশেষ Firebase Stock
+             */
 
-                        return getProductStock(
-                            product.productId
-                        );
-
-                    }
-                );
+            product.stock =
+                stock;
 
 
-            const stocks =
-                await Promise.all(
-                    stockPromises
-                );
+            /*
+             * সর্বশেষ Firebase Name + Price
+             *
+             * Firebase information পাওয়া গেলে
+             * শুধু Name এবং Price update হবে।
+             */
+
+            if (
+                info !== null
+            ) {
+
+                if (
+                    info.name
+                ) {
+
+                    product.name =
+                        info.name;
+
+                }
 
 
-            let cartChanged =
-                false;
+                if (
+                    Number.isFinite(
+                        info.price
+                    )
+                ) {
+
+                    product.price =
+                        info.price;
+
+                }
+
+            }
 
 
-            cart.forEach(
-                function(product, index) {
+            /*
+             * Customer-এর বর্তমান Cart Quantity
+             */
 
-                    const stock =
-                        stocks[index];
-
-
-                    /*
-                     * Firebase error হলে
-                     * existing quantity নষ্ট করা হবে না।
-                     */
-
-                    if (
-                        stock === null
-                    ) {
-
-                        return;
-
-                    }
+            const quantity =
+                Number(
+                    product.quantity
+                ) || 1;
 
 
-                    product.stock =
-                        stock;
+            /*
+             * Stock 0 হলে
+             * Product Cart থেকে সরানো হবে।
+             */
+
+            if (
+                stock <= 0
+            ) {
+
+                product.quantity =
+                    0;
+
+                cartChanged =
+                    true;
+
+            }
 
 
-                    /*
-                     * যদি Cart quantity
-                     * Firebase stock-এর চেয়ে বেশি হয়,
-                     * তাহলে stock-এর মধ্যে নামিয়ে আনা হবে।
-                     */
+            /*
+             * Cart Quantity যদি Firebase Stock-এর
+             * চেয়ে বেশি হয়, শুধু তখন Quantity কমবে।
+             *
+             * Stock বাড়লে Quantity নিজে থেকে বাড়বে না।
+             */
 
-                    const quantity =
+            else if (
+                quantity > stock
+            ) {
+
+                product.quantity =
+                    stock;
+
+                cartChanged =
+                    true;
+
+            }
+
+        }
+    );
+
+
+    /*
+     * Stock 0 হওয়া Product বাদ দেওয়া হবে।
+     */
+
+    if (
+        cartChanged
+    ) {
+
+        cart =
+            cart.filter(
+                function(product) {
+
+                    return (
                         Number(
                             product.quantity
-                        ) || 1;
-
-
-                    if (
-                        stock <= 0
-                    ) {
-
-                        product.quantity =
-                            0;
-
-                        cartChanged =
-                            true;
-
-                    }
-
-                    else if (
-                        quantity > stock
-                    ) {
-
-                        product.quantity =
-                            stock;
-
-                        cartChanged =
-                            true;
-
-                    }
+                        ) > 0
+                    );
 
                 }
             );
 
-
-            if (
-                cartChanged
-            ) {
-
-                /*
-                 * Stock 0 হলে সেই product
-                 * Cart থেকে সরিয়ে দেওয়া হবে।
-                 */
-
-                cart =
-                    cart.filter(
-                        function(product) {
-
-                            return (
-                                Number(
-                                    product.quantity
-                                ) > 0
-                            );
-
-                        }
-                    );
+    }
 
 
-                localStorage.setItem(
-                    "cart",
-                    JSON.stringify(cart)
-                );
+    /*
+     * সর্বশেষ Name + Price + Stock
+     * এবং Quantity LocalStorage-এ রাখা হচ্ছে।
+     */
 
-            }
-            else {
-
-                localStorage.setItem(
-                    "cart",
-                    JSON.stringify(cart)
-                );
-
-            }
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
 
-            showCart();
+    /*
+     * Cart আবার নতুন Firebase তথ্য দিয়ে
+     * দেখানো হবে।
+     */
 
-        }
+    showCart();
+
+}
 
 
 /* =====================================================
