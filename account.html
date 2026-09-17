@@ -142,16 +142,15 @@ body {
 /* =========================
    SETTINGS BUTTON
 ========================= */
-
 .settings-button {
 
-    display: block;
+    position: absolute;
 
-    width: fit-content;
+    top: 12px;
 
-    margin-left: auto;
+    right: 12px;
 
-    margin-bottom: 10px;
+    z-index: 10;
 
     text-decoration: none;
 
@@ -168,9 +167,9 @@ body {
 
     border-radius: 8px;
 
-    padding: 8px 13px;
+    padding: 7px 11px;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: bold;
 
@@ -178,17 +177,6 @@ body {
         0 3px 0 #b5b5b5;
 
 }
-
-.settings-button:active {
-
-    transform:
-        translateY(3px);
-
-    box-shadow:
-        0 1px 0 #b5b5b5;
-
-}
-
 
 /* =========================
    ACCOUNT CONTENT
@@ -218,6 +206,7 @@ body {
 
     text-align: center;
 
+position: relative;
 }
 
 
