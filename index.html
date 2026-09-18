@@ -1526,6 +1526,10 @@ for (
 
 price: null,
 
+discount: null,
+
+discountPrice: null,
+
 category: "",
 
 stock: null,
@@ -1619,13 +1623,52 @@ function displayProducts(list) {
                ${
     product.price !== null &&
     Number.isFinite(Number(product.price))
-        ? `
-            <p>
-                Price: ৳${formatPrice(product.price)}
-            </p>
-          `
+        ? (
+            Number(product.discount) > 0 &&
+            product.discountPrice !== null &&
+            Number.isFinite(Number(product.discountPrice))
+                ? `
+                    <p style="
+                        margin: 6px 0 3px;
+                        color: #777;
+                        font-size: 13px;
+                    ">
+                        Original Price:
+                        <span style="
+                            text-decoration: line-through;
+                        ">
+                            ৳${formatPrice(product.price)}
+                        </span>
+                    </p>
+
+                    <p style="
+                        margin: 3px 0;
+                        color: #198754;
+                        font-size: 13px;
+                        font-weight: bold;
+                    ">
+                        ${formatPrice(product.discount)}% OFF
+                    </p>
+
+                    <p style="
+                        margin: 3px 0 10px;
+                        color: #ff6600;
+                        font-size: 17px;
+                        font-weight: bold;
+                    ">
+                        Discount Price:
+                        ৳${formatPrice(product.discountPrice)}
+                    </p>
+                  `
+                : `
+                    <p>
+                        Price: ৳${formatPrice(product.price)}
+                    </p>
+                  `
+          )
         : ""
 }
+
 
 ${
     product.stock !== null &&
@@ -2581,6 +2624,65 @@ async function loadFirebaseProduct(
 
         }
 
+
+/* PRODUCT DISCOUNT */
+
+if (
+    data.discount !== undefined
+    &&
+    data.discount !== null
+) {
+
+    const firebaseDiscount =
+        Number(
+            data.discount
+        );
+
+    if (
+        Number.isFinite(
+            firebaseDiscount
+        )
+    ) {
+
+        product.discount =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    firebaseDiscount
+                )
+            );
+
+    }
+
+}
+
+
+/* PRODUCT DISCOUNT PRICE */
+
+if (
+    data.discountPrice !== undefined
+    &&
+    data.discountPrice !== null
+) {
+
+    const firebaseDiscountPrice =
+        Number(
+            data.discountPrice
+        );
+
+    if (
+        Number.isFinite(
+            firebaseDiscountPrice
+        )
+    ) {
+
+        product.discountPrice =
+            firebaseDiscountPrice;
+
+    }
+
+}
 
         /* PRODUCT CATEGORY */
 
