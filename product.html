@@ -2234,6 +2234,23 @@ existingProduct.discountPrice =
                         currentProduct.price
                     ) || 0,
 
+discount:
+    Number(
+        currentProduct.discount
+    ) || 0,
+
+discountPrice:
+    Number.isFinite(
+        Number(
+            currentProduct.discountPrice
+        )
+    )
+        ? Number(
+            currentProduct.discountPrice
+        )
+        : null,
+
+
                 image:
                     currentProduct.images &&
                     currentProduct.images.length > 0
