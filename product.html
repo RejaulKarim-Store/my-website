@@ -466,6 +466,45 @@ button.action-button:hover {
         Price: ৳0
     </p>
 
+<div
+    id="productDiscountInfo"
+    style="
+        display:none;
+        margin:5px 0 15px 0;
+    "
+>
+
+    <p
+        id="productOriginalPrice"
+        style="
+            margin:4px 0;
+            color:#777;
+            font-size:14px;
+        "
+    ></p>
+
+    <p
+        id="productDiscountPercent"
+        style="
+            margin:4px 0;
+            color:#198754;
+            font-size:14px;
+            font-weight:bold;
+        "
+    ></p>
+
+    <p
+        id="productDiscountPrice"
+        style="
+            margin:4px 0;
+            color:#ff6600;
+            font-size:21px;
+            font-weight:bold;
+        "
+    ></p>
+
+</div>
+
 <p id="productStock" style="
     font-size:16px;
     font-weight:bold;
@@ -846,7 +885,13 @@ function createProductData(number) {
         "",
 
     stock:
-        0
+    0,
+
+discount:
+    0,
+
+discountPrice:
+    null
 
 };
 
@@ -1693,9 +1738,37 @@ stock:
             firebaseData.stock
         )
 
-        : currentProduct.stock
+        : currentProduct.stock,
 
-            };
+
+discount:
+    firebaseData.discount !== undefined &&
+    firebaseData.discount !== ""
+
+        ? Math.min(
+            100,
+            Math.max(
+                0,
+                Number(
+                    firebaseData.discount
+                ) || 0
+            )
+        )
+
+        : currentProduct.discount,
+
+
+discountPrice:
+    firebaseData.discountPrice !== undefined &&
+    firebaseData.discountPrice !== ""
+
+        ? Number(
+            firebaseData.discountPrice
+        )
+
+        : currentProduct.discountPrice
+
+};
 
 
             showProduct(
