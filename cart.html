@@ -1518,10 +1518,51 @@ const plusDisabled =
                     </h3>
 
 
-                    <p>
-                        Price:
-                        ৳${price}
-                    </p>
+                    ${
+    discount > 0 &&
+    Number.isFinite(
+        Number(product.discountPrice)
+    )
+        ? `
+            <p style="
+                margin: 4px 0;
+                color: #777;
+                font-size: 12px;
+            ">
+                Original Price:
+                <span style="
+                    text-decoration: line-through;
+                ">
+                    ৳${originalPrice}
+                </span>
+            </p>
+
+            <p style="
+                margin: 4px 0;
+                color: #198754;
+                font-size: 12px;
+                font-weight: bold;
+            ">
+                ${discount}% OFF
+            </p>
+
+            <p style="
+                margin: 4px 0;
+                color: #ff6600;
+                font-size: 15px;
+                font-weight: bold;
+            ">
+                Discount Price:
+                ৳${salePrice}
+            </p>
+          `
+        : `
+            <p>
+                Price:
+                ৳${originalPrice}
+            </p>
+          `
+}
 
 
                     ${stockHTML}
