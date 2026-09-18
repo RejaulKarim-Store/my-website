@@ -1262,13 +1262,84 @@ function showDescription(data) {
         data.name || "-";
 
 
+    const originalPrice =
+    Number(data.price) || 0;
+
+const discount =
+    Number(data.discount) || 0;
+
+const discountPrice =
+    Number(data.discountPrice);
+
+
+const descriptionPrice =
     document.getElementById(
         "descriptionProductPrice"
-    ).textContent =
+    );
+
+
+if (
+    discount > 0 &&
+    Number.isFinite(discountPrice) &&
+    discountPrice < originalPrice
+) {
+
+    descriptionPrice.innerHTML =
+
+        "Original Price: " +
+
+        "<span style=\"" +
+        "text-decoration:line-through;" +
+        "color:#777;" +
+        "\">৳" +
+
+        formatPrice(
+            originalPrice
+        ) +
+
+        "</span>" +
+
+        "<br>" +
+
+        "<span style=\"" +
+        "color:#198754;" +
+        "font-weight:bold;" +
+        "\">" +
+
+        formatPrice(
+            discount
+        ) +
+
+        "% OFF" +
+
+        "</span>" +
+
+        "<br>" +
+
+        "<span style=\"" +
+        "color:#ff6600;" +
+        "font-weight:bold;" +
+        "\">" +
+
+        "Discount Price: ৳" +
+
+        formatPrice(
+            discountPrice
+        ) +
+
+        "</span>";
+
+}
+
+else {
+
+    descriptionPrice.textContent =
         "৳" +
         formatPrice(
-            data.price
+            originalPrice
         );
+
+}
 
 
     document.getElementById(
