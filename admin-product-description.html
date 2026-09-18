@@ -638,6 +638,30 @@ body.admin-verified {
         </div>
 
 
+<div class="preview-item">
+
+    <strong>
+        Discount:
+    </strong>
+
+    <span id="previewDiscount"></span>
+
+</div>
+
+
+<div class="preview-item">
+
+    <strong>
+        Discount Price:
+    </strong>
+
+    <span
+        id="previewDiscountPrice"
+        class="price-preview"
+    ></span>
+
+</div>
+
         <div class="preview-item">
 
             <strong>
@@ -1606,6 +1630,38 @@ function updatePreview() {
         price === ""
         ? ""
         : "৳" + price;
+
+updateDiscountPrice();
+
+const discountValue =
+    Math.min(
+        100,
+        Math.max(
+            0,
+            Number(
+                discount.value
+            ) || 0
+        )
+    );
+
+document.getElementById(
+    "previewDiscount"
+).innerText =
+    discountValue + "%";
+
+const calculatedDiscountPrice =
+    (Number(price) || 0) -
+    (
+        (Number(price) || 0) *
+        discountValue /
+        100
+    );
+
+document.getElementById(
+    "previewDiscountPrice"
+).innerText =
+    "৳" +
+    calculatedDiscountPrice.toFixed(0);
 
 
     document.getElementById(
