@@ -1361,18 +1361,50 @@ shopGroups.forEach(
 
 
                 const quantity =
-                    Number(product.quantity) || 1;
-
-                const price =
-                    Number(product.price) || 0;
+    Number(product.quantity) || 1;
 
 
-                const itemSubtotal =
-                    price * quantity;
+/*
+ * Original Price
+ */
+const originalPrice =
+    Number(product.price) || 0;
 
 
-                total +=
-                    itemSubtotal;
+/*
+ * Discount
+ */
+const discount =
+    Number(product.discount) || 0;
+
+
+/*
+ * Discount Price
+ *
+ * Discount থাকলে Firebase-এর
+ * Discount Price ব্যবহার হবে।
+ *
+ * Discount না থাকলে আগের Price-ই থাকবে।
+ */
+const salePrice =
+    discount > 0 &&
+    Number.isFinite(
+        Number(product.discountPrice)
+    )
+        ? Number(product.discountPrice)
+        : originalPrice;
+
+
+/*
+ * Cart Item Subtotal
+ */
+const itemSubtotal =
+    salePrice * quantity;
+
+
+total +=
+    itemSubtotal;
+
 
 const stock = Number(product.stock);
 
