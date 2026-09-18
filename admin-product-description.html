@@ -358,6 +358,43 @@ body.admin-verified {
 
     </div>
 
+    <!-- =========================
+         DISCOUNT
+    ========================= -->
+
+    <div class="row">
+
+        <label>
+            Discount (%):
+        </label>
+
+        <input
+            type="number"
+            id="discount"
+            placeholder="0"
+            min="0"
+            max="100"
+            step="1"
+        >
+
+    </div>
+
+
+    <div class="row">
+
+        <label>
+            Discount Price:
+        </label>
+
+        <input
+            type="text"
+            id="discountPrice"
+            class="price-input"
+            readonly
+            placeholder="Discount Price"
+        >
+
+    </div>
 
     <!-- =========================
          BRAND
@@ -781,6 +818,17 @@ const productPrice =
         "productPrice"
     );
 
+const discount =
+    document.getElementById(
+        "discount"
+    );
+
+
+const discountPrice =
+    document.getElementById(
+        "discountPrice"
+    );
+
 
 /* =====================================================
    CREATE PRODUCT 1-100
@@ -1200,6 +1248,11 @@ function fillForm(data) {
 
     productPrice.value =
         data.price ?? 0;
+
+discount.value =
+    data.discount ?? 0;
+
+updateDiscountPrice();
 
 
     document.getElementById(
