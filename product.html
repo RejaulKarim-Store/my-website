@@ -1084,13 +1084,94 @@ function showProduct(data) {
        PRICE
     ========================= */
 
+    const originalPrice =
+    Number(data.price) || 0;
+
+const discount =
+    Number(data.discount) || 0;
+
+const discountPrice =
+    Number(data.discountPrice);
+
+
+const discountInfo =
+    document.getElementById(
+        "productDiscountInfo"
+    );
+
+const originalPriceElement =
+    document.getElementById(
+        "productOriginalPrice"
+    );
+
+const discountPercentElement =
+    document.getElementById(
+        "productDiscountPercent"
+    );
+
+const discountPriceElement =
+    document.getElementById(
+        "productDiscountPrice"
+    );
+
+
+if (
+    discount > 0 &&
+    Number.isFinite(discountPrice) &&
+    discountPrice < originalPrice
+) {
+
+    document.getElementById(
+        "productPrice"
+    ).textContent =
+        "";
+
+
+    originalPriceElement.innerHTML =
+        "Original Price: " +
+        "<span style=\"" +
+        "text-decoration:line-through;" +
+        "\">৳" +
+        formatPrice(
+            originalPrice
+        ) +
+        "</span>";
+
+
+    discountPercentElement.textContent =
+        formatPrice(
+            discount
+        ) +
+        "% OFF";
+
+
+    discountPriceElement.textContent =
+        "Discount Price: ৳" +
+        formatPrice(
+            discountPrice
+        );
+
+
+    discountInfo.style.display =
+        "block";
+
+}
+
+else {
+
     document.getElementById(
         "productPrice"
     ).textContent =
         "Price: ৳" +
         formatPrice(
-            data.price
+            originalPrice
         );
+
+
+    discountInfo.style.display =
+        "none";
+
+}
 
 const stock =
     Number(data.stock) || 0;
