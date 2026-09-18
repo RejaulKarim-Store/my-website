@@ -2191,6 +2191,23 @@ document.getElementById(
                     currentProduct.price
                 ) || 0;
 
+existingProduct.discount =
+    Number(
+        currentProduct.discount
+    ) || 0;
+
+
+existingProduct.discountPrice =
+    Number.isFinite(
+        Number(
+            currentProduct.discountPrice
+        )
+    )
+        ? Number(
+            currentProduct.discountPrice
+        )
+        : null;
+
 
             existingProduct.image =
                 currentProduct.images &&
