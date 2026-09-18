@@ -1063,20 +1063,37 @@ function getShopName(product) {
 
 function getDiscountAmount(product) {
 
-    const price =
+    const originalPrice =
         Number(product.price) || 0;
 
+    const discount =
+        Number(product.discount) || 0;
+
+    const discountPrice =
+        Number(product.discountPrice);
 
     /*
-     * যদি সরাসরি discountAmount থাকে
+     * নতুন Firebase Discount
+     */
+    if (
+        discount > 0 &&
+        Number.isFinite(discountPrice) &&
+        discountPrice < originalPrice
+    ) {
+
+        return originalPrice - discountPrice;
+
+    }
+
+    /*
+     * পুরোনো discountAmount থাকলে
+     * সেটিও আগের মতো কাজ করবে।
      */
     const discountAmount =
         Number(product.discountAmount);
 
-
     if (
-        Number.isFinite(discountAmount)
-        &&
+        Number.isFinite(discountAmount) &&
         discountAmount > 0
     ) {
 
@@ -1084,9 +1101,8 @@ function getDiscountAmount(product) {
 
     }
 
-
     /*
-     * যদি আগের/original price দেওয়া থাকে
+     * পুরোনো/original price system
      */
     const oldPrice =
         Number(
@@ -1096,22 +1112,15 @@ function getDiscountAmount(product) {
             product.mrp
         );
 
-
     if (
-        Number.isFinite(oldPrice)
-        &&
-        oldPrice > price
+        Number.isFinite(oldPrice) &&
+        oldPrice > originalPrice
     ) {
 
-        return oldPrice - price;
+        return oldPrice - originalPrice;
 
     }
 
-
-    /*
-     * কোনো Discount তথ্য না থাকলে
-     * Discount = 0
-     */
     return 0;
 
 }
