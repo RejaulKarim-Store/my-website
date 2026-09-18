@@ -2005,6 +2005,23 @@ document.getElementById(
                     currentProduct.price
                 ) || 0,
 
+
+discount:
+    Number(
+        currentProduct.discount
+    ) || 0,
+
+discountPrice:
+    Number.isFinite(
+        Number(
+            currentProduct.discountPrice
+        )
+    )
+        ? Number(
+            currentProduct.discountPrice
+        )
+        : null,
+
             image:
                 currentProduct.images &&
                 currentProduct.images.length > 0
@@ -2054,6 +2071,23 @@ document.getElementById(
                 Number(
                     currentProduct.price
                 ) || 0;
+
+existingProduct.discount =
+    Number(
+        currentProduct.discount
+    ) || 0;
+
+
+existingProduct.discountPrice =
+    Number.isFinite(
+        Number(
+            currentProduct.discountPrice
+        )
+    )
+        ? Number(
+            currentProduct.discountPrice
+        )
+        : null;
 
 
             existingProduct.image =
