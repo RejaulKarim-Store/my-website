@@ -734,16 +734,35 @@ body {
 
                 return {
 
-                    name:
-                        data.name || "",
+    name:
+        data.name || "",
 
-                    price:
-                        Number.isFinite(price)
-                            ? price
-                            : null
+    price:
+        Number.isFinite(price)
+            ? price
+            : null,
 
-                };
+    discount:
+        Number.isFinite(
+            Number(data.discount)
+        )
+            ? Math.min(
+                100,
+                Math.max(
+                    0,
+                    Number(data.discount)
+                )
+            )
+            : 0,
 
+    discountPrice:
+        Number.isFinite(
+            Number(data.discountPrice)
+        )
+            ? Number(data.discountPrice)
+            : null
+
+};
             }
 
             catch (error) {
@@ -902,6 +921,30 @@ async function loadCartStocks() {
                 }
 
             }
+
+
+/* PRODUCT DISCOUNT + DISCOUNT PRICE */
+
+if (
+    info !== null
+) {
+
+    product.discount =
+        Number.isFinite(
+            info.discount
+        )
+            ? info.discount
+            : 0;
+
+
+    product.discountPrice =
+        Number.isFinite(
+            info.discountPrice
+        )
+            ? info.discountPrice
+            : null;
+
+}
 
 
             /*
