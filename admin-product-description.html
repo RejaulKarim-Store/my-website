@@ -1302,6 +1302,46 @@ document.getElementById(
 
 
 /* =====================================================
+   DISCOUNT PRICE CALCULATION
+===================================================== */
+
+function updateDiscountPrice() {
+
+    const price =
+        Number(
+            productPrice.value
+        ) || 0;
+
+
+    const discountPercent =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                Number(
+                    discount.value
+                ) || 0
+            )
+        );
+
+
+    const finalPrice =
+        price -
+        (
+            price *
+            discountPercent /
+            100
+        );
+
+
+    discountPrice.value =
+        "৳" +
+        finalPrice.toFixed(0);
+
+}
+
+
+/* =====================================================
    PRODUCT SERIAL CHANGE
 ===================================================== */
 
@@ -1351,6 +1391,35 @@ saveButton.addEventListener(
                 isNaN(price)
                 ? 0
                 : price,
+
+discount:
+    Math.min(
+        100,
+        Math.max(
+            0,
+            Number(
+                discount.value
+            ) || 0
+        )
+    ),
+
+discountPrice:
+    isNaN(price)
+    ? 0
+    : price -
+      (
+          price *
+          Math.min(
+              100,
+              Math.max(
+                  0,
+                  Number(
+                      discount.value
+                  ) || 0
+              )
+          ) /
+          100
+      ),
 
             brand:
                 document.getElementById(
