@@ -954,6 +954,33 @@ async function loadOrderDetails() {
 function displayOrder(order) {
 
 
+/* =====================================================
+   PRICE FORMAT
+===================================================== */
+
+function formatPrice(price) {
+
+    const number =
+        Number(price);
+
+
+    if (
+        !Number.isFinite(number)
+    ) {
+
+        return "0";
+
+    }
+
+
+    return Math.round(number).toLocaleString(
+        "en-US"
+    );
+
+}
+
+
+
     const orderStatus =
         order.status ||
         "Pending";
@@ -1761,7 +1788,7 @@ invoiceTotal +=
             color:#777;
             text-decoration:line-through;
         ">
-            ৳${price}
+            ৳${formatPrice(price)}
         </span>
 
         <br>
