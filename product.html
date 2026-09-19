@@ -1237,12 +1237,11 @@ function formatPrice(price) {
     }
 
 
-    return number.toLocaleString(
+    return Math.round(number).toLocaleString(
         "en-US"
     );
 
 }
-
 
 /* =====================================================
    SHOW DESCRIPTION
