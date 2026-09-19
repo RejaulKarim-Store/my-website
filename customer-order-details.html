@@ -969,12 +969,14 @@ if (
                 </span>
 
                 <span class="value">
-                    ৳${
-                        Number(
-                            order.refundAmount
-                        ) || 0
-                    }
-                </span>
+    ৳${
+        formatPrice(
+            Number(
+                order.refundAmount
+            ) || 0
+        )
+    }
+</span>
 
             </div>
 
@@ -1235,9 +1237,9 @@ if (
 
                         <span class="total-price">
 
-                            ৳${totalAmount}
+    ৳${formatPrice(totalAmount)}
 
-                        </span>
+</span>
 
 
                     </div>
