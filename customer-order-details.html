@@ -637,20 +637,42 @@ button[onclick="printCustomerOrder()"] {
 
 
                         const price =
-                            Number(
-                                product.price
-                            ) || 0;
+    Number(
+        product.price
+    ) || 0;
 
 
-                        const quantity =
-                            Number(
-                                product.quantity
-                            ) || 1;
+const discount =
+    Number(
+        product.discount
+    ) || 0;
 
 
-                        const subtotal =
-                            price *
-                            quantity;
+const discountPrice =
+    Number(
+        product.discountPrice
+    );
+
+
+const quantity =
+    Number(
+        product.quantity
+    ) || 1;
+
+
+const salePrice =
+    discount > 0 &&
+    Number.isFinite(discountPrice) &&
+    discountPrice < price
+        ? discountPrice
+        : price;
+
+
+const subtotal =
+    salePrice *
+    quantity;
+
+
 
 const productImage =
     product.image ||
