@@ -1415,11 +1415,9 @@ ${
                             </span>
 
                             <span class="value">
-                                ৳${
-                                    Number(
-                                        order.refundAmount
-                                    ) || 0
-                                }
+                               ৳${formatPrice(
+    Number(order.refundAmount) || 0
+)}
                             </span>
 
                         </div>
@@ -2494,13 +2492,11 @@ body {
 
                     <span class="info-value">
 
-                        ৳${
-                            Number(
-                                order.refundAmount
-                            ) || 0
-                        }
+    ৳${formatPrice(
+        Number(order.refundAmount) || 0
+    )}
 
-                    </span>
+</span>
 
                 </div>
 
