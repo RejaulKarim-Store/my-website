@@ -1827,7 +1827,7 @@ invoiceTotal +=
 
                             <td>
 
-                                ৳${subtotal}
+                                ৳${formatPrice(subtotal)}
 
                             </td>
 
@@ -2587,11 +2587,9 @@ body {
             </span>
 
 
-            <span class="total-price">
-
-                ৳${invoiceTotal}
-
-            </span>
+         <span class="total-price">
+    ৳${formatPrice(invoiceTotal)}
+</span>
 
         </div>
 
