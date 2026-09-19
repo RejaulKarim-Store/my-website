@@ -1696,18 +1696,33 @@ window.printInvoice =
 
 
                     const price =
-                        Number(
-                            product.price
-                        ) || 0;
+    Number(
+        product.price
+    ) || 0;
 
+const discount =
+    Number(
+        product.discount
+    ) || 0;
 
-                    const subtotal =
-                        price *
-                        quantity;
+const discountPrice =
+    Number(
+        product.discountPrice
+    );
 
+const salePrice =
+    discount > 0 &&
+    Number.isFinite(discountPrice) &&
+    discountPrice < price
+        ? discountPrice
+        : price;
 
-                    invoiceTotal +=
-                        subtotal;
+const subtotal =
+    salePrice *
+    quantity;
+
+invoiceTotal +=
+    subtotal;
 
 
                     invoiceProducts += `
