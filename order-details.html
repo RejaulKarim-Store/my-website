@@ -951,9 +951,6 @@ async function loadOrderDetails() {
    DISPLAY ORDER
 ===================================================== */
 
-function displayOrder(order) {
-
-
 /* =====================================================
    PRICE FORMAT
 ===================================================== */
@@ -980,11 +977,19 @@ function formatPrice(price) {
 }
 
 
+/* =====================================================
+   DISPLAY ORDER
+===================================================== */
+
+function displayOrder(order) {
+
 
     const orderStatus =
         order.status ||
         "Pending";
 
+
+    
 
     /* =========================
        ORDER TOTAL
