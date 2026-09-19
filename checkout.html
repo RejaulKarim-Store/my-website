@@ -760,6 +760,30 @@ async function showOrderSummary() {
     let total = 0;
 
 
+/* =====================================================
+   PRICE DISPLAY ROUNDING
+===================================================== */
+
+function formatPrice(price) {
+
+    const number =
+        Number(price);
+
+    if (
+        !Number.isFinite(number)
+    ) {
+
+        return "0";
+
+    }
+
+    return Math.round(number).toLocaleString(
+        "en-US"
+    );
+
+}
+
+
     let html =
         "<h2>Order Summary</h2>";
 
@@ -976,7 +1000,7 @@ async function showOrderSummary() {
                                     <span style="
                                         text-decoration:line-through;
                                     ">
-                                        ৳${currentPrice}
+                                        ৳${formatPrice(currentPrice)}
                                     </span>
                                 </p>
 
