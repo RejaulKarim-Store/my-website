@@ -2480,6 +2480,30 @@ const currentName =
 const currentPrice =
     Number(productData.price);
 
+
+
+const currentDiscount =
+    Number(productData.discount) || 0;
+
+const currentDiscountPrice =
+    Number(productData.discountPrice);
+
+let finalPrice =
+    currentPrice;
+
+if (
+    currentDiscount > 0 &&
+    Number.isFinite(
+        currentDiscountPrice
+    ) &&
+    currentDiscountPrice < currentPrice
+) {
+
+    finalPrice =
+        currentDiscountPrice;
+
+}
+
                         const currentStock =
                             Number(
                                 productData.stock
