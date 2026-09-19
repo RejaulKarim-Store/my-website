@@ -1125,6 +1125,30 @@ function getDiscountAmount(product) {
 
 }
 
+/* =====================================================
+   PRICE DISPLAY ROUNDING
+===================================================== */
+
+function formatPrice(price) {
+
+    const number =
+        Number(price);
+
+    if (
+        !Number.isFinite(number)
+    ) {
+
+        return "0";
+
+    }
+
+    return Math.round(number).toLocaleString(
+        "en-US"
+    );
+
+}
+
+
 
         /* =====================================================
            SHOW CART
