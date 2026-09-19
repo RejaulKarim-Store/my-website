@@ -1749,9 +1749,49 @@ invoiceTotal +=
 
                             <td>
 
-                                ৳${price}
+    ${
+        discount > 0 &&
+        Number.isFinite(discountPrice) &&
+        discountPrice < price
 
-                            </td>
+        ?
+
+        `
+        <span style="
+            color:#777;
+            text-decoration:line-through;
+        ">
+            ৳${price}
+        </span>
+
+        <br>
+
+        <span style="
+            color:#e53935;
+            font-weight:bold;
+        ">
+            ${discount}% OFF
+        </span>
+
+        <br>
+
+        <strong style="
+            color:#ff6600;
+        ">
+            ৳${discountPrice}
+        </strong>
+        `
+
+        :
+
+        `
+        <strong>
+            ৳${price}
+        </strong>
+        `
+    }
+
+</td>
 
 
                             <td>
