@@ -1041,9 +1041,9 @@ function formatPrice(price) {
 
 
                         <p>
-                            Subtotal:
-                            ৳${subtotal}
-                        </p>
+    Subtotal:
+    ৳${formatPrice(subtotal)}
+</p>
 
                     </div>
 
@@ -1058,9 +1058,9 @@ function formatPrice(price) {
 
     html += `
 
-        <h2 class="total">
-            Total: ৳${total}
-        </h2>
+      <h2 class="total">
+    Total: ৳${formatPrice(total)}
+</h2>
 
     `;
 
