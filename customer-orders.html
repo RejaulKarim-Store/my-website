@@ -871,6 +871,21 @@ onAuthStateChanged(
 
 );
 
+/* ==================================================
+   PRICE FORMAT
+================================================== */
+
+function formatPrice(price) {
+
+    const number = Number(price);
+
+    if (!Number.isFinite(number)) {
+        return "0";
+    }
+
+    return Math.round(number).toLocaleString("en-US");
+}
+
 
 
 /* ==================================================
@@ -1132,12 +1147,12 @@ const subtotal =
         `
 
         Original Price:
-        <span style="
-            text-decoration:line-through;
-            color:#888;
-        ">
-            ৳${price}
-        </span>
+<span style="
+    text-decoration:line-through;
+    color:#888;
+">
+    ৳${formatPrice(price)}
+</span>
 
         <span style="
             color:#e53935;
@@ -1153,7 +1168,7 @@ const subtotal =
         <strong style="
             color:#ff6600;
         ">
-            ৳${discountPrice}
+            ৳${formatPrice(discountPrice)}
         </strong>
 
         `
