@@ -36,6 +36,7 @@
     color: white;
     padding: 6px 18px;
     text-align: center;
+    position: relative;
 }
 
 
@@ -47,6 +48,18 @@
         .header p {
             margin: 6px 0 0;
         }
+
+.header-back {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
 
 
         /* =========================
@@ -368,23 +381,24 @@ button[onclick="printCustomerOrder()"] {
 
     <div class="header">
 
-        <h1>RK Store</h1>
+    <button
+        class="header-back"
+        onclick="goBack()"
+    >
+        ←
+    </button>
 
-        <p>Order Details</p>
+    <h1>RK Store</h1>
 
-    </div>
+    <p>Order Details</p>
+
+</div>
 
 
     <div class="container">
 
 
-        <button
-            class="back-button"
-            onclick="goBack()"
-        >
-            ← Back to My Orders
-        </button>
-
+       
 
         <div id="orderDetails">
 
