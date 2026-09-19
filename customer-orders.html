@@ -1304,12 +1304,11 @@ ${
 
                                 Total:
 
-                                ৳${
-                                    Number(
-                                        order.totalAmount
-                                    ) || 0
-                                }
-
+৳${formatPrice(
+    Number(
+        order.totalAmount
+    ) || 0
+)}
                             </div>
 
 
