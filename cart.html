@@ -1566,7 +1566,7 @@ const plusDisabled =
                 <span style="
                     text-decoration: line-through;
                 ">
-                    ৳${originalPrice}
+                   ৳${formatPrice(originalPrice)}
                 </span>
             </p>
 
@@ -1586,7 +1586,7 @@ const plusDisabled =
                 font-weight: bold;
             ">
                 Discount Price:
-                ৳${salePrice}
+                ৳${formatPrice(salePrice)}
             </p>
           `
         : `
