@@ -1022,7 +1022,7 @@ function formatPrice(price) {
                                     font-weight:bold;
                                 ">
                                     Discount Price:
-                                    ৳${salePrice}
+                                    ৳${formatPrice(salePrice)}
                                     × ${quantity}
                                 </p>
 
@@ -1030,13 +1030,13 @@ function formatPrice(price) {
 
                             : `
 
-                                <p>
-                                    Price:
-                                    ৳${currentPrice}
-                                    × ${quantity}
-                                </p>
+    <p>
+        Price:
+        ৳${formatPrice(currentPrice)}
+        × ${quantity}
+    </p>
 
-                              `
+`
                         }
 
 
