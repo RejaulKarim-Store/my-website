@@ -771,6 +771,29 @@ function saveOrdersToLocalStorage() {
 
 }
 
+/* =====================================================
+   PRICE FORMAT
+===================================================== */
+
+function formatPrice(price) {
+
+    const number =
+        Number(price);
+
+    if (
+        !Number.isFinite(number)
+    ) {
+
+        return "0";
+
+    }
+
+    return Math.round(number).toLocaleString(
+        "en-US"
+    );
+
+}
+
 
 /* =====================================================
    DISPLAY ORDERS
