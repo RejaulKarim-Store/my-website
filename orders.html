@@ -1099,16 +1099,63 @@ totalAmount +=
         </p>
 
 
-        <p>
+       <p>
 
-            <strong>
-                Price:
-            </strong>
+    <strong>
+        ${
+            discount > 0 &&
+            Number.isFinite(discountPrice) &&
+            discountPrice < price
+            ? "Original Price:"
+            : "Price:"
+        }
+    </strong>
 
+    ${
+        discount > 0 &&
+        Number.isFinite(discountPrice) &&
+        discountPrice < price
+
+        ?
+
+        `
+        <span style="
+            text-decoration:line-through;
+            color:#888;
+        ">
             ৳${price}
+        </span>
 
-        </p>
+        <span style="
+            color:#e53935;
+            font-weight:bold;
+            margin-left:6px;
+        ">
+            ${discount}% OFF
+        </span>
 
+        <br>
+
+        <strong>
+            Discount Price:
+        </strong>
+
+        <span style="
+            color:#ff6600;
+            font-weight:bold;
+        ">
+            ৳${discountPrice}
+        </span>
+        `
+
+        :
+
+        `
+        ৳${price}
+        `
+    }
+
+</p>
 
         <p>
 
