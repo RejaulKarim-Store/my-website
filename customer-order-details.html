@@ -550,6 +550,21 @@ button[onclick="printCustomerOrder()"] {
 
     );
 
+/* =========================
+   PRICE FORMAT
+========================= */
+
+function formatPrice(price) {
+
+    const number = Number(price);
+
+    if (!Number.isFinite(number)) {
+        return "0";
+    }
+
+    return Math.round(number).toLocaleString("en-US");
+}
+
 
     /* =========================
        LOAD ORDER
@@ -736,7 +751,7 @@ const productImage =
             text-decoration:line-through;
             color:#888;
         ">
-            ৳${price}
+            ৳${formatPrice(price)}
         </span>
 
         <span style="
@@ -753,7 +768,7 @@ const productImage =
         <strong style="
             color:#ff6600;
         ">
-            ৳${discountPrice}
+            ৳${formatPrice(discountPrice)}
         </strong>
 
         `
@@ -763,7 +778,7 @@ const productImage =
         `
 
         Price:
-        ৳${price}
+        ৳${formatPrice(price)}
 
         `
     }
