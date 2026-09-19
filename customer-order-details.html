@@ -722,10 +722,53 @@ const productImage =
 
                                 <p>
 
-                                    Price:
-                                    ৳${price}
+    ${
+        discount > 0 &&
+        Number.isFinite(discountPrice) &&
+        discountPrice < price
 
-                                </p>
+        ?
+
+        `
+
+        Original Price:
+        <span style="
+            text-decoration:line-through;
+            color:#888;
+        ">
+            ৳${price}
+        </span>
+
+        <span style="
+            color:#e53935;
+            font-weight:bold;
+            margin-left:6px;
+        ">
+            ${discount}% OFF
+        </span>
+
+        <br>
+
+        Discount Price:
+        <strong style="
+            color:#ff6600;
+        ">
+            ৳${discountPrice}
+        </strong>
+
+        `
+
+        :
+
+        `
+
+        Price:
+        ৳${price}
+
+        `
+    }
+
+</p>
 
 <p>
 
