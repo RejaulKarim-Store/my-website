@@ -742,10 +742,51 @@ const subtotal =
 
                                 <p>
 
-                                    Price:
-                                    ৳${price}
+    <strong>
+        Price:
+    </strong>
 
-                                </p>
+    ${
+        discount > 0 &&
+        Number.isFinite(discountPrice) &&
+        discountPrice < price
+            ? `
+                <span
+                    style="
+                        color:#777;
+                        text-decoration:line-through;
+                        margin-right:6px;
+                    "
+                >
+                    ৳${price}
+                </span>
+
+                <span
+                    style="
+                        color:#198754;
+                        font-weight:bold;
+                        margin-right:6px;
+                    "
+                >
+                    ${discount}% OFF
+                </span>
+
+                <strong
+                    style="
+                        color:#ff6600;
+                    "
+                >
+                    ৳${discountPrice}
+                </strong>
+              `
+            : `
+                <strong>
+                    ৳${price}
+                </strong>
+              `
+    }
+
+</p>
 
 
                                 <p>
