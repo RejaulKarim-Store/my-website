@@ -1393,7 +1393,7 @@ function renderSavedAddress() {
 }
 
 
-function useSavedAddress() {
+async function useSavedAddress() {
 
     if (!currentUser) {
         return;
@@ -1412,57 +1412,232 @@ function useSavedAddress() {
         return;
     }
 
+
+    /* =========================================
+       CUSTOMER INFORMATION
+    ========================================= */
+
     document.getElementById("name").value =
         saved.name || "";
 
     document.getElementById("mobile").value =
         saved.mobile || "";
 
+
+    /* =========================================
+       CHECK LOCATION DATA
+    ========================================= */
+
     if (
         !Array.isArray(locationData) ||
         locationData.length === 0
     ) {
+
         alert(
             "Address list is still loading. Please try again."
         );
+
         return;
     }
+
+
+    /* =========================================
+       DIVISION
+    ========================================= */
 
     divisionSelect.value =
         saved.divisionValue || "";
 
-    divisionSelect.dispatchEvent(
-        new Event("change")
+    const division =
+        locationData[
+            Number(saved.divisionValue)
+        ];
+
+    if (!division) {
+
+        alert(
+            "Saved division could not be found."
+        );
+
+        return;
+    }
+
+
+    /* =========================================
+       RESET DISTRICT / UPAZILA / UNION
+    ========================================= */
+
+    resetSelect(
+        districtSelect,
+        "Select District"
     );
+
+    resetSelect(
+        upazilaSelect,
+        "Select Upazila / Thana"
+    );
+
+    resetSelect(
+        unionSelect,
+        "Select Union"
+    );
+
+    districtSelect.disabled = true;
+    upazilaSelect.disabled = true;
+    unionSelect.disabled = true;
+
+
+    /* =========================================
+       LOAD DISTRICTS
+    ========================================= */
+
+    const districts =
+        division.districts ||
+        division.district ||
+        division.children;
+
+    if (!Array.isArray(districts)) {
+
+        alert(
+            "Saved district data could not be loaded."
+        );
+
+        return;
+    }
+
+
+    districts.forEach(
+        function(district, index) {
+
+            addOption(
+                districtSelect,
+                index,
+                district.bn_name ||
+                district.name ||
+                district.district_name
+            );
+
+        }
+    );
+
 
     districtSelect.value =
         saved.districtValue || "";
 
-    districtSelect.dispatchEvent(
-        new Event("change")
-    );
+    districtSelect.disabled = false;
 
-    upazilaSelect.value =
-        saved.upazilaValue || "";
 
-    upazilaSelect.dispatchEvent(
-        new Event("change")
-    );
+    /* =========================================
+       LOAD UPAZILAS
+    ========================================= */
 
-    unionSelect.value =
-        saved.unionValue || "";
+    const district =
+        districts[
+            Number(saved.districtValue)
+        ];
 
-    unionSelect.dispatchEvent(
-        new Event("change")
-    );
+    if (district) {
+
+        const upazilas =
+            district.upazilas ||
+            district.upazila ||
+            district.children;
+
+        if (Array.isArray(upazilas)) {
+
+            upazilas.forEach(
+                function(upazila, index) {
+
+                    addOption(
+                        upazilaSelect,
+                        index,
+                        upazila.bn_name ||
+                        upazila.name ||
+                        upazila.upazila_name
+                    );
+
+                }
+            );
+
+
+            upazilaSelect.value =
+                saved.upazilaValue || "";
+
+            upazilaSelect.disabled = false;
+
+
+            /* =========================================
+               LOAD UNIONS
+            ========================================= */
+
+            const upazila =
+                upazilas[
+                    Number(saved.upazilaValue)
+                ];
+
+            if (
+                upazila &&
+                Array.isArray(
+                    upazila.unions
+                )
+            ) {
+
+                upazila.unions.forEach(
+                    function(union, index) {
+
+                        addOption(
+                            unionSelect,
+                            index,
+                            union.bn_name ||
+                            union.name
+                        );
+
+                    }
+                );
+
+
+                unionSelect.value =
+                    saved.unionValue || "";
+
+                unionSelect.disabled = false;
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================
+       WARD
+    ========================================= */
 
     wardSelect.value =
         saved.wardValue || "";
 
+
+    /* =========================================
+       DETAILED ADDRESS
+    ========================================= */
+
     document.getElementById("address").value =
         saved.detailedAddress || "";
 
-    alert("Saved address loaded.");
+
+    /* =========================================
+       RECALCULATE DELIVERY CHARGE
+    ========================================= */
+
+    deliveryCharge =
+        await calculateDeliveryCharge();
+
+    showOrderSummary();
+
+
+    alert(
+        "Saved address loaded."
+    );
+
 }
 
 
