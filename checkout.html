@@ -758,6 +758,9 @@ async function showOrderSummary() {
 
 
     let total = 0;
+let deliveryCharge = 0;
+
+
 
 
 /* =====================================================
@@ -1058,11 +1061,41 @@ function formatPrice(price) {
 
     html += `
 
-      <h2 class="total">
-    Total: ৳${formatPrice(total)}
-</h2>
+    <div
+        style="
+            border-top:1px solid #ddd;
+            margin-top:15px;
+            padding-top:12px;
+        "
+    >
 
-    `;
+        <p style="
+            display:flex;
+            justify-content:space-between;
+            margin:6px 0;
+            font-size:16px;
+        ">
+            <span>Product Total:</span>
+            <strong>৳${formatPrice(total)}</strong>
+        </p>
+
+        <p style="
+            display:flex;
+            justify-content:space-between;
+            margin:6px 0;
+            font-size:16px;
+        ">
+            <span>Delivery Charge:</span>
+            <strong>৳${formatPrice(deliveryCharge)}</strong>
+        </p>
+
+        <h2 class="total">
+            Total: ৳${formatPrice(total + deliveryCharge)}
+        </h2>
+
+    </div>
+
+`;
 
 
     summary.innerHTML =
