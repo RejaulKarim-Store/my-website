@@ -952,6 +952,196 @@
 
     loadManualLocationData();
 
+const saveManualButton =
+    document.getElementById("saveManualButton");
+
+
+saveManualButton.addEventListener(
+    "click",
+    async function() {
+
+        if (
+            manualDivision.value === "" ||
+            manualDistrict.value === "" ||
+            manualUpazila.value === "" ||
+            manualUnion.value === "" ||
+            manualWard.value === ""
+        ) {
+            message.innerText =
+                "❌ Please select the complete area.";
+            return;
+        }
+
+
+        const charge =
+            Number(manualCharge.value);
+
+
+        if (
+            !Number.isFinite(charge) ||
+            charge < 0
+        ) {
+            message.innerText =
+                "❌ Please enter a valid delivery charge.";
+            return;
+        }
+
+
+        const division =
+            manualLocationData[
+                Number(manualDivision.value)
+            ];
+
+
+        const districts =
+            division &&
+            (
+                division.districts ||
+                division.children ||
+                []
+            );
+
+
+        const district =
+            districts[
+                Number(manualDistrict.value)
+            ];
+
+
+        const upazilas =
+            district &&
+            (
+                district.upazilas ||
+                district.thanas ||
+                district.children ||
+                []
+            );
+
+
+        const upazila =
+            upazilas[
+                Number(manualUpazila.value)
+            ];
+
+
+        const unions =
+            upazila &&
+            (
+                upazila.unions ||
+                upazila.children ||
+                []
+            );
+
+
+        const union =
+            unions[
+                Number(manualUnion.value)
+            ];
+
+
+        const wards =
+            union &&
+            (
+                union.wards ||
+                union.children ||
+                []
+            );
+
+
+        const ward =
+            wards[
+                Number(manualWard.value)
+            ];
+
+
+        if (
+            !division ||
+            !district ||
+            !upazila ||
+            !union ||
+            !ward
+        ) {
+            message.innerText =
+                "❌ Could not identify the selected area.";
+            return;
+        }
+
+
+        saveManualButton.disabled = true;
+
+
+        try {
+
+            const ruleId =
+                "manual_" +
+                manualDivision.value +
+                "_" +
+                manualDistrict.value +
+                "_" +
+                manualUpazila.value +
+                "_" +
+                manualUnion.value +
+                "_" +
+                manualWard.value;
+
+
+            const ruleRef =
+                doc(
+                    db,
+                    "deliveryRules",
+                    ruleId
+                );
+
+
+            await setDoc(
+                ruleRef,
+                {
+                    type: "manual",
+
+                    division:
+                        getName(division),
+
+                    district:
+                        getName(district),
+
+                    upazila:
+                        getName(upazila),
+
+                    union:
+                        getName(union),
+
+                    ward:
+                        getName(ward),
+
+                    charge:
+                        charge,
+
+                    active:
+                        true
+                },
+                {
+                    merge: true
+                }
+            );
+
+
+            message.innerText =
+                "✅ Manual delivery charge saved successfully.";
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.innerText =
+                "❌ Failed to save manual delivery charge.";
+
+        }
+
+
+        saveManualButton.disabled = false;
+
+    }
+);
 
     async function loadDeliverySettings() {
 
