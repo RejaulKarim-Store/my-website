@@ -1866,6 +1866,25 @@ upazilaSelect.addEventListener(
 );
 
 
+/* ==================================================
+   WARD CHANGE - DELIVERY CHARGE
+================================================== */
+
+wardSelect.addEventListener(
+
+    "change",
+
+    async function() {
+
+        deliveryCharge =
+            await calculateDeliveryCharge();
+
+        showOrderSummary();
+
+    }
+
+);
+
 
 /* ==================================================
    PAYMENT METHOD
