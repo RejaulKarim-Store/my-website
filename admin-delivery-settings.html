@@ -924,35 +924,25 @@
             }
 
 
-            const wards =
-                union.wards ||
-                union.children ||
-                [];
+            const wards = [];
+
+for (let i = 1; i <= 9; i++) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+        `Ward ${i}`;
+
+    manualWard.appendChild(option);
+
+    wards.push(i);
+}
 
 
-            wards.forEach(
-                function(ward, index) {
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value = index;
-
-                    option.textContent =
-                        getName(ward) ||
-                        `Ward ${index + 1}`;
-
-                    manualWard.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-
-            manualWard.disabled =
-                wards.length === 0;
-
+manualWard.disabled = false;
         }
     );
 
@@ -1049,19 +1039,12 @@ saveManualButton.addEventListener(
             ];
 
 
-        const wards =
-            union &&
-            (
-                union.wards ||
-                union.children ||
-                []
-            );
-
-
-        const ward =
-            wards[
-                Number(manualWard.value)
-            ];
+        const ward = {
+    bn_name:
+        `Ward ${manualWard.value}`,
+    name:
+        `Ward ${manualWard.value}`
+};
 
 
         if (
