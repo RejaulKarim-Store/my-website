@@ -980,6 +980,74 @@ manualWard.disabled = false;
         }
     );
 
+manualWard.addEventListener(
+    "change",
+    async function() {
+
+        if (this.value === "") {
+            return;
+        }
+
+        const ruleId =
+            "manual_" +
+            manualDivision.value +
+            "_" +
+            manualDistrict.value +
+            "_" +
+            manualUpazila.value +
+            "_" +
+            manualUnion.value +
+            "_" +
+            manualWard.value;
+
+        try {
+
+            const ruleRef =
+                doc(
+                    db,
+                    "deliveryRules",
+                    ruleId
+                );
+
+            const ruleSnapshot =
+                await getDoc(ruleRef);
+
+            if (ruleSnapshot.exists()) {
+
+                const rule =
+                    ruleSnapshot.data();
+
+                manualDeliveryActive.checked =
+                    rule.active !== false;
+
+                if (
+                    rule.charge !== undefined
+                ) {
+                    manualCharge.value =
+                        rule.charge;
+                }
+
+            } else {
+
+                manualDeliveryActive.checked =
+                    true;
+
+                manualCharge.value = "";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Manual Rule Load Error:",
+                error
+            );
+
+        }
+
+    }
+);
+
 
     loadManualLocationData();
 
