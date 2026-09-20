@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RK Store - Delivery Settings</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+
+        #page {
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+
+        .admin-box {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #222;
+        }
+
+
+        .admin-status {
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f1f1f1;
+            text-align: center;
+            font-size: 14px;
+        }
+
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+
+        .setting-card {
+            background: #fafafa;
+            border: 1px solid #e1e1e1;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+
+        input:focus {
+            border-color: #ff6600;
+        }
+
+
+        .save-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #ff6600;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .save-button:active {
+            transform: scale(0.99);
+        }
+
+
+        .back-button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: #eeeeee;
+            color: #333;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+
+        .message {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+
+        .future-note {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff7ed;
+            border: 1px solid #ffd6b3;
+            color: #555;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div id="page">
+
+    <div class="admin-box">
+
+        <h2>🚚 Delivery Settings</h2>
+
+
+        <div
+            class="admin-status"
+            id="adminStatus"
+        >
+            Checking Admin Login...
+        </div>
+
+
+        <div class="section-title">
+            Automatic Delivery Charge
+        </div>
+
+
+        <div class="setting-card">
+
+            <label for="dhakaCharge">
+                Dhaka Delivery Charge (৳)
+            </label>
+
+            <input
+                type="number"
+                id="dhakaCharge"
+                min="0"
+                value="60"
+            >
+
+        </div>
+
+
+        <div class="setting-card">
+
+            <label for="outsideDhakaCharge">
+                Outside Dhaka Delivery Charge (৳)
+            </label>
+
+            <input
+                type="number"
+                id="outsideDhakaCharge"
+                min="0"
+                value="120"
+            >
+
+        </div>
+
+
+        <button
+            class="save-button"
+            id="saveButton"
+        >
+            💾 Save Delivery Settings
+        </button>
+
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
+
+        <div class="future-note">
+
+            <b>Future Delivery Options</b><br><br>
+
+            এই পেজে পরে ধাপে ধাপে
+            <b>Manual Area Delivery Charge</b>
+            এবং
+            <b>Free Delivery Offer</b>
+            যোগ করা হবে।
+
+            <br><br>
+
+            Manual Charge হলে নির্দিষ্ট
+            Division / District / Upazila / Union / Ward
+            অনুযায়ী আলাদা Delivery Charge দেওয়া যাবে।
+
+        </div>
+
+
+        <button
+            class="back-button"
+            onclick="window.location.href='index.html'"
+        >
+            ← Back to Home
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+    import {
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    import {
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+
+    const firebaseConfig = {
+
+        apiKey: "YOUR_API_KEY",
+
+        authDomain:
+            "rk-store-5fb24.firebaseapp.com",
+
+        projectId:
+            "rk-store-5fb24",
+
+        storageBucket:
+            "rk-store-5fb24.firebasestorage.app",
+
+        messagingSenderId:
+            "YOUR_MESSAGING_SENDER_ID",
+
+        appId:
+            "YOUR_APP_ID"
+
+    };
+
+
+
+    const app =
+        initializeApp(firebaseConfig);
+
+
+    const auth =
+        getAuth(app);
+
+
+    const db =
+        getFirestore(app);
+
+
+
+    const ADMIN_EMAIL =
+        "REJAUL.IMAM@gmail.com";
+
+
+
+    const adminStatus =
+        document.getElementById("adminStatus");
+
+
+    const dhakaCharge =
+        document.getElementById("dhakaCharge");
+
+
+    const outsideDhakaCharge =
+        document.getElementById("outsideDhakaCharge");
+
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+
+    const message =
+        document.getElementById("message");
+
+
+
+    onAuthStateChanged(
+        auth,
+        async function(user) {
+
+            if (
+                !user ||
+                !user.email ||
+                user.email.toLowerCase() !==
+                ADMIN_EMAIL.toLowerCase()
+            ) {
+
+                window.location.replace(
+                    "admin-login.html"
+                );
+
+                return;
+            }
+
+
+            adminStatus.innerText =
+                "🔐 Admin Access Granted: " +
+                user.email;
+
+
+            await loadDeliverySettings();
+
+        }
+    );
+
+
+
+    async function loadDeliverySettings() {
+
+        try {
+
+            const settingsRef =
+                doc(
+                    db,
+                    "deliverySettings",
+                    "config"
+                );
+
+
+            const settingsSnap =
+                await getDoc(settingsRef);
+
+
+            if (settingsSnap.exists()) {
+
+                const data =
+                    settingsSnap.data();
+
+
+                if (
+                    data.automatic &&
+                    data.automatic.dhaka !== undefined
+                ) {
+
+                    dhakaCharge.value =
+                        data.automatic.dhaka;
+
+                }
+
+
+                if (
+                    data.automatic &&
+                    data.automatic.outsideDhaka !== undefined
+                ) {
+
+                    outsideDhakaCharge.value =
+                        data.automatic.outsideDhaka;
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.innerText =
+                "Could not load delivery settings.";
+
+        }
+
+    }
+
+
+
+    saveButton.addEventListener(
+        "click",
+        async function() {
+
+            const dhaka =
+                Number(dhakaCharge.value);
+
+
+            const outsideDhaka =
+                Number(
+                    outsideDhakaCharge.value
+                );
+
+
+            if (
+                !Number.isFinite(dhaka) ||
+                !Number.isFinite(outsideDhaka) ||
+                dhaka < 0 ||
+                outsideDhaka < 0
+            ) {
+
+                message.innerText =
+                    "Please enter valid delivery charges.";
+
+                return;
+
+            }
+
+
+            saveButton.disabled = true;
+
+
+            try {
+
+                const settingsRef =
+                    doc(
+                        db,
+                        "deliverySettings",
+                        "config"
+                    );
+
+
+                await setDoc(
+                    settingsRef,
+                    {
+
+                        automatic: {
+
+                            dhaka:
+                                dhaka,
+
+                            outsideDhaka:
+                                outsideDhaka
+
+                        }
+
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+
+                message.innerText =
+                    "✅ Delivery settings saved successfully.";
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.innerText =
+                    "❌ Failed to save delivery settings.";
+
+            }
+
+
+            saveButton.disabled = false;
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
