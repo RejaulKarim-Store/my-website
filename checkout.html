@@ -758,7 +758,6 @@ async function showOrderSummary() {
 
 
     let total = 0;
-let deliveryCharge = 0;
 
 
 
@@ -1111,6 +1110,39 @@ showOrderSummary();
    BANGLADESH LOCATION DATA
 ================================================== */
 
+let deliveryCharge = 0;
+
+function calculateDeliveryCharge() {
+
+    if (!divisionSelect || divisionSelect.value === "") {
+        return 0;
+    }
+
+    const selectedDivision =
+        locationData[
+            Number(divisionSelect.value)
+        ];
+
+    if (!selectedDivision) {
+        return 0;
+    }
+
+    const divisionName =
+        (
+            selectedDivision.bn_name ||
+            selectedDivision.name ||
+            ""
+        ).trim().toLowerCase();
+
+    if (
+        divisionName === "ঢাকা" ||
+        divisionName === "dhaka"
+    ) {
+        return 60;
+    }
+
+    return 120;
+}
 
 const LOCATION_DATA_URL =
 
