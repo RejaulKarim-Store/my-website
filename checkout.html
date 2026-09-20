@@ -1237,20 +1237,21 @@ try {
         const settings =
             settingsSnapshot.data();
 
-        if (
-            divisionName === "ঢাকা" ||
-            divisionName === "dhaka"
-        ) {
+       
+         if (
+    divisionName === "ঢাকা" ||
+    divisionName === "dhaka"
+) {
 
-            return Number(
-                settings.dhakaCharge ?? 60
-            );
+    return Number(
+        settings.automatic?.dhaka ?? 60
+    );
 
-        }
+}
 
-        return Number(
-            settings.outsideDhakaCharge ?? 120
-        );
+return Number(
+    settings.automatic?.outsideDhaka ?? 120
+);
 
     }
 
