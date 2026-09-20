@@ -1263,26 +1263,25 @@ saveManualButton.addEventListener(
 
 
                 if (
-                    data.automatic &&
-                    data.automatic.dhaka !== undefined
-                ) {
+    data.automatic &&
+    data.automatic.dhaka !== undefined
+) {
 
-                    dhakaCharge.value =
-                        data.automatic.dhaka;
+    dhakaCharge.value =
+        Number(data.automatic.dhaka);
 
-                }
+}
 
 
-                if (
-                    data.automatic &&
-                    data.automatic.outsideDhaka !== undefined
-                ) {
+if (
+    data.automatic &&
+    data.automatic.outsideDhaka !== undefined
+) {
 
-                    outsideDhakaCharge.value =
-                        data.automatic.outsideDhaka;
+    outsideDhakaCharge.value =
+        Number(data.automatic.outsideDhaka);
 
-                }
-
+}
             }
 
         } catch (error) {
