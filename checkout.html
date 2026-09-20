@@ -1214,22 +1214,71 @@ async function calculateDeliveryCharge() {
 
     }
 
+/* =========================================
+   AUTOMATIC DELIVERY CHARGE
+========================================= */
 
-    /* =========================================
-       AUTOMATIC DELIVERY CHARGE
-    ========================================= */
+try {
 
-    if (
-        divisionName === "ঢাকা" ||
-        divisionName === "dhaka"
-    ) {
+    const settingsRef =
+        doc(
+            db,
+            "deliverySettings",
+            "config"
+        );
 
-        return 60;
+    const settingsSnapshot =
+        await getDoc(
+            settingsRef
+        );
+
+    if (settingsSnapshot.exists()) {
+
+        const settings =
+            settingsSnapshot.data();
+
+        if (
+            divisionName === "ঢাকা" ||
+            divisionName === "dhaka"
+        ) {
+
+            return Number(
+                settings.dhakaCharge ?? 60
+            );
+
+        }
+
+        return Number(
+            settings.outsideDhakaCharge ?? 120
+        );
 
     }
 
+}
+catch (error) {
 
-    return 120;
+    console.error(
+        "Automatic Delivery Settings Error:",
+        error
+    );
+
+}
+
+
+/* =========================================
+   SAFE FALLBACK
+========================================= */
+
+if (
+    divisionName === "ঢাকা" ||
+    divisionName === "dhaka"
+) {
+
+    return 60;
+
+}
+
+return 120;
 
 }
 
