@@ -1112,9 +1112,12 @@ showOrderSummary();
 
 let deliveryCharge = 0;
 
-function calculateDeliveryCharge() {
+async function calculateDeliveryCharge() {
 
-    if (!divisionSelect || divisionSelect.value === "") {
+    if (
+        !divisionSelect ||
+        divisionSelect.value === ""
+    ) {
         return 0;
     }
 
@@ -1134,14 +1137,100 @@ function calculateDeliveryCharge() {
             ""
         ).trim().toLowerCase();
 
+
+    /* =========================================
+       CHECK MANUAL DELIVERY RULE
+    ========================================= */
+
+    if (
+        districtSelect.value !== "" &&
+        upazilaSelect.value !== "" &&
+        unionSelect.value !== "" &&
+        wardSelect.value !== ""
+    ) {
+
+        const ruleId =
+            "manual_" +
+            divisionSelect.value +
+            "_" +
+            districtSelect.value +
+            "_" +
+            upazilaSelect.value +
+            "_" +
+            unionSelect.value +
+            "_" +
+            wardSelect.value;
+
+
+        try {
+
+            const ruleRef =
+                doc(
+                    db,
+                    "deliveryRules",
+                    ruleId
+                );
+
+
+            const ruleSnapshot =
+                await getDoc(
+                    ruleRef
+                );
+
+
+            if (
+                ruleSnapshot.exists()
+            ) {
+
+                const rule =
+                    ruleSnapshot.data();
+
+
+                if (
+                    rule.active === true &&
+                    Number.isFinite(
+                        Number(rule.charge)
+                    )
+                ) {
+
+                    return Number(
+                        rule.charge
+                    );
+
+                }
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Manual Delivery Rule Error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       AUTOMATIC DELIVERY CHARGE
+    ========================================= */
+
     if (
         divisionName === "ঢাকা" ||
         divisionName === "dhaka"
     ) {
+
         return 60;
+
     }
 
+
     return 120;
+
 }
 
 const LOCATION_DATA_URL =
@@ -1502,8 +1591,7 @@ divisionSelect.addEventListener(
         districtSelect.disabled = true;
         upazilaSelect.disabled = true;
         unionSelect.disabled = true;
-
-deliveryCharge = calculateDeliveryCharge();
+deliveryCharge = await calculateDeliveryCharge();
 showOrderSummary();
 
         if (this.value === "") {
@@ -2336,6 +2424,8 @@ if (cart.length === 0) {
 let totalAmount = 0;
 
 const finalDeliveryCharge = calculateDeliveryCharge();
+
+const finalDeliveryCharge = await calculateDeliveryCharge();
 
     /* =========================================
        ORDER ID
