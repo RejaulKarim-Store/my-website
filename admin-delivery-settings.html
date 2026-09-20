@@ -344,12 +344,15 @@
 
 
 
-    onAuthStateChanged(
+        onAuthStateChanged(
         auth,
         async function(user) {
 
+            if (!user) {
+                return;
+            }
+
             if (
-                !user ||
                 !user.email ||
                 user.email.toLowerCase() !==
                 ADMIN_EMAIL.toLowerCase()
@@ -372,8 +375,6 @@
 
         }
     );
-
-
 
     async function loadDeliverySettings() {
 
