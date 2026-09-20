@@ -2335,7 +2335,7 @@ if (cart.length === 0) {
 
 let totalAmount = 0;
 
-
+const finalDeliveryCharge = calculateDeliveryCharge();
 
     /* =========================================
        ORDER ID
@@ -2743,8 +2743,11 @@ totalAmount +=
 order.products =
     firebaseProducts;
 
+order.deliveryCharge =
+    finalDeliveryCharge;
+
 order.totalAmount =
-    totalAmount;
+    totalAmount + finalDeliveryCharge;
 
 
 
