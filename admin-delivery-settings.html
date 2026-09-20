@@ -1123,13 +1123,12 @@ saveManualButton.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
+    console.error(error);
 
-            message.innerText =
-                "❌ Failed to save manual delivery charge.";
+    message.innerText =
+        "❌ " + error.code + " — " + error.message;
 
-        }
-
+}
 
         saveManualButton.disabled = false;
 
