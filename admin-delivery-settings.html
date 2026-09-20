@@ -486,6 +486,473 @@
         }
     );
 
+
+    const manualDivision =
+        document.getElementById("manualDivision");
+
+
+    const manualDistrict =
+        document.getElementById("manualDistrict");
+
+
+    const manualUpazila =
+        document.getElementById("manualUpazila");
+
+
+    const manualUnion =
+        document.getElementById("manualUnion");
+
+
+    const manualWard =
+        document.getElementById("manualWard");
+
+
+    const BANGLADESH_GEO_URL =
+        "https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json";
+
+
+    let manualLocationData = [];
+
+
+    function resetManualSelect(
+        select,
+        placeholder
+    ) {
+
+        select.innerHTML =
+            `<option value="">${placeholder}</option>`;
+
+        select.disabled = true;
+
+    }
+
+
+    function getName(item) {
+
+        return (
+            item.bn_name ||
+            item.name ||
+            item.en_name ||
+            ""
+        );
+
+    }
+
+
+    async function loadManualLocationData() {
+
+        try {
+
+            const response =
+                await fetch(
+                    BANGLADESH_GEO_URL
+                );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load Bangladesh location data."
+                );
+            }
+
+
+            manualLocationData =
+                await response.json();
+
+
+            manualDivision.innerHTML =
+                '<option value="">Select Division</option>';
+
+
+            manualLocationData.forEach(
+                function(division, index) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        getName(division);
+
+                    manualDivision.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.innerText =
+                "❌ Could not load location data.";
+
+        }
+
+    }
+
+
+    manualDivision.addEventListener(
+        "change",
+        function() {
+
+            resetManualSelect(
+                manualDistrict,
+                "Select District"
+            );
+
+            resetManualSelect(
+                manualUpazila,
+                "Select Upazila / Thana"
+            );
+
+            resetManualSelect(
+                manualUnion,
+                "Select Union"
+            );
+
+            resetManualSelect(
+                manualWard,
+                "Select Ward"
+            );
+
+
+            if (this.value === "") {
+                return;
+            }
+
+
+            const division =
+                manualLocationData[
+                    Number(this.value)
+                ];
+
+
+            if (!division) {
+                return;
+            }
+
+
+            const districts =
+                division.districts ||
+                division.children ||
+                [];
+
+
+            districts.forEach(
+                function(district, index) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        getName(district);
+
+                    manualDistrict.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            manualDistrict.disabled =
+                districts.length === 0;
+
+        }
+    );
+
+
+    manualDistrict.addEventListener(
+        "change",
+        function() {
+
+            resetManualSelect(
+                manualUpazila,
+                "Select Upazila / Thana"
+            );
+
+            resetManualSelect(
+                manualUnion,
+                "Select Union"
+            );
+
+            resetManualSelect(
+                manualWard,
+                "Select Ward"
+            );
+
+
+            if (this.value === "") {
+                return;
+            }
+
+
+            const division =
+                manualLocationData[
+                    Number(manualDivision.value)
+                ];
+
+
+            const districts =
+                division &&
+                (
+                    division.districts ||
+                    division.children ||
+                    []
+                );
+
+
+            const district =
+                districts[
+                    Number(this.value)
+                ];
+
+
+            if (!district) {
+                return;
+            }
+
+
+            const upazilas =
+                district.upazilas ||
+                district.thanas ||
+                district.children ||
+                [];
+
+
+            upazilas.forEach(
+                function(upazila, index) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        getName(upazila);
+
+                    manualUpazila.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            manualUpazila.disabled =
+                upazilas.length === 0;
+
+        }
+    );
+
+
+    manualUpazila.addEventListener(
+        "change",
+        function() {
+
+            resetManualSelect(
+                manualUnion,
+                "Select Union"
+            );
+
+            resetManualSelect(
+                manualWard,
+                "Select Ward"
+            );
+
+
+            if (this.value === "") {
+                return;
+            }
+
+
+            const division =
+                manualLocationData[
+                    Number(manualDivision.value)
+                ];
+
+
+            const districts =
+                division &&
+                (
+                    division.districts ||
+                    division.children ||
+                    []
+                );
+
+
+            const district =
+                districts[
+                    Number(manualDistrict.value)
+                ];
+
+
+            const upazilas =
+                district &&
+                (
+                    district.upazilas ||
+                    district.thanas ||
+                    district.children ||
+                    []
+                );
+
+
+            const upazila =
+                upazilas[
+                    Number(this.value)
+                ];
+
+
+            if (!upazila) {
+                return;
+            }
+
+
+            const unions =
+                upazila.unions ||
+                upazila.children ||
+                [];
+
+
+            unions.forEach(
+                function(union, index) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        getName(union);
+
+                    manualUnion.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            manualUnion.disabled =
+                unions.length === 0;
+
+        }
+    );
+
+
+    manualUnion.addEventListener(
+        "change",
+        function() {
+
+            resetManualSelect(
+                manualWard,
+                "Select Ward"
+            );
+
+
+            if (this.value === "") {
+                return;
+            }
+
+
+            const division =
+                manualLocationData[
+                    Number(manualDivision.value)
+                ];
+
+
+            const districts =
+                division &&
+                (
+                    division.districts ||
+                    division.children ||
+                    []
+                );
+
+
+            const district =
+                districts[
+                    Number(manualDistrict.value)
+                ];
+
+
+            const upazilas =
+                district &&
+                (
+                    district.upazilas ||
+                    district.thanas ||
+                    district.children ||
+                    []
+                );
+
+
+            const upazila =
+                upazilas[
+                    Number(manualUpazila.value)
+                ];
+
+
+            const unions =
+                upazila &&
+                (
+                    upazila.unions ||
+                    upazila.children ||
+                    []
+                );
+
+
+            const union =
+                unions[
+                    Number(this.value)
+                ];
+
+
+            if (!union) {
+                return;
+            }
+
+
+            const wards =
+                union.wards ||
+                union.children ||
+                [];
+
+
+            wards.forEach(
+                function(ward, index) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        getName(ward) ||
+                        `Ward ${index + 1}`;
+
+                    manualWard.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            manualWard.disabled =
+                wards.length === 0;
+
+        }
+    );
+
+
+    loadManualLocationData();
+
+
     async function loadDeliverySettings() {
 
         try {
