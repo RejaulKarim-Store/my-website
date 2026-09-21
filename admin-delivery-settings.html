@@ -220,6 +220,11 @@
     💾 Save Automatic Delivery Charge
 </button>
 
+<div
+    class="message"
+    id="automaticMessage"
+></div>
+
                 <div class="section-title">
             Manual Area Delivery Charge
         </div>
@@ -1318,7 +1323,7 @@ if (
                 outsideDhaka < 0
             ) {
 
-                message.innerText =
+                document.getElementById("automaticMessage").innerText =
                     "Please enter valid delivery charges.";
 
                 return;
@@ -1360,7 +1365,7 @@ if (
                 );
 
 
-                message.innerText =
+                document.getElementById("automaticMessage").innerText =
                     "✅ Delivery settings saved successfully.";
 
             } catch (error) {
