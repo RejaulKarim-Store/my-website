@@ -432,7 +432,7 @@
                     <input
                         type="checkbox"
                         id="manualDeliveryActive"
-                        checked
+                        
                     >
 
                     <span class="toggle-slider"></span>
@@ -1098,7 +1098,7 @@ manualWard.addEventListener(
                     ruleSnapshot.data();
 
                 manualDeliveryActive.checked =
-                    rule.active !== false;
+    rule.active === true;
 
                 if (
                     rule.charge !== undefined
