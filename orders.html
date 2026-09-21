@@ -1270,13 +1270,43 @@ totalAmount +=
 
                     <p>
 
-                        <strong>
-                            Order Total:
-                        </strong>
+    <strong>
+        Product Total:
+    </strong>
 
-                       ৳${formatPrice(totalAmount)}
+    ৳${formatPrice(totalAmount)}
 
-                    </p>
+</p>
+
+
+<p>
+
+    <strong>
+        Delivery Charge:
+    </strong>
+
+    ৳${formatPrice(
+        Number(
+            order.deliveryCharge
+        ) || 0
+    )}
+
+</p>
+
+
+<p>
+
+    <strong>
+        Total Amount:
+    </strong>
+
+    ৳${formatPrice(
+        Number(
+            order.totalAmount
+        ) || totalAmount
+    )}
+
+</p>
 
 
                     <p>
