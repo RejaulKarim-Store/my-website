@@ -299,15 +299,66 @@
     💾 Save Automatic Delivery Charge
 </button>
 
+<div class="message" id="automaticMessage"></div>
+
+
+<!-- Delivery Type Tabs -->
+
 <div
-    class="message"
-    id="automaticMessage"
-></div>
+    style="
+        display:flex;
+        gap:8px;
+        margin-top:25px;
+        margin-bottom:15px;
+        background:#eeeeee;
+        padding:5px;
+        border-radius:10px;
+    "
+>
 
-                <div class="section-title">
-            Manual Area Delivery Charge
-        </div>
+    <button
+        type="button"
+        id="automaticTab"
+        style="
+            flex:1;
+            padding:12px 8px;
+            border:none;
+            border-radius:8px;
+            background:#ff6600;
+            color:#ffffff;
+            font-size:15px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+    >
+        Automatic Delivery
+    </button>
 
+
+    <button
+        type="button"
+        id="manualTab"
+        style="
+            flex:1;
+            padding:12px 8px;
+            border:none;
+            border-radius:8px;
+            background:#ffffff;
+            color:#333333;
+            font-size:15px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+    >
+        Manual Delivery
+    </button>
+
+</div>
+
+
+<div class="section-title">
+    Manual Area Delivery Charge
+</div>
 
         <div class="setting-card">
 
