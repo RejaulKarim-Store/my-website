@@ -1139,55 +1139,239 @@ async function calculateDeliveryCharge() {
 
 
     /* =========================================
-       CHECK MANUAL DELIVERY RULE
-    ========================================= */
+   CHECK MANUAL DELIVERY RULE
+========================================= */
 
-    if (
-        districtSelect.value !== "" &&
-        upazilaSelect.value !== "" &&
-        unionSelect.value !== "" &&
-        wardSelect.value !== ""
-    ) {
+if (
+    districtSelect.value !== "" &&
+    upazilaSelect.value !== "" &&
+    unionSelect.value !== "" &&
+    wardSelect.value !== ""
+) {
 
-        const ruleId =
-            "manual_" +
-            divisionSelect.value +
-            "_" +
-            districtSelect.value +
-            "_" +
-            upazilaSelect.value +
-            "_" +
-            unionSelect.value +
-            "_" +
-            wardSelect.value;
-
-
-        try {
-
-            const ruleRef =
-                doc(
-                    db,
-                    "deliveryRules",
-                    ruleId
-                );
+    const ruleId =
+        "manual_" +
+        divisionSelect.value +
+        "_" +
+        districtSelect.value +
+        "_" +
+        upazilaSelect.value +
+        "_" +
+        unionSelect.value +
+        "_" +
+        wardSelect.value;
 
 
-            const ruleSnapshot =
-                await getDoc(
-                    ruleRef
-                );
+    try {
+
+        /* =====================================
+           FIRST: CHECK EXACT RULE ID
+        ===================================== */
+
+        const ruleRef =
+            doc(
+                db,
+                "deliveryRules",
+                ruleId
+            );
+
+
+        const ruleSnapshot =
+            await getDoc(
+                ruleRef
+            );
+
+
+        if (
+            ruleSnapshot.exists()
+        ) {
+
+            const rule =
+                ruleSnapshot.data();
 
 
             if (
-                ruleSnapshot.exists()
+                rule.active === true &&
+                Number.isFinite(
+                    Number(rule.charge)
+                )
+            ) {
+
+                return Number(
+                    rule.charge
+                );
+
+            }
+
+        }
+
+
+        /* =====================================
+           SECOND: CHECK BY LOCATION NAME
+        ===================================== */
+
+        const division =
+            locationData[
+                Number(
+                    divisionSelect.value
+                )
+            ];
+
+
+        if (division) {
+
+            const districts =
+                division.districts ||
+                division.district ||
+                division.children;
+
+
+            const district =
+                Array.isArray(districts)
+                    ? districts[
+                        Number(
+                            districtSelect.value
+                        )
+                    ]
+                    : null;
+
+
+            const upazilas =
+                district
+                    ? (
+                        district.upazilas ||
+                        district.upazila ||
+                        district.children
+                    )
+                    : [];
+
+
+            const upazila =
+                Array.isArray(upazilas)
+                    ? upazilas[
+                        Number(
+                            upazilaSelect.value
+                        )
+                    ]
+                    : null;
+
+
+            const unions =
+                upazila &&
+                Array.isArray(
+                    upazila.unions
+                )
+                    ? upazila.unions
+                    : [];
+
+
+            const union =
+                unions[
+                    Number(
+                        unionSelect.value
+                    )
+                ];
+
+
+            const selectedDivisionName =
+                (
+                    division.bn_name ||
+                    division.name ||
+                    ""
+                ).trim();
+
+
+            const selectedDistrictName =
+                (
+                    district?.bn_name ||
+                    district?.name ||
+                    district?.district_name ||
+                    ""
+                ).trim();
+
+
+            const selectedUpazilaName =
+                (
+                    upazila?.bn_name ||
+                    upazila?.name ||
+                    upazila?.upazila_name ||
+                    ""
+                ).trim();
+
+
+            const selectedUnionName =
+                (
+                    union?.bn_name ||
+                    union?.name ||
+                    ""
+                ).trim();
+
+
+            const selectedWard =
+                String(
+                    wardSelect.value
+                );
+
+
+            const rulesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "deliveryRules"
+                    )
+                );
+
+
+            for (
+                const ruleDocument
+                of rulesSnapshot.docs
             ) {
 
                 const rule =
-                    ruleSnapshot.data();
+                    ruleDocument.data();
+
+
+                const ruleWard =
+                    String(
+                        rule.ward || ""
+                    )
+                    .replace(
+                        /^Ward\s*/i,
+                        ""
+                    )
+                    .trim();
 
 
                 if (
                     rule.active === true &&
+
+                    String(
+                        rule.division || ""
+                    ).trim()
+                    ===
+                    selectedDivisionName &&
+
+                    String(
+                        rule.district || ""
+                    ).trim()
+                    ===
+                    selectedDistrictName &&
+
+                    String(
+                        rule.upazila || ""
+                    ).trim()
+                    ===
+                    selectedUpazilaName &&
+
+                    String(
+                        rule.union || ""
+                    ).trim()
+                    ===
+                    selectedUnionName &&
+
+                    ruleWard ===
+                    selectedWard &&
+
                     Number.isFinite(
                         Number(rule.charge)
                     )
@@ -1203,17 +1387,18 @@ async function calculateDeliveryCharge() {
 
         }
 
-        catch (error) {
+    }
 
-            console.error(
-                "Manual Delivery Rule Error:",
-                error
-            );
+    catch (error) {
 
-        }
+        console.error(
+            "Manual Delivery Rule Error:",
+            error
+        );
 
     }
 
+}
 /* =========================================
    AUTOMATIC DELIVERY CHARGE
 ========================================= */
