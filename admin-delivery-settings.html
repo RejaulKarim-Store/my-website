@@ -705,6 +705,212 @@ const deleteManualButton =
 
 const manualDeliveryActive =
     document.getElementById("manualDeliveryActive");
+
+const showManualRulesButton =
+    document.getElementById(
+        "showManualRulesButton"
+    );
+
+const manualRulesDropdown =
+    document.getElementById(
+        "manualRulesDropdown"
+    );
+
+const manualRulesList =
+    document.getElementById(
+        "manualRulesList"
+    );
+
+
+async function loadManualRules() {
+
+    manualRulesList.innerHTML =
+        "Loading...";
+
+    try {
+
+        const {
+            collection,
+            getDocs
+        } = await import(
+            "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js"
+        );
+
+        const rulesSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "deliveryRules"
+                )
+            );
+
+        const manualRules = [];
+
+        rulesSnapshot.forEach(
+            function(ruleDoc) {
+
+                const rule =
+                    ruleDoc.data();
+
+                if (
+                    rule.type === "manual"
+                ) {
+
+                    manualRules.push({
+                        id: ruleDoc.id,
+                        ...rule
+                    });
+
+                }
+
+            }
+        );
+
+
+        if (manualRules.length === 0) {
+
+            manualRulesList.innerHTML =
+                "No saved manual delivery rules.";
+
+            return;
+
+        }
+
+
+        manualRulesList.innerHTML =
+            manualRules.map(
+                function(rule) {
+
+                    return `
+                        <div
+                            style="
+                                padding:10px;
+                                margin-bottom:8px;
+                                border:1px solid #ddd;
+                                border-radius:8px;
+                                background:#fafafa;
+                            "
+                        >
+
+                            <div>
+                                📍
+                                ${rule.division || ""}
+                                →
+                                ${rule.district || ""}
+                                →
+                                ${rule.upazila || ""}
+                                →
+                                ${rule.union || ""}
+                                →
+                                ${rule.ward || ""}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:6px;
+                                    font-weight:bold;
+                                "
+                            >
+                                💰 Delivery Charge:
+                                ৳${Number(
+                                    rule.charge
+                                ) || 0}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:5px;
+                                    font-size:13px;
+                                "
+                            >
+                                ${
+                                    rule.active === true
+                                    ? "🟢 Active"
+                                    : "⚪ Inactive"
+                                }
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+            ).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Load Manual Rules Error:",
+            error
+        );
+
+        manualRulesList.innerHTML =
+            "❌ Could not load saved manual rules.";
+
+    }
+
+}
+
+
+showManualRulesButton.addEventListener(
+    "click",
+    async function(event) {
+
+        event.stopPropagation();
+
+        const isOpen =
+            manualRulesDropdown.style.display ===
+            "block";
+
+
+        if (isOpen) {
+
+            manualRulesDropdown.style.display =
+                "none";
+
+            showManualRulesButton.innerText =
+                "▼";
+
+            return;
+
+        }
+
+
+        manualRulesDropdown.style.display =
+            "block";
+
+        showManualRulesButton.innerText =
+            "▲";
+
+
+        await loadManualRules();
+
+    }
+);
+
+
+manualRulesDropdown.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+    }
+);
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        manualRulesDropdown.style.display =
+            "none";
+
+        showManualRulesButton.innerText =
+            "▼";
+
+    }
+);
+
     const BANGLADESH_GEO_URL =
         "https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json";
 
