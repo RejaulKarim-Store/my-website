@@ -451,6 +451,13 @@
             💾 Save Manual Delivery Charge
         </button>
 
+<button
+    class="back-button"
+    id="deleteManualButton"
+    type="button"
+>
+    🗑️ Delete Manual Rule
+</button>
 
         <div
             class="message"
@@ -504,11 +511,12 @@
 
 
     import {
-        getFirestore,
-        doc,
-        getDoc,
-        setDoc
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    deleteDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
 
