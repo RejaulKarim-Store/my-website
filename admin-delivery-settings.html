@@ -698,6 +698,82 @@
         document.getElementById("message");
 
 
+const automaticTab =
+    document.getElementById("automaticTab");
+
+const manualTab =
+    document.getElementById("manualTab");
+
+const automaticDeliverySection =
+    document.getElementById(
+        "automaticDeliverySection"
+    );
+
+const manualDeliverySection =
+    document.getElementById(
+        "manualDeliverySection"
+    );
+
+
+/* Default: Automatic Delivery */
+
+manualDeliverySection.style.display =
+    "none";
+
+
+automaticTab.addEventListener(
+    "click",
+    function() {
+
+        automaticDeliverySection.style.display =
+            "block";
+
+        manualDeliverySection.style.display =
+            "none";
+
+
+        automaticTab.style.background =
+            "#ff6600";
+
+        automaticTab.style.color =
+            "#ffffff";
+
+
+        manualTab.style.background =
+            "#ffffff";
+
+        manualTab.style.color =
+            "#333333";
+    }
+);
+
+
+manualTab.addEventListener(
+    "click",
+    function() {
+
+        automaticDeliverySection.style.display =
+            "none";
+
+        manualDeliverySection.style.display =
+            "block";
+
+
+        manualTab.style.background =
+            "#ff6600";
+
+        manualTab.style.color =
+            "#ffffff";
+
+
+        automaticTab.style.background =
+            "#ffffff";
+
+        automaticTab.style.color =
+            "#333333";
+    }
+);
+
 
         onAuthStateChanged(
         auth,
