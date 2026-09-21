@@ -444,12 +444,71 @@
 
         </div>
 
-        <button
-            class="save-button"
-            id="saveManualButton"
-        >
-            💾 Save Manual Delivery Charge
-        </button>
+      <div
+    style="
+        display:flex;
+        gap:8px;
+        margin-top:20px;
+    "
+>
+
+    <button
+        class="save-button"
+        id="saveManualButton"
+        style="
+            margin-top:0;
+            flex:1;
+        "
+    >
+        💾 Save Manual Delivery Charge
+    </button>
+
+    <button
+        type="button"
+        id="showManualRulesButton"
+        style="
+            width:52px;
+            border:none;
+            border-radius:9px;
+            background:#eeeeee;
+            color:#333;
+            font-size:20px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+        title="Saved Manual Delivery Charges"
+    >
+        ▼
+    </button>
+
+</div>
+
+<div
+    id="manualRulesDropdown"
+    style="
+        display:none;
+        margin-top:8px;
+        background:#ffffff;
+        border:1px solid #ddd;
+        border-radius:10px;
+        padding:12px;
+    "
+>
+
+    <div
+        style="
+            font-weight:bold;
+            margin-bottom:10px;
+        "
+    >
+        Saved Manual Delivery Charges
+    </div>
+
+    <div id="manualRulesList">
+        Loading...
+    </div>
+
+</div>
 
 <button
     class="back-button"
@@ -458,7 +517,6 @@
 >
     🗑️ Delete Manual Rule
 </button>
-
         <div
             class="message"
             id="message"
