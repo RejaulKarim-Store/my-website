@@ -1470,6 +1470,96 @@ if (
         }
     );
 
+deleteManualButton.addEventListener(
+    "click",
+    async function() {
+
+        if (
+            manualDivision.value === "" ||
+            manualDistrict.value === "" ||
+            manualUpazila.value === "" ||
+            manualUnion.value === "" ||
+            manualWard.value === ""
+        ) {
+            message.innerText =
+                "❌ Please select the complete area.";
+            return;
+        }
+
+
+        const ruleId =
+            "manual_" +
+            manualDivision.value +
+            "_" +
+            manualDistrict.value +
+            "_" +
+            manualUpazila.value +
+            "_" +
+            manualUnion.value +
+            "_" +
+            manualWard.value;
+
+
+        const confirmed =
+            window.confirm(
+                "Delete this manual delivery rule?\n\nAutomatic delivery charge will apply to this area."
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        deleteManualButton.disabled = true;
+
+
+        try {
+
+            const ruleRef =
+                doc(
+                    db,
+                    "deliveryRules",
+                    ruleId
+                );
+
+
+            const ruleSnapshot =
+                await getDoc(ruleRef);
+
+
+            if (!ruleSnapshot.exists()) {
+
+                message.innerText =
+                    "ℹ️ No manual delivery rule found for this area.";
+
+                deleteManualButton.disabled = false;
+
+                return;
+            }
+
+
+            await deleteDoc(ruleRef);
+
+
+            message.innerText =
+                "✅ Manual delivery rule deleted. Automatic delivery charge will now apply to this area.";
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.innerText =
+                "❌ " + error.code + " — " + error.message;
+
+        }
+
+
+        deleteManualButton.disabled = false;
+
+    }
+);
+
 </script>
 
 
