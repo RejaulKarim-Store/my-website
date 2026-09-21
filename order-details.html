@@ -1611,6 +1611,36 @@ ${
             ${productsHTML}
 
 
+                     <div class="info-row">
+
+                <span class="label">
+                    Product Total
+                </span>
+
+                <span class="value">
+                    ৳${formatPrice(orderTotal)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    Delivery Charge
+                </span>
+
+                <span class="value">
+                    ৳${formatPrice(
+                        Number(
+                            order.deliveryCharge
+                        ) || 0
+                    )}
+                </span>
+
+            </div>
+
+
             <div class="total-row">
 
                 <span>
@@ -1620,7 +1650,11 @@ ${
 
                 <span class="total-price">
 
-                    ৳${formatPrice(orderTotal)}
+                    ৳${formatPrice(
+                        Number(
+                            order.totalAmount
+                        ) || orderTotal
+                    )}
 
                 </span>
 
