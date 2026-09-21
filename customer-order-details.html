@@ -1239,8 +1239,47 @@ if (
                     ${productsHTML}
 
 
-                    <div class="total">
+                                        <div class="info-row">
 
+                        <span class="label">
+
+                            Product Total
+
+                        </span>
+
+
+                        <span class="value">
+
+                            ৳${formatPrice(totalAmount)}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="label">
+
+                            Delivery Charge
+
+                        </span>
+
+
+                        <span class="value">
+
+                            ৳${formatPrice(
+                                Number(
+                                    order.deliveryCharge
+                                ) || 0
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="total">
 
                         <span>
 
@@ -1251,13 +1290,15 @@ if (
 
                         <span class="total-price">
 
-    ৳${formatPrice(totalAmount)}
+                            ৳${formatPrice(
+                                Number(
+                                    order.totalAmount
+                                ) || totalAmount
+                            )}
 
-</span>
-
+                        </span>
 
                     </div>
-
 
                 </div>
 
