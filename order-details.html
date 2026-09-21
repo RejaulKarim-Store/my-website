@@ -2606,20 +2606,59 @@ body {
     </table>
 
 
-    <!-- Total -->
+       <!-- Total -->
 
     <div class="total-box">
 
-        <div class="total-row">
+        <div class="info-row">
+
+            <span>
+                Product Total
+            </span>
+
+            <span>
+                ৳${formatPrice(invoiceTotal)}
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Delivery Charge
+            </span>
+
+            <span>
+                ৳${formatPrice(
+                    Number(
+                        order.deliveryCharge
+                    ) || 0
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="total-row"
+            style="margin-top:10px;"
+        >
 
             <span>
                 Total Amount
             </span>
 
 
-         <span class="total-price">
-    ৳${formatPrice(invoiceTotal)}
-</span>
+            <span class="total-price">
+
+                ৳${formatPrice(
+                    Number(
+                        order.totalAmount
+                    ) || invoiceTotal
+                )}
+
+            </span>
 
         </div>
 
