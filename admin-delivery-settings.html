@@ -1122,6 +1122,85 @@ document.addEventListener(
                 }
             );
 
+const savedSelection =
+    localStorage.getItem(
+        "rkManualDeliverySelection"
+    );
+
+if (savedSelection) {
+
+    try {
+
+        const saved =
+            JSON.parse(savedSelection);
+
+        if (saved.division !== undefined) {
+
+            manualDivision.value =
+                saved.division;
+
+            manualDivision.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+        if (saved.district !== undefined) {
+
+            manualDistrict.value =
+                saved.district;
+
+            manualDistrict.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+        if (saved.upazila !== undefined) {
+
+            manualUpazila.value =
+                saved.upazila;
+
+            manualUpazila.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+        if (saved.union !== undefined) {
+
+            manualUnion.value =
+                saved.union;
+
+            manualUnion.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+        if (saved.ward !== undefined) {
+
+            manualWard.value =
+                saved.ward;
+
+            manualWard.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Restore Manual Delivery Selection Error:",
+            error
+        );
+
+    }
+
+}
+
+
         } catch (error) {
 
             console.error(error);
