@@ -611,32 +611,42 @@
 
 </div>
 
+<!-- Saved Manual Delivery Charges Popup -->
+
 <div
-    id="manualRulesDropdown"
-    style="
-        display:none;
-        margin-top:8px;
-        background:#ffffff;
-        border:1px solid #ddd;
-        border-radius:10px;
-        padding:12px;
-    "
+    id="manualRulesModal"
+    class="manual-rules-modal"
 >
-
     <div
-        style="
-            font-weight:bold;
-            margin-bottom:10px;
-        "
+        class="manual-rules-modal-box"
+        id="manualRulesModalBox"
     >
-        Saved Manual Delivery Charges
-    </div>
+        <div class="manual-rules-modal-header">
 
-    <div id="manualRulesList">
-        Loading...
-    </div>
+            <div class="manual-rules-modal-title">
+                Saved Manual Delivery Charges
+            </div>
 
+            <button
+                type="button"
+                id="closeManualRulesButton"
+                class="manual-rules-modal-close"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="manualRulesList"
+            class="manual-rules-modal-list"
+        >
+            Loading...
+        </div>
+
+    </div>
 </div>
+
 
 <button
     class="back-button"
