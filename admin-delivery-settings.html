@@ -232,6 +232,79 @@
             line-height: 1.5;
         }
 
+
+/* Saved Manual Delivery Charges Popup */
+
+.manual-rules-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.manual-rules-modal-box {
+    width: 100%;
+    max-width: 560px;
+    max-height: 80vh;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.manual-rules-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background: #ffffff;
+}
+
+.manual-rules-modal-title {
+    font-size: 17px;
+    font-weight: bold;
+    color: #222;
+}
+
+.manual-rules-modal-close {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: #eeeeee;
+    color: #333;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.manual-rules-modal-list {
+    padding: 12px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.manual-rule-item {
+    padding: 12px;
+    margin-bottom: 9px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    background: #fafafa;
+    cursor: pointer;
+}
+
+.manual-rule-item:active {
+    background: #fff3e8;
+    border-color: #ff6600;
+}
+
+
     </style>
 
 </head>
