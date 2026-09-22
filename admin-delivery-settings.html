@@ -1044,63 +1044,58 @@ async function loadManualRules() {
 
 
         manualRulesList.innerHTML =
-            manualRules.map(
-                function(rule) {
+    manualRules.map(
+        function(rule) {
 
-                    return `
-                        <div
-                            style="
-                                padding:10px;
-                                margin-bottom:8px;
-                                border:1px solid #ddd;
-                                border-radius:8px;
-                                background:#fafafa;
-                            "
-                        >
+            return `
+                <div
+                    class="manual-rule-item"
+                    data-rule-id="${rule.id}"
+                >
 
-                            <div>
-                                📍
-                                ${rule.division || ""}
-                                →
-                                ${rule.district || ""}
-                                →
-                                ${rule.upazila || ""}
-                                →
-                                ${rule.union || ""}
-                                →
-                                ${rule.ward || ""}
-                            </div>
+                    <div>
+                        📍
+                        ${rule.division || ""}
+                        →
+                        ${rule.district || ""}
+                        →
+                        ${rule.upazila || ""}
+                        →
+                        ${rule.union || ""}
+                        →
+                        ${rule.ward || ""}
+                    </div>
 
-                            <div
-                                style="
-                                    margin-top:6px;
-                                    font-weight:bold;
-                                "
-                            >
-                                💰 Delivery Charge:
-                                ৳${Number(
-                                    rule.charge
-                                ) || 0}
-                            </div>
+                    <div
+                        style="
+                            margin-top:6px;
+                            font-weight:bold;
+                        "
+                    >
+                        💰 Delivery Charge:
+                        ৳${Number(
+                            rule.charge
+                        ) || 0}
+                    </div>
 
-                            <div
-                                style="
-                                    margin-top:5px;
-                                    font-size:13px;
-                                "
-                            >
-                                ${
-                                    rule.active === true
-                                    ? "🟢 Active"
-                                    : "⚪ Inactive"
-                                }
-                            </div>
+                    <div
+                        style="
+                            margin-top:5px;
+                            font-size:13px;
+                        "
+                    >
+                        ${
+                            rule.active === true
+                            ? "🟢 Active"
+                            : "⚪ Inactive"
+                        }
+                    </div>
 
-                        </div>
-                    `;
+                </div>
+            `;
 
-                }
-            ).join("");
+        }
+    ).join("");
 
     } catch (error) {
 
