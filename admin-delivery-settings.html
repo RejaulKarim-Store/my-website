@@ -1718,6 +1718,19 @@ saveManualButton.addEventListener(
             message.innerText =
                 "✅ Manual delivery charge saved successfully.";
 
+
+localStorage.setItem(
+    "rkManualDeliverySelection",
+    JSON.stringify({
+        division: manualDivision.value,
+        district: manualDistrict.value,
+        upazila: manualUpazila.value,
+        union: manualUnion.value,
+        ward: manualWard.value
+    })
+);
+
+
         } catch (error) {
 
     console.error(error);
