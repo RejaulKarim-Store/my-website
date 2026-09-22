@@ -1187,6 +1187,159 @@ manualRulesModal.addEventListener(
 
     }
 );
+
+
+async function selectSavedManualRule(ruleId) {
+
+    const parts = ruleId.split("_");
+
+    if (parts.length !== 6) {
+        return;
+    }
+
+
+    const [
+        prefix,
+        divisionIndex,
+        districtIndex,
+        upazilaIndex,
+        unionIndex,
+        wardIndex
+    ] = parts;
+
+
+    if (prefix !== "manual") {
+        return;
+    }
+
+
+    manualDivision.value =
+        divisionIndex;
+
+    manualDivision.dispatchEvent(
+        new Event("change")
+    );
+
+
+    manualDistrict.value =
+        districtIndex;
+
+    manualDistrict.dispatchEvent(
+        new Event("change")
+    );
+
+
+    manualUpazila.value =
+        upazilaIndex;
+
+    manualUpazila.dispatchEvent(
+        new Event("change")
+    );
+
+
+    manualUnion.value =
+        unionIndex;
+
+    manualUnion.dispatchEvent(
+        new Event("change")
+    );
+
+
+    manualWard.value =
+        wardIndex;
+
+    manualWard.dispatchEvent(
+        new Event("change")
+    );
+
+
+    localStorage.setItem(
+        "rkManualDeliverySelection",
+        JSON.stringify({
+            division: divisionIndex,
+            district: districtIndex,
+            upazila: upazilaIndex,
+            union: unionIndex,
+            ward: wardIndex
+        })
+    );
+
+
+    try {
+
+        const ruleSnapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "deliveryRules",
+                    ruleId
+                )
+            );
+
+
+        if (ruleSnapshot.exists()) {
+
+            const rule =
+                ruleSnapshot.data();
+
+
+            manualCharge.value =
+                rule.charge !== undefined
+                ? rule.charge
+                : "";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Select Manual Rule Error:",
+            error
+        );
+
+    }
+
+
+    manualRulesModal.style.display =
+        "none";
+
+    showManualRulesButton.innerText =
+        "▼";
+}
+
+
+manualRulesList.addEventListener(
+    "click",
+    async function(event) {
+
+        const ruleItem =
+            event.target.closest(
+                ".manual-rule-item"
+            );
+
+
+        if (!ruleItem) {
+            return;
+        }
+
+
+        const ruleId =
+            ruleItem.dataset.ruleId;
+
+
+        if (!ruleId) {
+            return;
+        }
+
+
+        await selectSavedManualRule(
+            ruleId
+        );
+
+    }
+);
+
+
     const BANGLADESH_GEO_URL =
         "https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json";
 
