@@ -1103,9 +1103,6 @@ function formatPrice(price) {
 }
 
 
-showOrderSummary();
-
-
 /* ==================================================
    BANGLADESH LOCATION DATA
 ================================================== */
@@ -1113,7 +1110,6 @@ showOrderSummary();
 let deliveryCharge = 0;
 
 async function calculateDeliveryCharge() {
-
     if (
         !divisionSelect ||
         divisionSelect.value === ""
