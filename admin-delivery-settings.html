@@ -1124,13 +1124,13 @@ showManualRulesButton.addEventListener(
         event.stopPropagation();
 
         const isOpen =
-            manualRulesDropdown.style.display ===
-            "block";
+            manualRulesModal.style.display ===
+            "flex";
 
 
         if (isOpen) {
 
-            manualRulesDropdown.style.display =
+            manualRulesModal.style.display =
                 "none";
 
             showManualRulesButton.innerText =
@@ -1141,8 +1141,8 @@ showManualRulesButton.addEventListener(
         }
 
 
-        manualRulesDropdown.style.display =
-            "block";
+        manualRulesModal.style.display =
+            "flex";
 
         showManualRulesButton.innerText =
             "▲";
@@ -1154,7 +1154,7 @@ showManualRulesButton.addEventListener(
 );
 
 
-manualRulesDropdown.addEventListener(
+manualRulesModalBox.addEventListener(
     "click",
     function(event) {
 
@@ -1164,11 +1164,13 @@ manualRulesDropdown.addEventListener(
 );
 
 
-document.addEventListener(
+closeManualRulesButton.addEventListener(
     "click",
-    function() {
+    function(event) {
 
-        manualRulesDropdown.style.display =
+        event.stopPropagation();
+
+        manualRulesModal.style.display =
             "none";
 
         showManualRulesButton.innerText =
@@ -1177,6 +1179,19 @@ document.addEventListener(
     }
 );
 
+
+manualRulesModal.addEventListener(
+    "click",
+    function() {
+
+        manualRulesModal.style.display =
+            "none";
+
+        showManualRulesButton.innerText =
+            "▼";
+
+    }
+);
     const BANGLADESH_GEO_URL =
         "https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json";
 
