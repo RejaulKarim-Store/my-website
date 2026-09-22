@@ -1590,27 +1590,21 @@ manualWard.addEventListener(
 
             if (ruleSnapshot.exists()) {
 
-                const rule =
-                    ruleSnapshot.data();
+    const rule =
+        ruleSnapshot.data();
 
-                manualDeliveryActive.checked =
-    rule.active === true;
+    if (
+        rule.charge !== undefined
+    ) {
+        manualCharge.value =
+            rule.charge;
+    }
 
-                if (
-                    rule.charge !== undefined
-                ) {
-                    manualCharge.value =
-                        rule.charge;
-                }
+} else {
 
-            } else {
+    manualCharge.value = "";
 
-                manualDeliveryActive.checked =
-                    true;
-
-                manualCharge.value = "";
-
-            }
+}
 
         } catch (error) {
 
