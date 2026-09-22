@@ -840,6 +840,46 @@ const deleteManualButton =
 const manualDeliveryActive =
     document.getElementById("manualDeliveryActive");
 
+
+manualDeliveryActive.addEventListener(
+    "change",
+    async function() {
+
+        try {
+
+            await setDoc(
+                doc(
+                    db,
+                    "deliverySettings",
+                    "config"
+                ),
+                {
+                    manual: {
+                        active:
+                            manualDeliveryActive.checked
+                    }
+                },
+                {
+                    merge: true
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Manual Delivery Global Status Error:",
+                error
+            );
+
+            message.innerText =
+                "❌ Could not save manual delivery status.";
+
+        }
+
+    }
+);
+
+
 const showManualRulesButton =
     document.getElementById(
         "showManualRulesButton"
