@@ -1803,8 +1803,7 @@ if (
     ) {
 
         const refundAmount =
-            Number(order.totalAmount) || 0;
-
+    Math.round(Number(order.totalAmount) || 0);
 
         const bkashNumber =
             prompt(
