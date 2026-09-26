@@ -33,6 +33,7 @@
             text-align: center;
             font-size: 22px;
             font-weight: bold;
+position: relative;
         }
 
         .container {
@@ -41,18 +42,19 @@
             padding: 15px;
         }
 
-        /* Back Button */
+.header-back {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1;
+}
 
-        .back-btn {
-            display: inline-block;
-            background-color: white;
-            color: #333;
-            padding: 10px 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
+        
 
         .back-btn:hover {
             background-color: #eeeeee;
