@@ -2345,15 +2345,48 @@ function() {
 };
 
 
+
 /* =====================================================
-   THREE DOT → ADMIN LOGIN
+   THREE DOT → 3 CLICKS REQUIRED FOR ADMIN LOGIN
 ===================================================== */
+
+let threeDotClickCount = 0;
+
+let threeDotClickTimer = null;
 
 window.toggleThreeDotMenu =
 function() {
 
-    window.location.href =
-        "admin-login.html";
+    threeDotClickCount++;
+
+    if (threeDotClickCount === 3) {
+
+        threeDotClickCount = 0;
+
+        clearTimeout(
+            threeDotClickTimer
+        );
+
+        window.location.href =
+            "admin-login.html";
+
+        return;
+
+    }
+
+    clearTimeout(
+        threeDotClickTimer
+    );
+
+    threeDotClickTimer =
+        setTimeout(
+            function() {
+
+                threeDotClickCount = 0;
+
+            },
+            1500
+        );
 
 };
 
