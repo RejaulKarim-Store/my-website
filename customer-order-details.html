@@ -328,24 +328,33 @@
            MOBILE
         ========================= */
 
-        @media (max-width: 500px) {
+      @media (max-width: 500px) {
 
-            .info-row {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-
-            .value {
-                text-align: left;
-            }
+    .info-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
 
 
-            .total {
-                font-size: 18px;
-            }
+    .info-row .label {
+        flex: 1;
+    }
 
-        }
+
+    .info-row .value {
+        flex-shrink: 0;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+
+    .total {
+        font-size: 18px;
+    }
+
+}
+
 
 @media print {
 
