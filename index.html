@@ -2267,6 +2267,17 @@ function(productId) {
         product.name;
 
 
+    /*
+     * প্রথমে product search হবে
+     * এবং তারপর suggestion বন্ধ হবে।
+     *
+     * কারণ searchProducts() এর ভিতরে
+     * showSearchSuggestions() চালু হয়।
+     */
+
+    searchProducts();
+
+
     const suggestionBox =
         document.getElementById(
             "searchSuggestions"
@@ -2277,11 +2288,7 @@ function(productId) {
 
     suggestionBox.style.display = "none";
 
-
-    searchProducts();
-
 };
-
 /* =====================================================
    SEARCH CLEAR BUTTON
 ===================================================== */
