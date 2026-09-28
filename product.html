@@ -1465,7 +1465,7 @@ else {
    CREATE IMAGE DOTS
 ===================================================== */
 
-function createImageDots() {
+async function createImageDots() {
 
     const dotsContainer =
         document.getElementById(
@@ -1486,8 +1486,130 @@ function createImageDots() {
     }
 
 
+    const imagesToCheck =
+        [...productImages];
+
+
+    const validImages =
+        await Promise.all(
+
+            imagesToCheck.map(
+                function(image) {
+
+                    return new Promise(
+                        function(resolve) {
+
+                            const testImage =
+                                new Image();
+
+
+                            testImage.onload =
+                                function() {
+
+                                    resolve(
+                                        image
+                                    );
+
+                                };
+
+
+                            testImage.onerror =
+                                function() {
+
+                                    resolve(
+                                        null
+                                    );
+
+                                };
+
+
+                            testImage.src =
+                                image;
+
+                        }
+                    );
+
+                }
+            )
+
+        );
+
+
+    productImages =
+        validImages.filter(
+            function(image) {
+
+                return image !== null;
+
+            }
+        );
+
+
+    currentImageIndex =
+        0;
+
+
+    /* =========================
+       NO VALID IMAGE
+    ========================= */
+
+    if (
+        productImages.length === 0
+    ) {
+
+        const productImage =
+            document.getElementById(
+                "productImage"
+            );
+
+
+        productImage.style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    /* =========================
+       SHOW FIRST VALID IMAGE
+    ========================= */
+
+    const productImage =
+        document.getElementById(
+            "productImage"
+        );
+
+
+    productImage.style.display =
+        "block";
+
+
+    productImage.src =
+        productImages[0];
+
+
+    /* =========================
+       CREATE DOTS
+    ========================= */
+
     productImages.forEach(
         function(image, index) {
+
+            /*
+               ১টি ছবি থাকলে
+               কোনো dot থাকবে না।
+            */
+
+            if (
+                productImages.length === 1
+            ) {
+
+                return;
+
+            }
+
 
             const dot =
                 document.createElement(
