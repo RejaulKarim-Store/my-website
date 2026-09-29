@@ -990,6 +990,42 @@ let currentProduct =
         productNumber
     );
 
+const savedProduct =
+    localStorage.getItem(
+        `rkProduct_${productNumber}`
+    );
+
+if (savedProduct) {
+
+    try {
+
+        const parsedProduct =
+            JSON.parse(
+                savedProduct
+            );
+
+        if (
+            parsedProduct &&
+            typeof parsedProduct === "object"
+        ) {
+
+            currentProduct = {
+                ...currentProduct,
+                ...parsedProduct
+            };
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Saved Product Data Error:",
+            error
+        );
+
+    }
+
+}
 
 
 /* =====================================================
