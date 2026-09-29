@@ -1465,7 +1465,13 @@ else {
    CREATE IMAGE DOTS
 ===================================================== */
 
+
+let dotsGeneration = 0;
+
 async function createImageDots() {
+
+    const myGeneration =
+        ++dotsGeneration;
 
     const dotsContainer =
         document.getElementById(
@@ -1533,6 +1539,14 @@ async function createImageDots() {
             )
 
         );
+
+    if (
+        myGeneration !== dotsGeneration
+    ) {
+
+        return;
+
+    }
 
 
     productImages =
