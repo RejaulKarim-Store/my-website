@@ -2834,7 +2834,17 @@ if (
 
 }
 
-        }
+/* =========================
+   SAVE LATEST PRODUCT DATA
+   FOR OFFLINE USE
+========================= */
+
+localStorage.setItem(
+    `rkHomeProduct_${product.id}`,
+    JSON.stringify(product)
+);
+       
+ }
 
     
 
