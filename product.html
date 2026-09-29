@@ -979,68 +979,6 @@ discountPrice:
 
 }
 
-/* =====================================================
-   DEFAULT PRODUCT INFORMATION
-===================================================== */
-
-const defaultProductInfo = {
-
-    1: {
-        name: "Men's Formal Solid Shirt",
-        price: 450,
-        category: "Men",
-        color: "Black",
-        size: "M, L, XL",
-        material: "Cotton",
-        details:
-            "Premium quality formal shirt suitable for regular and formal use."
-    },
-
-    2: {
-        name: "Men's Casual Shirt",
-        price: 400,
-        category: "Men",
-        color: "Blue",
-        size: "M, L, XL",
-        material: "Cotton",
-        details:
-            "Comfortable casual shirt suitable for everyday use."
-    },
-
-    3: {
-        name: "Men's Casual Check Shirt",
-        price: 480,
-        category: "Men",
-        color: "Check Pattern",
-        size: "M, L, XL",
-        material: "Cotton",
-        details:
-            "Stylish checked casual shirt designed for comfortable everyday wear."
-    },
-
-    4: {
-        name: "Women's Casual Yellow Dress",
-        price: 500,
-        category: "Women",
-        color: "Yellow",
-        size: "M, L, XL",
-        material: "Cotton",
-        details:
-            "Beautiful casual yellow dress suitable for regular and casual occasions."
-    },
-
-    5: {
-        name: "Women's Casual Dress",
-        price: 900,
-        category: "Women",
-        color: "Mixed",
-        size: "M, L, XL",
-        material: "Cotton",
-        details:
-            "Comfortable women's casual dress with a stylish design for everyday use."
-    }
-
-};
 
 
 /* =====================================================
@@ -1052,26 +990,6 @@ let currentProduct =
         productNumber
     );
 
-
-/* =====================================================
-   APPLY DEFAULT INFORMATION
-===================================================== */
-
-if (
-    defaultProductInfo[productNumber]
-) {
-
-    currentProduct = {
-
-        ...currentProduct,
-
-        ...defaultProductInfo[
-            productNumber
-        ]
-
-    };
-
-}
 
 
 /* =====================================================
