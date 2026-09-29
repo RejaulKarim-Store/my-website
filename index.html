@@ -1554,14 +1554,58 @@ stock: null,
          * AUTOMATIC IMAGE
          */
 
-        image:
+                image:
             "./product" +
             i +
             "/product1.jpg"
 
     });
 
+
+    /* =========================
+       LOAD SAVED PRODUCT DATA
+       FOR OFFLINE USE
+    ========================= */
+
+    const savedProduct =
+        localStorage.getItem(
+            `rkHomeProduct_${i}`
+        );
+
+    if (savedProduct) {
+
+        try {
+
+            const parsedProduct =
+                JSON.parse(
+                    savedProduct
+                );
+
+            if (
+                parsedProduct &&
+                typeof parsedProduct === "object"
+            ) {
+
+                Object.assign(
+                    products[i - 1],
+                    parsedProduct
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Saved Home Product Data Error:",
+                error
+            );
+
+        }
+
+    }
+
 }
+
 
 
 /* =====================================================
