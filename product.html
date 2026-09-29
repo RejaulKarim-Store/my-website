@@ -2145,6 +2145,12 @@ discountPrice:
             );
 
 
+localStorage.setItem(
+    `rkProduct_${productNumber}`,
+    JSON.stringify(currentProduct)
+);
+
+
             document.getElementById(
                 "firebaseUpdated"
             ).style.display =
