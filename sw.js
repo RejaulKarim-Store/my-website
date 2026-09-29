@@ -1,4 +1,4 @@
-const CACHE_NAME = "rk-store-v1";
+const CACHE_NAME = "rk-store-v2";
 
 const APP_FILES = [
     "./",
