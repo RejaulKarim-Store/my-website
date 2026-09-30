@@ -932,6 +932,52 @@ nav a:active {
     white-space: nowrap;
 }
 
+
+/* =========================
+   WELCOME 30 COLOR EFFECT
+========================= */
+
+.welcome-color-text {
+    animation: welcomeColorChange 60s linear infinite;
+}
+
+@keyframes welcomeColorChange {
+
+    0%   { color: #ff0000; }
+    3.33% { color: #ff6600; }
+    6.66% { color: #ffff00; }
+    10%  { color: #99ff00; }
+    13.33% { color: #00ff00; }
+    16.66% { color: #00ff66; }
+    20%  { color: #00ffff; }
+    23.33% { color: #00ccff; }
+    26.66% { color: #0066ff; }
+    30%  { color: #0000ff; }
+    33.33% { color: #6600ff; }
+    36.66% { color: #9900ff; }
+    40%  { color: #cc00ff; }
+    43.33% { color: #ff00ff; }
+    46.66% { color: #ff0099; }
+    50%  { color: #ff0066; }
+    53.33% { color: #ff0033; }
+    56.66% { color: #cc0033; }
+    60%  { color: #990033; }
+    63.33% { color: #660033; }
+    66.66% { color: #663300; }
+    70%  { color: #996600; }
+    73.33% { color: #cc9900; }
+    76.66% { color: #cccc00; }
+    80%  { color: #99cc00; }
+    83.33% { color: #33cc00; }
+    86.66% { color: #00cc66; }
+    90%  { color: #00cccc; }
+    93.33% { color: #0099cc; }
+    96.66% { color: #3366cc; }
+    100% { color: #ff0000; }
+
+}
+
+
 @keyframes welcomeSlide {
 
     0% {
@@ -1260,10 +1306,11 @@ nav a:active {
     <h2 class="welcome-marquee">
     <span class="welcome-track">
 
-        <span class="welcome-item">
-            Welcome to RK Store
-        </span>
-
+       <span class="welcome-item">
+    <span class="welcome-color-text">
+        Welcome to RK Store
+    </span>
+</span>
         <span class="welcome-item">
             আর কে স্টোরে আপনাকে স্বাগতম।
         </span>
