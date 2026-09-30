@@ -109,6 +109,101 @@ h1 {
     white-space: nowrap;
 }
 
+
+.rk-store-title {
+    animation: rkStoreColor 40s ease-in-out infinite;
+}
+
+@keyframes rkStoreColor {
+
+    0% {
+        color: #ff6600;
+    }
+
+    5% {
+        color: #ff3366;
+    }
+
+    10% {
+        color: #ff0066;
+    }
+
+    15% {
+        color: #cc00ff;
+    }
+
+    20% {
+        color: #9933ff;
+    }
+
+    25% {
+        color: #6633ff;
+    }
+
+    30% {
+        color: #3366ff;
+    }
+
+    35% {
+        color: #0066ff;
+    }
+
+    40% {
+        color: #0099ff;
+    }
+
+    45% {
+        color: #00ccff;
+    }
+
+    50% {
+        color: #00cccc;
+    }
+
+    55% {
+        color: #00aa99;
+    }
+
+    60% {
+        color: #00aa66;
+    }
+
+    65% {
+        color: #33aa33;
+    }
+
+    70% {
+        color: #66aa00;
+    }
+
+    75% {
+        color: #99aa00;
+    }
+
+    80% {
+        color: #cc9900;
+    }
+
+    85% {
+        color: #ff9900;
+    }
+
+    90% {
+        color: #ff6600;
+    }
+
+    95% {
+        color: #ff3366;
+    }
+
+    100% {
+        color: #ff6600;
+    }
+
+}
+
+
+
 /* =========================
    THREE LINE MENU
 ========================= */
@@ -1161,7 +1256,7 @@ nav a:active {
         class="store-logo"
     >
 
-    RK Store
+    <span class="rk-store-title">RK Store</span>
 
     <button
         type="button"
