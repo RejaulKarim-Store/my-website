@@ -464,23 +464,20 @@ button.action-button:hover {
     }
 
 }
-.product-cart-button {
+
+.product-cart-icon {
     margin-left: 8px;
-    background: rgba(255,255,255,0.18);
     color: white;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 14px;
-    font-weight: bold;
-    white-space: nowrap;
+    font-size: 22px;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.20);
+    line-height: 1;
+    user-select: none;
 }
 
-.product-cart-button:active {
-    transform: scale(0.95);
+.product-cart-icon:active {
+    transform: scale(0.9);
 }
+
 
 </style>
 
@@ -501,19 +498,18 @@ button.action-button:hover {
         ←
     </button>
 
-   <span style="font-size: 18px;">
+   <span style="font-size:20px;">
     Product Details
 </span>
 
-<button
-    type="button"
-    class="product-cart-button"
+<span
+    class="product-cart-icon"
     onclick="window.location.replace('cart.html'); return false;"
+    role="button"
     aria-label="Open Cart"
 >
-    🛒 Cart
-</button>
-
+    🛒
+</span>
 
 </h1>
 
