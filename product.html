@@ -464,6 +464,23 @@ button.action-button:hover {
     }
 
 }
+.product-cart-button {
+    margin-left: 8px;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.20);
+}
+
+.product-cart-button:active {
+    transform: scale(0.95);
+}
 
 </style>
 
@@ -487,6 +504,16 @@ button.action-button:hover {
    <span style="font-size: 18px;">
     Product Details
 </span>
+
+<button
+    type="button"
+    class="product-cart-button"
+    onclick="window.location.replace('cart.html'); return false;"
+    aria-label="Open Cart"
+>
+    🛒 Cart
+</button>
+
 
 </h1>
 
