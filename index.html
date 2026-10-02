@@ -2180,10 +2180,30 @@ serial:
     );
 
 
-    alert(
-    product.name +
-    " added to cart!"
-);
+    const cartMessage = document.createElement("div");
+
+cartMessage.innerText = "Added to cart!";
+
+cartMessage.style.position = "fixed";
+cartMessage.style.top = "75px";
+cartMessage.style.left = "50%";
+cartMessage.style.transform = "translateX(-50%)";
+cartMessage.style.background = "#198754";
+cartMessage.style.color = "white";
+cartMessage.style.padding = "10px 18px";
+cartMessage.style.borderRadius = "6px";
+cartMessage.style.fontSize = "15px";
+cartMessage.style.fontWeight = "bold";
+cartMessage.style.zIndex = "10000";
+cartMessage.style.boxShadow =
+    "0 3px 10px rgba(0,0,0,0.20)";
+
+document.body.appendChild(cartMessage);
+
+setTimeout(function() {
+    cartMessage.remove();
+}, 1800);
+
 
 flyHomeProductImageToCart(productId);
 
