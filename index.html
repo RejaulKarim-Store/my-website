@@ -2091,127 +2091,328 @@ function(productId) {
 
     }
 
-if (Number(product.stock) <= 0) {
 
-    alert(
-        "Sorry, this product is currently out of stock."
-    );
+    if (Number(product.stock) <= 0) {
 
-    return;
-
-}
-
-
-    let cart =
-        JSON.parse(
-            localStorage.getItem(
-                "cart"
-            )
-        ) || [];
-
-
-    const existingProduct =
-        cart.find(
-            function(item) {
-
-                return (
-                    Number(
-                        item.productId
-                    ) ===
-                    productId
-                );
-
-            }
+        alert(
+            "Sorry, this product is currently out of stock."
         );
 
-
-    if (existingProduct) {
-
-    existingProduct.quantity =
-        (
-            Number(
-                existingProduct.quantity
-            ) || 1
-        ) + 1;
-
-    existingProduct.serial =
-        product.serial;
-
-    existingProduct.name =
-        product.name;
-
-    existingProduct.price =
-        Number(product.price) || 0;
-
-    existingProduct.image =
-        product.image;
-
-}
-
-    else {
-
-        cart.push({
-
-            productId:
-                productId,
-serial:
-    product.serial,
-
-            name:
-                product.name,
-
-            price:
-                Number(product.price) || 0,
-
-            image:
-                product.image,
-
-            quantity:
-                1
-
-        });
+        return;
 
     }
 
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
+    /* =================================================
+       CONFIRMATION CARD
+       Product will be added ONLY after OK
+    ================================================= */
+
+    const overlay =
+        document.createElement("div");
+
+    overlay.style.position = "fixed";
+    overlay.style.left = "0";
+    overlay.style.top = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+
+    overlay.style.background =
+        "rgba(0,0,0,0.25)";
+
+    overlay.style.zIndex = "10000";
+
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+
+
+    const cartMessage =
+        document.createElement("div");
+
+    cartMessage.style.background =
+        "#ffffff";
+
+    cartMessage.style.color =
+        "#222";
+
+    cartMessage.style.padding =
+        "20px 25px";
+
+    cartMessage.style.borderRadius =
+        "10px";
+
+    cartMessage.style.minWidth =
+        "250px";
+
+    cartMessage.style.maxWidth =
+        "90%";
+
+    cartMessage.style.textAlign =
+        "center";
+
+    cartMessage.style.boxShadow =
+        "0 5px 20px rgba(0,0,0,0.25)";
+
+    cartMessage.style.border =
+        "1px solid #ddd";
+
+
+    const messageText =
+        document.createElement("div");
+
+    messageText.innerText =
+        "Add this product to cart?";
+
+    messageText.style.fontSize =
+        "17px";
+
+    messageText.style.fontWeight =
+        "bold";
+
+    messageText.style.marginBottom =
+        "18px";
+
+
+    const okButton =
+        document.createElement("button");
+
+    okButton.innerText =
+        "OK";
+
+    okButton.style.padding =
+        "9px 25px";
+
+    okButton.style.fontSize =
+        "15px";
+
+    okButton.style.fontWeight =
+        "bold";
+
+    okButton.style.border =
+        "none";
+
+    okButton.style.borderRadius =
+        "5px";
+
+    okButton.style.background =
+        "#ff6600";
+
+    okButton.style.color =
+        "#ffffff";
+
+    okButton.style.cursor =
+        "pointer";
+
+
+    cartMessage.appendChild(
+        messageText
+    );
+
+    cartMessage.appendChild(
+        okButton
+    );
+
+    overlay.appendChild(
+        cartMessage
+    );
+
+    document.body.appendChild(
+        overlay
     );
 
 
-    const cartMessage = document.createElement("div");
+    /* =================================================
+       OK → ADD TO CART
+    ================================================= */
 
-cartMessage.innerText = "Added to cart!";
+    okButton.onclick =
+    function(event) {
 
-cartMessage.style.position = "fixed";
-cartMessage.style.top = "75px";
-cartMessage.style.left = "50%";
-cartMessage.style.transform = "translateX(-50%)";
-cartMessage.style.background = "#198754";
-cartMessage.style.color = "white";
-cartMessage.style.padding = "10px 18px";
-cartMessage.style.borderRadius = "6px";
-cartMessage.style.fontSize = "15px";
-cartMessage.style.fontWeight = "bold";
-cartMessage.style.zIndex = "10000";
-cartMessage.style.boxShadow =
-    "0 3px 10px rgba(0,0,0,0.20)";
-
-document.body.appendChild(cartMessage);
-
-setTimeout(function() {
-    cartMessage.remove();
-}, 1800);
+        event.stopPropagation();
 
 
-flyHomeProductImageToCart(productId);
+        let cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "cart"
+                )
+            ) || [];
 
-updateCartCount();
+
+        const existingProduct =
+            cart.find(
+                function(item) {
+
+                    return (
+                        Number(
+                            item.productId
+                        ) ===
+                        productId
+                    );
+
+                }
+            );
+
+
+        if (existingProduct) {
+
+            existingProduct.quantity =
+                (
+                    Number(
+                        existingProduct.quantity
+                    ) || 1
+                ) + 1;
+
+
+            existingProduct.serial =
+                product.serial;
+
+
+            existingProduct.name =
+                product.name;
+
+
+            existingProduct.price =
+                Number(product.price) || 0;
+
+
+            existingProduct.image =
+                product.image;
+
+        }
+
+        else {
+
+            cart.push({
+
+                productId:
+                    productId,
+
+                serial:
+                    product.serial,
+
+                name:
+                    product.name,
+
+                price:
+                    Number(product.price) || 0,
+
+                image:
+                    product.image,
+
+                quantity:
+                    1
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+
+        /* Close confirmation card */
+
+        overlay.remove();
+
+
+        /* Added to cart message */
+
+        const addedMessage =
+            document.createElement("div");
+
+        addedMessage.innerText =
+            "Added to cart!";
+
+        addedMessage.style.position =
+            "fixed";
+
+        addedMessage.style.top =
+            "50%";
+
+        addedMessage.style.left =
+            "50%";
+
+        addedMessage.style.transform =
+            "translate(-50%, -50%)";
+
+        addedMessage.style.background =
+            "#198754";
+
+        addedMessage.style.color =
+            "white";
+
+        addedMessage.style.padding =
+            "12px 22px";
+
+        addedMessage.style.borderRadius =
+            "6px";
+
+        addedMessage.style.fontSize =
+            "16px";
+
+        addedMessage.style.fontWeight =
+            "bold";
+
+        addedMessage.style.zIndex =
+            "10001";
+
+        addedMessage.style.boxShadow =
+            "0 3px 10px rgba(0,0,0,0.20)";
+
+
+        document.body.appendChild(
+            addedMessage
+        );
+
+
+        setTimeout(
+            function() {
+
+                addedMessage.remove();
+
+            },
+            1200
+        );
+
+
+        /* Existing flying image */
+
+        flyHomeProductImageToCart(
+            productId
+        );
+
+
+        /* Existing cart count */
+
+        updateCartCount();
+
+    };
+
+
+    /* =================================================
+       CLICK OUTSIDE → CANCEL
+    ================================================= */
+
+    overlay.onclick =
+    function(event) {
+
+        if (
+            event.target ===
+            overlay
+        ) {
+
+            overlay.remove();
+
+        }
+
+    };
 
 };
-
-
 /* =====================================================
    CART
 ===================================================== */
