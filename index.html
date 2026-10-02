@@ -1253,6 +1253,33 @@ nav a:active {
 
 
 /* =========================
+   HOME ADD TO CART FLY ANIMATION
+========================= */
+
+.cart-flying-image {
+
+    position: fixed;
+
+    width: 70px;
+    height: 70px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    z-index: 9999;
+
+    pointer-events: none;
+
+    transition:
+        left 1.8s ease-in-out,
+        top 1.8s ease-in-out,
+        width 1.8s ease-in-out,
+        height 1.8s ease-in-out,
+        opacity 1.8s ease-in-out;
+}
+
+/* =========================
    DESKTOP CATEGORY CENTER
    MOBILE UNCHANGED
 ========================= */
@@ -2175,6 +2202,106 @@ function() {
         "cart.html";
 
 };
+
+
+/* =====================================================
+   HOME ADD TO CART → CART ANIMATION
+===================================================== */
+
+function flyHomeProductImageToCart(productId) {
+
+    const productCard =
+        document.querySelector(
+            `.product[data-id="${productId}"]`
+        );
+
+    if (!productCard) {
+        return;
+    }
+
+    const productImage =
+        productCard.querySelector("img");
+
+    const cartIcon =
+        window.innerWidth <= 700
+            ? document.querySelector(".mobile-footer a[href='cart.html']")
+            : document.querySelector(".desktop-footer a[href='cart.html']");
+
+    if (
+        !productImage ||
+        !cartIcon
+    ) {
+        return;
+    }
+
+    const imageRect =
+        productImage.getBoundingClientRect();
+
+    const cartRect =
+        cartIcon.getBoundingClientRect();
+
+    const flyingImage =
+        document.createElement("img");
+
+    flyingImage.src =
+        productImage.src;
+
+    flyingImage.className =
+        "cart-flying-image";
+
+    flyingImage.style.left =
+        imageRect.left + "px";
+
+    flyingImage.style.top =
+        imageRect.top + "px";
+
+    document.body.appendChild(
+        flyingImage
+    );
+
+    /* Force browser to render starting position */
+
+    flyingImage.offsetHeight;
+
+    requestAnimationFrame(
+        function() {
+
+            flyingImage.style.left =
+                (
+                    cartRect.left +
+                    cartRect.width / 2 -
+                    15
+                ) + "px";
+
+            flyingImage.style.top =
+                (
+                    cartRect.top +
+                    cartRect.height / 2 -
+                    15
+                ) + "px";
+
+            flyingImage.style.width =
+                "30px";
+
+            flyingImage.style.height =
+                "30px";
+
+            flyingImage.style.opacity =
+                "0";
+
+        }
+    );
+
+    setTimeout(
+        function() {
+
+            flyingImage.remove();
+
+        },
+        1900
+    );
+
+}
 
 
 /* =====================================================
