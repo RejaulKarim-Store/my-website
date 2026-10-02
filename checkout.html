@@ -229,6 +229,45 @@ h1 {
 }
 
 
+/* =========================================
+   RK STORE MESSAGE POPUP
+========================================= */
+
+.rk-message-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.rk-message-box {
+    width: min(300px, 85%);
+    background: white;
+    border-radius: 8px;
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+
+.rk-message-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.rk-message-button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 24px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 </style>
 
 </head>
@@ -3720,6 +3759,60 @@ button.innerText =
 
 </script>
 
+
+<!-- RK Store Custom Message -->
+
+<div
+    id="rkMessageOverlay"
+    class="rk-message-overlay"
+    style="display: none;"
+>
+    <div
+        class="rk-message-box"
+    >
+
+        <div
+            id="rkMessageText"
+            class="rk-message-text"
+        ></div>
+
+
+        <button
+            type="button"
+            class="rk-message-button"
+            onclick="closeRKMessage()"
+        >
+            OK
+        </button>
+
+    </div>
+</div>
+
+
+<script>
+
+function showRKMessage(message) {
+
+    document.getElementById(
+        "rkMessageText"
+    ).textContent = message;
+
+    document.getElementById(
+        "rkMessageOverlay"
+    ).style.display = "flex";
+
+}
+
+
+function closeRKMessage() {
+
+    document.getElementById(
+        "rkMessageOverlay"
+    ).style.display = "none";
+
+}
+
+</script>
 
 </body>
 
