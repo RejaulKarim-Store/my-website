@@ -466,13 +466,21 @@ button.action-button:hover {
 }
 
 .product-cart-icon {
-    margin-left: 8px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     color: white;
     font-size: 22px;
     cursor: pointer;
     line-height: 1;
     user-select: none;
 }
+
+.product-cart-icon:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
 
 .product-cart-icon:active {
     transform: scale(0.9);
