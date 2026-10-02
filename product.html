@@ -2751,208 +2751,100 @@ document.getElementById(
         }
 
 
-        /* =================================================
-           CONFIRMATION CARD
-           Product will be added ONLY after OK
-        ================================================= */
-
-        const overlay =
-            document.createElement("div");
-
-
-        overlay.style.position =
-            "fixed";
-
-        overlay.style.left =
-            "0";
-
-        overlay.style.top =
-            "0";
-
-        overlay.style.width =
-            "100%";
-
-        overlay.style.height =
-            "100%";
-
-        overlay.style.background =
-            "rgba(0,0,0,0.25)";
-
-        overlay.style.zIndex =
-            "10000";
-
-        overlay.style.display =
-            "flex";
-
-        overlay.style.alignItems =
-            "center";
-
-        overlay.style.justifyContent =
-            "center";
+        let cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "cart"
+                )
+            ) || [];
 
 
-        const cartMessage =
-            document.createElement("div");
+        const existingProduct =
+            cart.find(
+                function(item) {
 
-
-        cartMessage.style.background =
-            "#ffffff";
-
-        cartMessage.style.color =
-            "#222";
-
-        cartMessage.style.padding =
-            "20px 25px";
-
-        cartMessage.style.borderRadius =
-            "10px";
-
-        cartMessage.style.minWidth =
-            "250px";
-
-        cartMessage.style.maxWidth =
-            "90%";
-
-        cartMessage.style.textAlign =
-            "center";
-
-        cartMessage.style.boxShadow =
-            "0 5px 20px rgba(0,0,0,0.25)";
-
-        cartMessage.style.border =
-            "1px solid #ddd";
-
-
-        const messageText =
-            document.createElement("div");
-
-
-        messageText.innerText =
-            "Add this product to cart?";
-
-
-        messageText.style.fontSize =
-            "17px";
-
-        messageText.style.fontWeight =
-            "bold";
-
-        messageText.style.marginBottom =
-            "18px";
-
-
-        const okButton =
-            document.createElement("button");
-
-
-        okButton.innerText =
-            "OK";
-
-
-        okButton.style.padding =
-            "9px 25px";
-
-        okButton.style.fontSize =
-            "15px";
-
-        okButton.style.fontWeight =
-            "bold";
-
-        okButton.style.border =
-            "none";
-
-        okButton.style.borderRadius =
-            "5px";
-
-        okButton.style.background =
-            "#ff6600";
-
-        okButton.style.color =
-            "#ffffff";
-
-        okButton.style.cursor =
-            "pointer";
-
-
-        cartMessage.appendChild(
-            messageText
-        );
-
-        cartMessage.appendChild(
-            okButton
-        );
-
-        overlay.appendChild(
-            cartMessage
-        );
-
-        document.body.appendChild(
-            overlay
-        );
-
-
-        /* =================================================
-           OK → ADD TO CART → CART PAGE
-        ================================================= */
-
-        okButton.onclick =
-        function(event) {
-
-            event.stopPropagation();
-
-
-            let cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "cart"
-                    )
-                ) || [];
-
-
-            const existingProduct =
-                cart.find(
-                    function(item) {
-
-                        return (
-                            Number(
-                                item.productId
-                            ) ===
-                            productNumber
-                        );
-
-                    }
-                );
-
-
-            if (
-                existingProduct
-            ) {
-
-                existingProduct.quantity =
-                    (
+                    return (
                         Number(
-                            existingProduct.quantity
-                        ) || 1
-                    ) + 1;
+                            item.productId
+                        ) ===
+                        productNumber
+                    );
+
+                }
+            );
 
 
-                existingProduct.name =
-                    currentProduct.name;
+        if (
+            existingProduct
+        ) {
+
+            existingProduct.quantity =
+                (
+                    Number(
+                        existingProduct.quantity
+                    ) || 1
+                ) + 1;
 
 
-                existingProduct.price =
+            existingProduct.name =
+                currentProduct.name;
+
+
+            existingProduct.price =
+                Number(
+                    currentProduct.price
+                ) || 0;
+
+
+            existingProduct.discount =
+                Number(
+                    currentProduct.discount
+                ) || 0;
+
+
+            existingProduct.discountPrice =
+                Number.isFinite(
+                    Number(
+                        currentProduct.discountPrice
+                    )
+                )
+                    ? Number(
+                        currentProduct.discountPrice
+                    )
+                    : null;
+
+
+            existingProduct.image =
+                currentProduct.images &&
+                currentProduct.images.length > 0
+
+                    ? currentProduct.images[0]
+
+                    : "";
+
+        }
+
+        else {
+
+            cart.push({
+
+                productId:
+                    productNumber,
+
+                name:
+                    currentProduct.name,
+
+                price:
                     Number(
                         currentProduct.price
-                    ) || 0;
+                    ) || 0,
 
-
-                existingProduct.discount =
+                discount:
                     Number(
                         currentProduct.discount
-                    ) || 0;
+                    ) || 0,
 
-
-                existingProduct.discountPrice =
+                discountPrice:
                     Number.isFinite(
                         Number(
                             currentProduct.discountPrice
@@ -2961,115 +2853,42 @@ document.getElementById(
                         ? Number(
                             currentProduct.discountPrice
                         )
-                        : null;
+                        : null,
 
-
-                existingProduct.image =
+                image:
                     currentProduct.images &&
                     currentProduct.images.length > 0
 
                         ? currentProduct.images[0]
 
-                        : "";
+                        : "",
 
-            }
+                quantity:
+                    1
 
-            else {
+            });
 
-                cart.push({
-
-                    productId:
-                        productNumber,
-
-                    name:
-                        currentProduct.name,
-
-                    price:
-                        Number(
-                            currentProduct.price
-                        ) || 0,
+        }
 
 
-                    discount:
-                        Number(
-                            currentProduct.discount
-                        ) || 0,
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
 
 
-                    discountPrice:
-                        Number.isFinite(
-                            Number(
-                                currentProduct.discountPrice
-                            )
-                        )
-                            ? Number(
-                                currentProduct.discountPrice
-                            )
-                            : null,
+        /* Existing product image animation */
+
+        flyProductImageToCart();
 
 
-                    image:
-                        currentProduct.images &&
-                        currentProduct.images.length > 0
+        /* Go directly to Cart */
 
-                            ? currentProduct.images[0]
-
-                            : "",
-
-
-                    quantity:
-                        1
-
-                });
-
-            }
-
-
-            localStorage.setItem(
-                "cart",
-                JSON.stringify(cart)
-            );
-
-
-            /* Close confirmation card */
-
-            overlay.remove();
-
-
-            /* Existing product image animation */
-
-            flyProductImageToCart();
-
-
-            /* Go to Cart */
-
-            window.location.href =
-                "cart.html";
-
-        };
-
-
-        /* =================================================
-           CLICK OUTSIDE → CANCEL
-        ================================================= */
-
-        overlay.onclick =
-        function(event) {
-
-            if (
-                event.target ===
-                overlay
-            ) {
-
-                overlay.remove();
-
-            }
-
-        };
+        window.location.href =
+            "cart.html";
 
     }
 );
-
 /* =====================================================
    FIRST LOAD
 ===================================================== */
