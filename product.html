@@ -2311,12 +2311,10 @@ function flyProductImageToCart() {
 
 
     flyingImage.style.left =
-        imageRect.left +
-        "px";
+        imageRect.left + "px";
 
     flyingImage.style.top =
-        imageRect.top +
-        "px";
+        imageRect.top + "px";
 
 
     document.body.appendChild(
@@ -2324,7 +2322,12 @@ function flyProductImageToCart() {
     );
 
 
-    requestAnimationFrame(
+    /* Force browser to render the starting position */
+
+    flyingImage.offsetHeight;
+
+
+    setTimeout(
         function() {
 
             flyingImage.style.left =
@@ -2352,7 +2355,8 @@ function flyProductImageToCart() {
             flyingImage.style.opacity =
                 "0";
 
-        }
+        },
+        50
     );
 
 
@@ -2362,7 +2366,7 @@ function flyProductImageToCart() {
             flyingImage.remove();
 
         },
-        750
+        850
     );
 
 }
