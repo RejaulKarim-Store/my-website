@@ -501,12 +501,11 @@ button.action-button:hover {
     pointer-events: none;
 
     transition:
-        left 0.7s ease-in,
-        top 0.7s ease-in,
-        width 0.7s ease-in,
-        height 0.7s ease-in,
-        opacity 0.7s ease-in;
-
+    left 1.8s ease-in-out,
+    top 1.8s ease-in-out,
+    width 1.8s ease-in-out,
+    height 1.8s ease-in-out,
+    opacity 1.8s ease-in-out;
 }
 
 
@@ -2327,37 +2326,36 @@ function flyProductImageToCart() {
     flyingImage.offsetHeight;
 
 
-    setTimeout(
-        function() {
+    requestAnimationFrame(
+    function() {
 
-            flyingImage.style.left =
-                (
-                    cartRect.left +
-                    cartRect.width / 2 -
-                    15
-                ) +
-                "px";
+        flyingImage.style.left =
+            (
+                cartRect.left +
+                cartRect.width / 2 -
+                15
+            ) +
+            "px";
 
-            flyingImage.style.top =
-                (
-                    cartRect.top +
-                    cartRect.height / 2 -
-                    15
-                ) +
-                "px";
+        flyingImage.style.top =
+            (
+                cartRect.top +
+                cartRect.height / 2 -
+                15
+            ) +
+            "px";
 
-            flyingImage.style.width =
-                "30px";
+        flyingImage.style.width =
+            "30px";
 
-            flyingImage.style.height =
-                "30px";
+        flyingImage.style.height =
+            "30px";
 
-            flyingImage.style.opacity =
-                "0";
+        flyingImage.style.opacity =
+            "0";
 
-        },
-        50
-    );
+    }
+);
 
 
     setTimeout(
