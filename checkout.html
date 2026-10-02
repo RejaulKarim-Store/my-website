@@ -1965,7 +1965,8 @@ async function useSavedAddress() {
 
 
     showRKMessage(
-    "Saved address loaded."
+    "Saved address loaded.",
+    false
 );
 
 }
@@ -3562,7 +3563,8 @@ localStorage.removeItem(
 
 
         showRKMessage(
-    "Order placed successfully!"
+    "Order placed successfully!",
+    true
 );
 
     }
@@ -3775,7 +3777,7 @@ button.innerText =
        <button
     type="button"
     class="rk-message-button"
-    onclick="closeRKMessage(); window.location.href='index.html';"
+    onclick="closeRKMessage(); if (document.getElementById('rkMessageOverlay').dataset.goHome === 'true') window.location.href='index.html';"
 >
     OK
 </button>
@@ -3786,11 +3788,16 @@ button.innerText =
 
 <script>
 
-function showRKMessage(message) {
+function showRKMessage(message, goHome = false) {
 
     document.getElementById(
         "rkMessageText"
     ).textContent = message;
+
+    document.getElementById(
+        "rkMessageOverlay"
+    ).dataset.goHome =
+        goHome ? "true" : "false";
 
     document.getElementById(
         "rkMessageOverlay"
