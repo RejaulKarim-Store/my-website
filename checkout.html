@@ -3561,13 +3561,17 @@ localStorage.removeItem(
         ====================================== */
 
 
-        alert(
-            "Order placed successfully!"
-        );
+        showRKMessage(
+    "Order placed successfully!"
+);
 
-
+setTimeout(
+    function() {
         window.location.href =
             "index.html";
+    },
+    1200
+);
 
 
     }
