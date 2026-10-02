@@ -2520,15 +2520,25 @@ existingProduct.discountPrice =
         }
 
 
-        localStorage.setItem(
+                localStorage.setItem(
             "cart",
             JSON.stringify(cart)
         );
-flyProductImageToCart();
 
-        alert(
-            currentProduct.name +
-            " added to cart!"
+
+        flyProductImageToCart();
+
+
+        setTimeout(
+            function() {
+
+                alert(
+                    currentProduct.name +
+                    " added to cart!"
+                );
+
+            },
+            850
         );
 
     }
