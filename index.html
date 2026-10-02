@@ -2320,66 +2320,7 @@ function(productId) {
         overlay.remove();
 
 
-        /* Added to cart message */
-
-        const addedMessage =
-            document.createElement("div");
-
-        addedMessage.innerText =
-            "Added to cart!";
-
-        addedMessage.style.position =
-            "fixed";
-
-        addedMessage.style.top =
-            "50%";
-
-        addedMessage.style.left =
-            "50%";
-
-        addedMessage.style.transform =
-            "translate(-50%, -50%)";
-
-        addedMessage.style.background =
-            "#198754";
-
-        addedMessage.style.color =
-            "white";
-
-        addedMessage.style.padding =
-            "12px 22px";
-
-        addedMessage.style.borderRadius =
-            "6px";
-
-        addedMessage.style.fontSize =
-            "16px";
-
-        addedMessage.style.fontWeight =
-            "bold";
-
-        addedMessage.style.zIndex =
-            "10001";
-
-        addedMessage.style.boxShadow =
-            "0 3px 10px rgba(0,0,0,0.20)";
-
-
-        document.body.appendChild(
-            addedMessage
-        );
-
-
-        setTimeout(
-            function() {
-
-                addedMessage.remove();
-
-            },
-            1200
-        );
-
-
+        
         /* Existing flying image */
 
         flyHomeProductImageToCart(
