@@ -487,9 +487,6 @@ button.action-button:hover {
 .cart-flying-image {
     position: fixed;
 
-    width: 70px;
-    height: 70px;
-
     object-fit: contain;
 
     border-radius: 10px;
@@ -499,10 +496,10 @@ button.action-button:hover {
     pointer-events: none;
 
     transition:
-        left 0.7s ease-out,
-        top 0.7s ease-out,
-        width 0.7s ease-out,
-        height 0.7s ease-out,
+        left 0.8s ease-out,
+        top 0.8s ease-out,
+        width 0.8s ease-out,
+        height 0.8s ease-out,
         opacity 0.5s ease-in;
 }
 
@@ -2308,7 +2305,7 @@ function flyProductImageToCart() {
 
 
     /* =========================
-       START POSITION
+       ORIGINAL IMAGE SIZE
     ========================= */
 
     flyingImage.style.left =
@@ -2316,6 +2313,12 @@ function flyProductImageToCart() {
 
     flyingImage.style.top =
         imageRect.top + "px";
+
+    flyingImage.style.width =
+        imageRect.width + "px";
+
+    flyingImage.style.height =
+        imageRect.height + "px";
 
 
     document.body.appendChild(
@@ -2325,14 +2328,20 @@ function flyProductImageToCart() {
 
     /* =========================
        STEP 1
-       MOVE TO SCREEN CENTER
+       FULL IMAGE → CENTER
+       AND SHRINK
     ========================= */
 
+    const centerWidth = 100;
+    const centerHeight = 100;
+
     const centerX =
-        window.innerWidth / 2 - 35;
+        window.innerWidth / 2 -
+        centerWidth / 2;
 
     const centerY =
-        window.innerHeight / 2 - 35;
+        window.innerHeight / 2 -
+        centerHeight / 2;
 
 
     requestAnimationFrame(
@@ -2344,13 +2353,19 @@ function flyProductImageToCart() {
             flyingImage.style.top =
                 centerY + "px";
 
+            flyingImage.style.width =
+                centerWidth + "px";
+
+            flyingImage.style.height =
+                centerHeight + "px";
+
         }
     );
 
 
     /* =========================
        STEP 2
-       SHRINK + GO TO CART
+       SMALL IMAGE → CART
     ========================= */
 
     setTimeout(
@@ -2383,9 +2398,8 @@ function flyProductImageToCart() {
             flyingImage.style.opacity =
                 "0";
 
-
         },
-        750
+        900
     );
 
 
@@ -2399,10 +2413,13 @@ function flyProductImageToCart() {
             flyingImage.remove();
 
         },
-        1500
+        1700
     );
 
 }
+
+
+
 /* =====================================================
    ADD TO CART
 ===================================================== */
