@@ -2369,55 +2369,68 @@ function flyProductImageToCart() {
     ========================= */
 
     setTimeout(
-        function() {
+    function() {
 
-            flyingImage.style.left =
-                (
-                    cartRect.left +
-                    cartRect.width / 2 -
-                    15
-                ) + "px";
-
-
-            flyingImage.style.top =
-                (
-                    cartRect.top +
-                    cartRect.height / 2 -
-                    15
-                ) + "px";
+        flyingImage.style.left =
+            (
+                cartRect.left +
+                cartRect.width / 2 -
+                15
+            ) + "px";
 
 
-            flyingImage.style.width =
-                "30px";
+        flyingImage.style.top =
+            (
+                cartRect.top +
+                cartRect.height / 2 -
+                15
+            ) + "px";
 
 
-            flyingImage.style.height =
-                "30px";
+        flyingImage.style.width =
+            "30px";
 
 
-            flyingImage.style.opacity =
-                "0";
+        flyingImage.style.height =
+            "30px";
 
-        },
-        900
-    );
 
+        /* =========================
+           KEEP IMAGE CLEAR
+           UNTIL IT REACHES CART
+        ========================= */
+
+        flyingImage.style.opacity =
+            "1";
+
+    },
+    1100
+);
 
     /* =========================
        REMOVE AFTER ANIMATION
     ========================= */
 
     setTimeout(
-        function() {
+    function() {
 
-            flyingImage.remove();
+        flyingImage.style.opacity =
+            "0";
 
-        },
-        1700
-    );
+    },
+    1900
+);
+
+setTimeout(
+    function() {
+
+        flyingImage.remove();
+
+    },
+    2200
+);
 
 }
-
 
 
 /* =====================================================
