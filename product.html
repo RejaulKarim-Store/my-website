@@ -485,7 +485,6 @@ button.action-button:hover {
 ========================= */
 
 .cart-flying-image {
-
     position: fixed;
 
     width: 70px;
@@ -500,11 +499,11 @@ button.action-button:hover {
     pointer-events: none;
 
     transition:
-    left 1.8s ease-in-out,
-    top 1.8s ease-in-out,
-    width 1.8s ease-in-out,
-    height 1.8s ease-in-out,
-    opacity 1.8s ease-in-out;
+        left 0.7s ease-out,
+        top 0.7s ease-out,
+        width 0.7s ease-out,
+        height 0.7s ease-out,
+        opacity 0.5s ease-in;
 }
 
 
@@ -2308,6 +2307,10 @@ function flyProductImageToCart() {
         "cart-flying-image";
 
 
+    /* =========================
+       START POSITION
+    ========================= */
+
     flyingImage.style.left =
         imageRect.left + "px";
 
@@ -2320,42 +2323,75 @@ function flyProductImageToCart() {
     );
 
 
-    /* Force browser to render the starting position */
+    /* =========================
+       STEP 1
+       MOVE TO SCREEN CENTER
+    ========================= */
 
-    flyingImage.offsetHeight;
+    const centerX =
+        window.innerWidth / 2 - 35;
+
+    const centerY =
+        window.innerHeight / 2 - 35;
 
 
     requestAnimationFrame(
-    function() {
+        function() {
 
-        flyingImage.style.left =
-            (
-                cartRect.left +
-                cartRect.width / 2 -
-                15
-            ) +
-            "px";
+            flyingImage.style.left =
+                centerX + "px";
 
-        flyingImage.style.top =
-            (
-                cartRect.top +
-                cartRect.height / 2 -
-                15
-            ) +
-            "px";
+            flyingImage.style.top =
+                centerY + "px";
 
-        flyingImage.style.width =
-            "30px";
+        }
+    );
 
-        flyingImage.style.height =
-            "30px";
 
-        flyingImage.style.opacity =
-            "0";
+    /* =========================
+       STEP 2
+       SHRINK + GO TO CART
+    ========================= */
 
-    }
-);
+    setTimeout(
+        function() {
 
+            flyingImage.style.left =
+                (
+                    cartRect.left +
+                    cartRect.width / 2 -
+                    15
+                ) + "px";
+
+
+            flyingImage.style.top =
+                (
+                    cartRect.top +
+                    cartRect.height / 2 -
+                    15
+                ) + "px";
+
+
+            flyingImage.style.width =
+                "30px";
+
+
+            flyingImage.style.height =
+                "30px";
+
+
+            flyingImage.style.opacity =
+                "0";
+
+
+        },
+        750
+    );
+
+
+    /* =========================
+       REMOVE AFTER ANIMATION
+    ========================= */
 
     setTimeout(
         function() {
@@ -2363,12 +2399,10 @@ function flyProductImageToCart() {
             flyingImage.remove();
 
         },
-        1900
+        1500
     );
 
 }
-
-
 /* =====================================================
    ADD TO CART
 ===================================================== */
