@@ -1454,22 +1454,23 @@ if (
 
     </div>
 
-    <button
-        type="button"
-        style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:6px;
-            background:#ff6600;
-            color:white;
-            font-size:16px;
-            font-weight:bold;
-            cursor:pointer;
-        "
-    >
-        ⭐ Write a Review
-    </button>
+   <button
+    type="button"
+    onclick="openReviewForm()"
+    style="
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:6px;
+        background:#ff6600;
+        color:white;
+        font-size:16px;
+        font-weight:bold;
+        cursor:pointer;
+    "
+>
+    ⭐ Write a Review
+</button>
 
 </div>
             `;
@@ -1566,6 +1567,29 @@ window.printCustomerOrder =
         window.print();
     };
 
+
+/* =========================
+   REVIEW FORM
+========================= */
+
+window.openReviewForm =
+    function() {
+
+        const form =
+            document.getElementById(
+                "reviewForm"
+            );
+
+        if (!form) {
+            return;
+        }
+
+        form.style.display =
+            form.style.display === "none"
+                ? "block"
+                : "none";
+
+    };
 
 </script>
 
