@@ -1505,6 +1505,23 @@ if (
     "
 >
 
+<div
+    id="reviewProductInfo"
+    style="
+        margin-bottom:15px;
+        padding:10px;
+        background:#fff7f0;
+        border-left:4px solid #ff6600;
+        border-radius:5px;
+        font-size:14px;
+        font-weight:bold;
+        color:#555;
+    "
+>
+    Product:
+</div>
+
+
     <div
         style="
             font-size:15px;
@@ -1698,6 +1715,19 @@ window.openProductReview =
 
         selectedProductId =
             productId || "";
+
+        const productInfo =
+            document.getElementById(
+                "reviewProductInfo"
+            );
+
+        if (productInfo) {
+
+            productInfo.textContent =
+                "Product: " +
+                (selectedProductId || "N/A");
+
+        }
 
         openReviewForm();
 
