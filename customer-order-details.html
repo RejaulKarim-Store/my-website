@@ -1688,6 +1688,22 @@ window.printCustomerOrder =
 
 
 /* =========================
+   PRODUCT REVIEW
+========================= */
+
+let selectedProductId = "";
+
+window.openProductReview =
+    function(productId) {
+
+        selectedProductId =
+            productId || "";
+
+        openReviewForm();
+
+    };
+
+/* =========================
    REVIEW FORM
 ========================= */
 
