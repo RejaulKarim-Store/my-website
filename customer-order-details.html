@@ -1567,40 +1567,63 @@ window.printCustomerOrder =
 ========================= */
 
 let selectedProductId = "";
+let activeReviewForm = null;
 
 window.openProductReview =
-    function(productId) {
+    function(productId, button) {
 
         selectedProductId =
             productId || "";
 
-        const productInfo =
-            document.getElementById(
-                "reviewProductInfo"
-            );
-
-        if (productInfo) {
-
-            productInfo.innerHTML =
-                "Product: <strong>" +
-                (selectedProductId || "N/A") +
-                "</strong>";
-
+        if (
+            activeReviewForm &&
+            activeReviewForm !== button.nextElementSibling
+        ) {
+            activeReviewForm.style.display = "none";
         }
 
         const form =
-            document.getElementById(
-                "reviewForm"
-            );
+            button.nextElementSibling;
 
-        if (form) {
+        if (!form) {
+            return;
+        }
+
+        if (form.style.display === "block") {
+
+            form.style.display = "none";
+            activeReviewForm = null;
+
+        } else {
 
             form.style.display = "block";
+            activeReviewForm = form;
 
         }
 
     };
 
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (!activeReviewForm) {
+            return;
+        }
+
+        if (
+            event.target.closest(".product") ===
+            activeReviewForm.closest(".product")
+        ) {
+            return;
+        }
+
+        activeReviewForm.style.display = "none";
+        activeReviewForm = null;
+
+    }
+);
 
 
 </script>
