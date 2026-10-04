@@ -926,13 +926,21 @@ const productImage =
         Your Rating
     </div>
 
-    <div style="
+   <div
+    class="rating-stars"
+    style="
         font-size:28px;
         letter-spacing:4px;
         margin-bottom:10px;
-    ">
-        ☆ ☆ ☆ ☆ ☆
-    </div>
+    "
+>
+    <span onclick="selectReviewRating(1)">☆</span>
+    <span onclick="selectReviewRating(2)">☆</span>
+    <span onclick="selectReviewRating(3)">☆</span>
+    <span onclick="selectReviewRating(4)">☆</span>
+    <span onclick="selectReviewRating(5)">☆</span>
+</div>
+
 
     <textarea
         placeholder="Write your review..."
@@ -1620,6 +1628,32 @@ window.printCustomerOrder =
 let selectedProductId = "";
 let activeReviewForm = null;
 
+let selectedReviewRating = 0;
+
+window.selectReviewRating =
+    function(rating) {
+
+        selectedReviewRating = rating;
+
+        const stars =
+            document.querySelectorAll(
+                ".rating-stars span"
+            );
+
+        stars.forEach(
+            function(star, index) {
+
+                if (index < rating) {
+                    star.textContent = "★";
+                } else {
+                    star.textContent = "☆";
+                }
+
+            }
+        );
+
+    };
+
 window.openProductReview =
     function(productId, button) {
 
@@ -1682,3 +1716,4 @@ document.addEventListener(
 
 </body>
 </html>
+ 
