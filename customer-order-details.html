@@ -1723,15 +1723,26 @@ window.openProductReview =
 
         if (productInfo) {
 
-            productInfo.textContent =
-                "Product: " +
-                (selectedProductId || "N/A");
+            productInfo.innerHTML =
+                "Product: <strong>" +
+                (selectedProductId || "N/A") +
+                "</strong>";
 
         }
 
-        openReviewForm();
+        const form =
+            document.getElementById(
+                "reviewForm"
+            );
+
+        if (form) {
+
+            form.style.display = "block";
+
+        }
 
     };
+
 
 /* =========================
    REVIEW FORM
