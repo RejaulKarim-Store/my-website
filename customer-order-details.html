@@ -932,15 +932,15 @@ const productImage =
         font-size:28px;
         letter-spacing:4px;
         margin-bottom:10px;
+        color:#ff6600;
     "
 >
-    <span onclick="selectReviewRating(1)">☆</span>
-    <span onclick="selectReviewRating(2)">☆</span>
-    <span onclick="selectReviewRating(3)">☆</span>
-    <span onclick="selectReviewRating(4)">☆</span>
-    <span onclick="selectReviewRating(5)">☆</span>
+    <span onclick="selectReviewRating(1, this)">☆</span>
+    <span onclick="selectReviewRating(2, this)">☆</span>
+    <span onclick="selectReviewRating(3, this)">☆</span>
+    <span onclick="selectReviewRating(4, this)">☆</span>
+    <span onclick="selectReviewRating(5, this)">☆</span>
 </div>
-
 
     <textarea
         placeholder="Write your review..."
@@ -1631,29 +1631,43 @@ let activeReviewForm = null;
 let selectedReviewRating = 0;
 
 window.selectReviewRating =
-    function(rating) {
+    function(rating, clickedStar) {
 
         selectedReviewRating = rating;
 
+        const ratingStars =
+            clickedStar.closest(
+                ".rating-stars"
+            );
+
+        if (!ratingStars) {
+            return;
+        }
+
         const stars =
-            document.querySelectorAll(
-                ".rating-stars span"
+            ratingStars.querySelectorAll(
+                "span"
             );
 
         stars.forEach(
             function(star, index) {
 
                 if (index < rating) {
+
                     star.textContent = "★";
+                    star.style.color = "#ff6600";
+
                 } else {
+
                     star.textContent = "☆";
+                    star.style.color = "#ff6600";
+
                 }
 
             }
         );
 
     };
-
 window.openProductReview =
     function(productId, button) {
 
