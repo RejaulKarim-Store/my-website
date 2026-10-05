@@ -1667,11 +1667,15 @@ window.submitProductReview =
                 reviewForm.dataset.rating || 0
             );
 
+        const textarea =
+            reviewForm.querySelector(
+                "textarea"
+            );
+
         const reviewText =
-            reviewForm
-                .querySelector("textarea")
-                .value
-                .trim();
+            textarea
+                ? textarea.value.trim()
+                : "";
 
         if (rating < 1) {
 
@@ -1699,43 +1703,95 @@ window.submitProductReview =
 
         try {
 
-            await addDoc(
-                collection(
-                    db,
-                    "reviews"
-                ),
-                {
-                    productId:
-    reviewForm.dataset.productId,
+            /* =========================
+               UPDATE EXISTING REVIEW
+            ========================= */
 
-                    orderId:
-                        orderId,
+            const reviewId =
+                reviewForm.dataset.reviewId;
 
-                    userId:
-                        user.uid,
+            if (reviewId) {
 
-                    rating:
-                        rating,
+                await updateDoc(
+                    doc(
+                        db,
+                        "reviews",
+                        reviewId
+                    ),
+                    {
+                        rating:
+                            rating,
 
-                    reviewText:
-                        reviewText,
+                        reviewText:
+                            reviewText,
 
-                    createdAt:
-                        serverTimestamp()
-                }
-            );
+                        updatedAt:
+                            serverTimestamp()
+                    }
+                );
 
-            alert(
-                "Your review has been submitted successfully."
-            );
+                alert(
+                    "Your review has been updated successfully."
+                );
 
-            reviewForm.style.display = "none";
+            }
 
-            reviewForm
-                .querySelector("textarea")
-                .value = "";
+            /* =========================
+               CREATE NEW REVIEW
+            ========================= */
+
+            else {
+
+                await addDoc(
+                    collection(
+                        db,
+                        "reviews"
+                    ),
+                    {
+                        productId:
+                            reviewForm.dataset.productId,
+
+                        orderId:
+                            orderId,
+
+                        userId:
+                            user.uid,
+
+                        rating:
+                            rating,
+
+                        reviewText:
+                            reviewText,
+
+                        createdAt:
+                            serverTimestamp()
+                    }
+                );
+
+                alert(
+                    "Your review has been submitted successfully."
+                );
+
+            }
+
+
+            /* =========================
+               RESET REVIEW FORM
+            ========================= */
+
+            reviewForm.style.display =
+                "none";
+
+            if (textarea) {
+
+                textarea.value = "";
+
+            }
 
             reviewForm.dataset.rating = "";
+
+            delete reviewForm.dataset.reviewId;
+
 
             const stars =
                 reviewForm.querySelectorAll(
@@ -1746,10 +1802,26 @@ window.submitProductReview =
                 function(star) {
 
                     star.textContent = "☆";
-                    star.style.color = "#ff6600";
+
+                    star.style.color =
+                        "#ff6600";
 
                 }
             );
+
+
+            const submitButton =
+                reviewForm.querySelector(
+                    "button"
+                );
+
+            if (submitButton) {
+
+                submitButton.textContent =
+                    "Submit Review";
+
+            }
+
 
         } catch (error) {
 
@@ -1757,7 +1829,12 @@ window.submitProductReview =
                 "Review Submit Error:",
                 error
             );
-alert(error.code + "\n" + error.message);
+
+            alert(
+                error.code +
+                "\n" +
+                error.message
+            );
 
             alert(
                 "Unable to submit review. Please try again."
