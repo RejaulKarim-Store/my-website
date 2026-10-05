@@ -655,6 +655,9 @@ function formatPrice(price) {
             const order =
                 orderSnapshot.data();
 
+const orderCustomerName =
+    order.customerName || "Customer";
+
 
             /* =========================
                SECURITY CHECK
@@ -1757,6 +1760,8 @@ window.submitProductReview =
                         userId:
                             user.uid,
 
+customerName:
+    orderCustomerName,
                         rating:
                             rating,
 
