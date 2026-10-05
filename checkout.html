@@ -3406,6 +3406,10 @@ totalAmount +=
 order.products =
     firebaseProducts;
 
+order.productIds = firebaseProducts.map(
+    product => String(product.productId)
+);
+
 order.deliveryCharge =
     finalDeliveryCharge;
 
