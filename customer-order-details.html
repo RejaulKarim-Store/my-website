@@ -610,6 +610,56 @@ function formatPrice(price) {
 }
 
 
+/* =========================
+   MASK CUSTOMER NAME
+========================= */
+
+function maskCustomerName(name) {
+
+    if (!name) {
+        return "Customer";
+    }
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+    if (parts.length === 0) {
+        return "Customer";
+    }
+
+    const firstName =
+        parts[0];
+
+    const maskedFirstName =
+        firstName.length <= 2
+            ? firstName
+            : firstName.slice(0, 2) +
+              "*".repeat(firstName.length - 2);
+
+    if (parts.length === 1) {
+        return maskedFirstName;
+    }
+
+    const lastName =
+        parts[parts.length - 1];
+
+    const maskedLastName =
+        lastName.length <= 1
+            ? lastName
+            : lastName.charAt(0) +
+              "*".repeat(lastName.length - 1);
+
+    return (
+        maskedFirstName +
+        " " +
+        maskedLastName
+    );
+}
+
+
     /* =========================
        LOAD ORDER
     ========================= */
@@ -657,7 +707,9 @@ function formatPrice(price) {
     orderSnapshot.data();
 
 orderCustomerName =
-    order.customerName || "Customer";
+    maskCustomerName(
+        order.customerName || "Customer"
+    );
 
             /* =========================
                SECURITY CHECK
