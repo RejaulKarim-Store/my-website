@@ -1658,6 +1658,130 @@ else {
 
 }
 
+/* =====================================================
+   LOAD CUSTOMER REVIEWS
+===================================================== */
+
+async function loadProductReviews() {
+
+    const reviewList =
+        document.getElementById("customerReviewList");
+
+    if (!reviewList) {
+        return;
+    }
+
+    try {
+
+        const reviewsQuery =
+            query(
+                collection(db, "reviews"),
+                where(
+                    "productId",
+                    "==",
+                    String(productNumber)
+                )
+            );
+
+        const snapshot =
+            await getDocs(reviewsQuery);
+
+        reviewList.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            reviewList.innerHTML = `
+                <div
+                    style="
+                        color:#777;
+                        font-size:14px;
+                        padding:10px 0;
+                    "
+                >
+                    No reviews yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        snapshot.forEach(function(reviewDoc) {
+
+            const review =
+                reviewDoc.data();
+
+            const rating =
+                Math.max(
+                    1,
+                    Math.min(
+                        5,
+                        Number(review.rating || 0)
+                    )
+                );
+
+            let stars = "";
+
+            for (let i = 1; i <= 5; i++) {
+
+                stars +=
+                    i <= rating
+                        ? "★"
+                        : "☆";
+            }
+
+            const reviewItem =
+                document.createElement("div");
+
+            reviewItem.className =
+                "customer-review-item";
+
+            reviewItem.innerHTML = `
+
+                <div class="customer-review-header">
+
+                    <div class="customer-review-stars">
+                        ${stars}
+                    </div>
+
+                    <div class="customer-name">
+                        Customer
+                    </div>
+
+                </div>
+
+                <div class="customer-review-text">
+                    ${review.reviewText || ""}
+                </div>
+
+            `;
+
+            reviewList.appendChild(
+                reviewItem
+            );
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Load Reviews Error:",
+            error
+        );
+
+        reviewList.innerHTML = `
+            <div
+                style="
+                    color:#777;
+                    font-size:14px;
+                    padding:10px 0;
+                "
+            >
+                Unable to load reviews.
+            </div>
+        `;
+    }
+}
+
 
 /* =====================================================
    CREATE IMAGE DOTS
