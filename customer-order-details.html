@@ -1653,7 +1653,14 @@ let selectedReviewRating = 0;
 window.selectReviewRating =
     function(rating, clickedStar) {
 
-        selectedReviewRating = rating;
+        const reviewForm =
+    clickedStar.closest(
+        ".review-form"
+    );
+
+if (reviewForm) {
+    reviewForm.dataset.rating = rating;
+}
 
         const ratingStars =
             clickedStar.closest(
