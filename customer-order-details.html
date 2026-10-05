@@ -552,6 +552,7 @@ updateDoc,
     const orderId =
         urlParams.get("orderId");
 
+let orderCustomerName = "Customer";
 
     /* =========================
        AUTH CHECK
@@ -653,11 +654,10 @@ function formatPrice(price) {
 
 
             const order =
-                orderSnapshot.data();
+    orderSnapshot.data();
 
-const orderCustomerName =
+orderCustomerName =
     order.customerName || "Customer";
-
 
             /* =========================
                SECURITY CHECK
@@ -1262,7 +1262,7 @@ if (
 
                             Status
 
-                        </span>
+                        </spa
 
 
                         <span class="value">
