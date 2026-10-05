@@ -1641,6 +1641,120 @@ window.printCustomerOrder =
     };
 
 
+window.submitProductReview =
+    async function(button) {
+
+        const reviewForm =
+            button.closest(".review-form");
+
+        if (!reviewForm) {
+            return;
+        }
+
+        const rating =
+            Number(
+                reviewForm.dataset.rating || 0
+            );
+
+        const reviewText =
+            reviewForm
+                .querySelector("textarea")
+                .value
+                .trim();
+
+        if (rating < 1) {
+
+            alert("Please select a rating.");
+
+            return;
+        }
+
+        if (!reviewText) {
+
+            alert("Please write your review.");
+
+            return;
+        }
+
+        const user =
+            auth.currentUser;
+
+        if (!user) {
+
+            alert("Please login first.");
+
+            return;
+        }
+
+        try {
+
+            await addDoc(
+                collection(
+                    db,
+                    "reviews"
+                ),
+                {
+                    productId:
+                        selectedProductId,
+
+                    orderId:
+                        orderId,
+
+                    userId:
+                        user.uid,
+
+                    rating:
+                        rating,
+
+                    reviewText:
+                        reviewText,
+
+                    createdAt:
+                        serverTimestamp()
+                }
+            );
+
+            alert(
+                "Your review has been submitted successfully."
+            );
+
+            reviewForm.style.display = "none";
+
+            reviewForm
+                .querySelector("textarea")
+                .value = "";
+
+            reviewForm.dataset.rating = "";
+
+            const stars =
+                reviewForm.querySelectorAll(
+                    ".rating-stars span"
+                );
+
+            stars.forEach(
+                function(star) {
+
+                    star.textContent = "☆";
+                    star.style.color = "#ff6600";
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Review Submit Error:",
+                error
+            );
+
+            alert(
+                "Unable to submit review. Please try again."
+            );
+
+        }
+
+    };
+
 /* =========================
    PRODUCT REVIEW
 ========================= */
