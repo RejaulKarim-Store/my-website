@@ -884,6 +884,13 @@ const productImage =
     onclick="openProductReview('${product.productId || product.productSerial || ""}', this)"
     style="
         width:100%;
+
+display: ${
+    order.status === "Delivered"
+        ? "block"
+        : "none"
+};
+
         margin-top:10px;
         padding:10px;
         border:none;
