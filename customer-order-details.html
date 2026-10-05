@@ -467,14 +467,16 @@ button[onclick="printCustomerOrder()"] {
     } from
     "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-
-    import {
+import {
 
     getFirestore,
     doc,
     getDoc,
     collection,
     addDoc,
+    query,
+    where,
+    getDocs,
     serverTimestamp
 
 } from
@@ -1819,7 +1821,7 @@ if (reviewForm) {
 
     };
 window.openProductReview =
-    function(productId, button) {
+    async function(productId, button) {
 
         selectedProductId =
             productId || "";
@@ -1843,15 +1845,224 @@ window.openProductReview =
             form.style.display = "none";
             activeReviewForm = null;
 
-        } else {
+            return;
+        }
 
-            form.style.display = "block";
-            activeReviewForm = form;
+
+        /* =========================
+           CHECK EXISTING REVIEW
+        ========================= */
+
+        const user =
+            auth.currentUser;
+
+        if (!user) {
+
+            alert("Please login first.");
+
+            return;
+        }
+
+
+        try {
+
+            const reviewQuery =
+                query(
+                    collection(
+                        db,
+                        "reviews"
+                    ),
+
+                    where(
+                        "productId",
+                        "==",
+                        String(productId)
+                    ),
+
+                    where(
+                        "orderId",
+                        "==",
+                        orderId
+                    ),
+
+                    where(
+                        "userId",
+                        "==",
+                        user.uid
+                    )
+                );
+
+
+            const reviewSnapshot =
+                await getDocs(
+                    reviewQuery
+                );
+
+
+            /* =========================
+               EXISTING REVIEW FOUND
+            ========================= */
+
+            if (!reviewSnapshot.empty) {
+
+                const reviewData =
+                    reviewSnapshot
+                        .docs[0]
+                        .data();
+
+
+                form.dataset.reviewId =
+                    reviewSnapshot
+                        .docs[0]
+                        .id;
+
+
+                form.dataset.rating =
+                    reviewData.rating || 0;
+
+
+                const textarea =
+                    form.querySelector(
+                        "textarea"
+                    );
+
+
+                if (textarea) {
+
+                    textarea.value =
+                        reviewData.reviewText ||
+                        "";
+
+                }
+
+
+                const stars =
+                    form.querySelectorAll(
+                        ".rating-stars span"
+                    );
+
+
+                stars.forEach(
+                    function(star, index) {
+
+                        if (
+                            index <
+                            Number(
+                                reviewData.rating || 0
+                            )
+                        ) {
+
+                            star.textContent =
+                                "★";
+
+                        } else {
+
+                            star.textContent =
+                                "☆";
+
+                        }
+
+                        star.style.color =
+                            "#ff6600";
+
+                    }
+                );
+
+
+                const submitButton =
+                    form.querySelector(
+                        "button"
+                    );
+
+
+                if (submitButton) {
+
+                    submitButton.textContent =
+                        "Update Review";
+
+                }
+
+            }
+
+
+            /* =========================
+               NEW REVIEW
+            ========================= */
+
+            else {
+
+                delete form.dataset.reviewId;
+
+                form.dataset.rating = "";
+
+                const textarea =
+                    form.querySelector(
+                        "textarea"
+                    );
+
+                if (textarea) {
+
+                    textarea.value = "";
+
+                }
+
+
+                const stars =
+                    form.querySelectorAll(
+                        ".rating-stars span"
+                    );
+
+
+                stars.forEach(
+                    function(star) {
+
+                        star.textContent =
+                            "☆";
+
+                        star.style.color =
+                            "#ff6600";
+
+                    }
+                );
+
+
+                const submitButton =
+                    form.querySelector(
+                        "button"
+                    );
+
+
+                if (submitButton) {
+
+                    submitButton.textContent =
+                        "Submit Review";
+
+                }
+
+            }
+
+
+            form.style.display =
+                "block";
+
+            activeReviewForm =
+                form;
+
+
+        } catch (error) {
+
+            console.error(
+                "Review Check Error:",
+                error
+            );
+
+            alert(
+                "Unable to load your review. Please try again."
+            );
 
         }
 
     };
-
 
 document.addEventListener(
     "click",
