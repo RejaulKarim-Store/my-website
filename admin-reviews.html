@@ -630,11 +630,11 @@ if (review.productId) {
 
 
 productElement.innerText =
-    "Product: " +
-    productName +
-    " (Serial: " +
+    "(Serial: " +
     (review.productId || "Unknown") +
-    ")";
+    ")\n" +
+    "Product: " +
+    productName;
 
 
                 const customerElement =
