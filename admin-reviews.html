@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>RK Store - Customer Reviews</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f5f5;
+
+    padding: 20px;
+
+}
+
+
+.admin-box {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    margin: 20px auto;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.15);
+
+}
+
+
+.page-header {
+
+    background: #ff6600;
+
+    color: #ffffff;
+
+    padding: 12px 16px;
+
+    margin: -20px -20px 20px -20px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    border-radius: 12px 12px 0 0;
+
+    position: relative;
+
+}
+
+
+.header-back-button {
+
+    position: absolute;
+
+    left: 12px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+}
+
+
+.admin-status {
+
+    text-align: center;
+
+    background: #e8f5e9;
+
+    color: #198754;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    margin-bottom: 20px;
+
+    font-weight: bold;
+
+}
+
+
+.review-count {
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    color: #333;
+
+}
+
+
+.review-card {
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+
+    background: #ffffff;
+
+}
+
+
+.review-product {
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    margin-bottom: 8px;
+
+    color: #222;
+
+}
+
+
+.review-customer {
+
+    font-weight: bold;
+
+    margin-bottom: 6px;
+
+}
+
+
+.review-rating {
+
+    margin-bottom: 8px;
+
+    font-size: 17px;
+
+}
+
+
+.review-text {
+
+    color: #444;
+
+    line-height: 1.5;
+
+    margin-bottom: 12px;
+
+    word-break: break-word;
+
+}
+
+
+.review-info {
+
+    font-size: 13px;
+
+    color: #777;
+
+    margin-bottom: 12px;
+
+}
+
+
+.delete-button {
+
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid #d5d5d5;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f1f1f1
+        );
+
+    color: #c62828;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 0 #b5b5b5;
+
+}
+
+
+.delete-button:active {
+
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 1px 0 #b5b5b5;
+
+}
+
+
+.empty-message {
+
+    text-align: center;
+
+    padding: 25px 10px;
+
+    color: #777;
+
+}
+
+
+.error-message {
+
+    text-align: center;
+
+    padding: 20px;
+
+    color: #c62828;
+
+    background: #ffebee;
+
+    border-radius: 8px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-box">
+
+    <header class="page-header">
+
+        <a
+            href="admin.html"
+            class="header-back-button"
+        >
+            ←
+        </a>
+
+        ⭐ Customer Reviews
+
+    </header>
+
+
+    <div
+        class="admin-status"
+        id="adminStatus"
+    >
+        Checking Admin Login...
+    </div>
+
+
+    <div
+        class="review-count"
+        id="reviewCount"
+    >
+        Loading Reviews...
+    </div>
+
+
+    <div id="reviewsContainer"></div>
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+
+import {
+
+    initializeApp
+
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+
+    getAuth,
+
+    onAuthStateChanged
+
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+
+    getFirestore,
+
+    collection,
+
+    getDocs,
+
+    deleteDoc,
+
+    doc
+
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCkBQaphKKz_Wxd1GgKAVoxqR4taKvzdEM",
+
+    authDomain:
+        "rk-store-5fb24.firebaseapp.com",
+
+    projectId:
+        "rk-store-5fb24",
+
+    storageBucket:
+        "rk-store-5fb24.firebasestorage.app",
+
+    messagingSenderId:
+        "407275549697",
+
+    appId:
+        "1:407275549697:web:41043b49bf7182cecffc00"
+
+};
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   ADMIN EMAIL
+===================================================== */
+
+const ADMIN_EMAIL =
+    "REJAUL.IMAM@gmail.com";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const adminStatus =
+    document.getElementById(
+        "adminStatus"
+    );
+
+
+const reviewCount =
+    document.getElementById(
+        "reviewCount"
+    );
+
+
+const reviewsContainer =
+    document.getElementById(
+        "reviewsContainer"
+    );
+
+
+/* =====================================================
+   MASK CUSTOMER NAME
+===================================================== */
+
+function maskCustomerName(name) {
+
+    if (!name) {
+
+        return "Customer";
+
+    }
+
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+    if (parts.length === 0) {
+
+        return "Customer";
+
+    }
+
+
+    const firstName =
+        parts[0];
+
+
+    const maskedFirstName =
+        firstName.length <= 2
+            ? firstName
+            : firstName.slice(0, 2) +
+              "*".repeat(
+                  firstName.length - 2
+              );
+
+
+    if (parts.length === 1) {
+
+        return maskedFirstName;
+
+    }
+
+
+    const lastName =
+        parts[parts.length - 1];
+
+
+    const maskedLastName =
+        lastName.length <= 1
+            ? lastName
+            : lastName.charAt(0) +
+              "*".repeat(
+                  lastName.length - 1
+              );
+
+
+    return (
+        maskedFirstName +
+        " " +
+        maskedLastName
+    );
+
+}
+
+
+/* =====================================================
+   LOAD REVIEWS
+===================================================== */
+
+async function loadReviews() {
+
+    reviewsContainer.innerHTML = "";
+
+    reviewCount.innerText =
+        "Loading Reviews...";
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "reviews"
+                )
+            );
+
+
+        if (snapshot.empty) {
+
+            reviewCount.innerText =
+                "0 Reviews";
+
+            reviewsContainer.innerHTML =
+                `
+                <div class="empty-message">
+                    No customer reviews found.
+                </div>
+                `;
+
+            return;
+
+        }
+
+
+        reviewCount.innerText =
+            snapshot.size +
+            (
+                snapshot.size === 1
+                    ? " Review"
+                    : " Reviews"
+            );
+
+
+        snapshot.forEach(
+
+            function(reviewDoc) {
+
+                const review =
+                    reviewDoc.data();
+
+
+                const rating =
+                    Number(
+                        review.rating || 0
+                    );
+
+
+                const safeRating =
+                    Math.max(
+                        0,
+                        Math.min(
+                            5,
+                            Math.round(rating)
+                        )
+                    );
+
+
+                const stars =
+                    "⭐".repeat(
+                        safeRating
+                    ) +
+                    "☆".repeat(
+                        5 - safeRating
+                    );
+
+
+                const customerName =
+                    maskCustomerName(
+                        review.customerName
+                    );
+
+
+                const reviewCard =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                reviewCard.className =
+                    "review-card";
+
+
+                const productElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                productElement.className =
+                    "review-product";
+
+
+                productElement.innerText =
+                    "Product: " +
+                    (
+                        review.productId ||
+                        "Unknown"
+                    );
+
+
+                const customerElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                customerElement.className =
+                    "review-customer";
+
+
+                customerElement.innerText =
+                    "👤 " +
+                    customerName;
+
+
+                const ratingElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                ratingElement.className =
+                    "review-rating";
+
+
+                ratingElement.innerText =
+                    stars +
+                    " " +
+                    rating +
+                    " / 5";
+
+
+                const textElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                textElement.className =
+                    "review-text";
+
+
+                textElement.innerText =
+                    review.reviewText ||
+                    "No review text";
+
+
+                const infoElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                infoElement.className =
+                    "review-info";
+
+
+                infoElement.innerText =
+                    "Order ID: " +
+                    (
+                        review.orderId ||
+                        "Unknown"
+                    );
+
+
+                const deleteButton =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                deleteButton.className =
+                    "delete-button";
+
+
+                deleteButton.innerText =
+                    "🗑️ Delete Review";
+
+
+                deleteButton.addEventListener(
+
+                    "click",
+
+                    async function() {
+
+                        const confirmed =
+                            confirm(
+                                "Are you sure you want to delete this review?"
+                            );
+
+
+                        if (!confirmed) {
+
+                            return;
+
+                        }
+
+
+                        try {
+
+                            await deleteDoc(
+                                doc(
+                                    db,
+                                    "reviews",
+                                    reviewDoc.id
+                                )
+                            );
+
+
+                            alert(
+                                "Review deleted successfully."
+                            );
+
+
+                            await loadReviews();
+
+                        }
+
+                        catch (error) {
+
+                            console.error(
+                                "Delete Review Error:",
+                                error
+                            );
+
+
+                            alert(
+                                "Failed to delete review. Please try again."
+                            );
+
+                        }
+
+                    }
+
+                );
+
+
+                reviewCard.appendChild(
+                    productElement
+                );
+
+
+                reviewCard.appendChild(
+                    customerElement
+                );
+
+
+                reviewCard.appendChild(
+                    ratingElement
+                );
+
+
+                reviewCard.appendChild(
+                    textElement
+                );
+
+
+                reviewCard.appendChild(
+                    infoElement
+                );
+
+
+                reviewCard.appendChild(
+                    deleteButton
+                );
+
+
+                reviewsContainer.appendChild(
+                    reviewCard
+                );
+
+            }
+
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Load Reviews Error:",
+            error
+        );
+
+
+        reviewCount.innerText =
+            "Unable to load Reviews.";
+
+
+        reviewsContainer.innerHTML =
+            `
+            <div class="error-message">
+                Unable to load customer reviews.
+            </div>
+            `;
+
+    }
+
+}
+
+
+/* =====================================================
+   ADMIN AUTH CHECK
+===================================================== */
+
+onAuthStateChanged(
+
+    auth,
+
+    function(user) {
+
+
+        if (
+            !user ||
+            !user.email ||
+            user.email.toLowerCase() !==
+            ADMIN_EMAIL.toLowerCase()
+        ) {
+
+            window.location.replace(
+                "admin-login.html"
+            );
+
+            return;
+
+        }
+
+
+        adminStatus.innerText =
+            "🔐 Admin Access Granted: " +
+            user.email;
+
+
+        loadReviews();
+
+    }
+
+);
+
+
+</script>
+
+
+</body>
+
+</html>
