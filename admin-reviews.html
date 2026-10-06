@@ -543,9 +543,7 @@ async function loadReviews() {
             );
 
 
-        snapshot.forEach(
-
-            function(reviewDoc) {
+                for (const reviewDoc of snapshot.docs) {
 
                 const review =
                     reviewDoc.data();
