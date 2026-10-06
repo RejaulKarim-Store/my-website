@@ -598,12 +598,43 @@ async function loadReviews() {
                     );
 
 
-                productElement.className =
-                    "review-product";
+                let productName =
+    "Unknown Product";
 
 
-                productElement.innerText =
-    "Product: Loading...";
+if (review.productId) {
+
+    const productSnapshot =
+        await getDoc(
+            doc(
+                db,
+                "productDescriptions",
+                String(review.productId)
+            )
+        );
+
+
+    if (productSnapshot.exists()) {
+
+        const productData =
+            productSnapshot.data();
+
+
+        productName =
+            productData.name ||
+            "Unknown Product";
+
+    }
+
+}
+
+
+productElement.innerText =
+    "Product: " +
+    productName +
+    " (Serial: " +
+    (review.productId || "Unknown") +
+    ")";
 
 
                 const customerElement =
