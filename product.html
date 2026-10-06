@@ -1744,7 +1744,7 @@ async function loadProductReviews() {
                     </div>
 
                     <div class="customer-name">
-                        Customer
+                        ${review.customerName || "Customer"}
                     </div>
 
                 </div>
@@ -1781,7 +1781,6 @@ async function loadProductReviews() {
         `;
     }
 }
-
 
 /* =====================================================
    CREATE IMAGE DOTS
