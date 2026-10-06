@@ -1672,17 +1672,40 @@ else {
 async function loadProductReviews() {
 
     const reviewList =
-        document.getElementById("customerReviewList");
+        document.getElementById(
+            "customerReviewList"
+        );
+
+    const averageRatingElement =
+        document.getElementById(
+            "reviewAverageRating"
+        );
+
+    const summaryStarsElement =
+        document.getElementById(
+            "reviewSummaryStars"
+        );
+
+    const reviewCountElement =
+        document.getElementById(
+            "reviewCount"
+        );
+
 
     if (!reviewList) {
         return;
     }
 
+
     try {
 
         const reviewsQuery =
             query(
-                collection(db, "reviews"),
+                collection(
+                    db,
+                    "reviews"
+                ),
+
                 where(
                     "productId",
                     "==",
@@ -1690,83 +1713,286 @@ async function loadProductReviews() {
                 )
             );
 
-        const snapshot =
-            await getDocs(reviewsQuery);
 
-        reviewList.innerHTML = "";
+        const snapshot =
+            await getDocs(
+                reviewsQuery
+            );
+
+
+        /* =========================
+           NO REVIEWS
+        ========================= */
 
         if (snapshot.empty) {
 
-            reviewList.innerHTML = `
-                <div
-                    style="
-                        color:#777;
-                        font-size:14px;
-                        padding:10px 0;
-                    "
-                >
-                    No reviews yet.
-                </div>
-            `;
+            if (averageRatingElement) {
 
-            return;
-        }
+                averageRatingElement.textContent =
+                    "⭐ 0 / 5";
 
-        snapshot.forEach(function(reviewDoc) {
-
-            const review =
-                reviewDoc.data();
-
-            const rating =
-                Math.max(
-                    1,
-                    Math.min(
-                        5,
-                        Number(review.rating || 0)
-                    )
-                );
-
-            let stars = "";
-
-            for (let i = 1; i <= 5; i++) {
-
-                stars +=
-                    i <= rating
-                        ? "★"
-                        : "☆";
             }
 
-            const reviewItem =
-                document.createElement("div");
 
-            reviewItem.className =
-                "customer-review-item";
+            if (summaryStarsElement) {
 
-            reviewItem.innerHTML = `
+                summaryStarsElement.innerHTML =
+                    `
+                    ☆☆☆☆☆
+                    <span id="reviewCount">
+                        0 Reviews
+                    </span>
+                    `;
 
-                <div class="customer-review-header">
+            }
 
-                    <div class="customer-review-stars">
-                        ${stars}
+
+            if (reviewList) {
+
+                reviewList.innerHTML = `
+                    <div
+                        style="
+                            color:#777;
+                            font-size:14px;
+                            padding:10px 0;
+                        "
+                    >
+                        No reviews yet.
+                    </div>
+                `;
+
+            }
+
+            return;
+
+        }
+
+
+        /* =========================
+           CALCULATE RATING
+        ========================= */
+
+        let totalRating = 0;
+
+        let validReviewCount = 0;
+
+
+        snapshot.forEach(
+            function(reviewDoc) {
+
+                const review =
+                    reviewDoc.data();
+
+
+                const rating =
+                    Number(
+                        review.rating
+                    );
+
+
+                if (
+                    Number.isFinite(rating) &&
+                    rating >= 1 &&
+                    rating <= 5
+                ) {
+
+                    totalRating +=
+                        rating;
+
+                    validReviewCount++;
+
+                }
+
+            }
+        );
+
+
+        let averageRating = 0;
+
+
+        if (
+            validReviewCount > 0
+        ) {
+
+            averageRating =
+                totalRating /
+                validReviewCount;
+
+        }
+
+
+        /* =========================
+           SHOW AVERAGE RATING
+        ========================= */
+
+        if (averageRatingElement) {
+
+            averageRatingElement.textContent =
+                "⭐ " +
+                averageRating.toFixed(1) +
+                " / 5";
+
+        }
+
+
+        /* =========================
+           SHOW SUMMARY STARS
+        ========================= */
+
+        if (summaryStarsElement) {
+
+            let summaryStars = "";
+
+
+            const roundedRating =
+                Math.round(
+                    averageRating
+                );
+
+
+            for (
+                let i = 1;
+                i <= 5;
+                i++
+            ) {
+
+                summaryStars +=
+                    i <= roundedRating
+                        ? "★"
+                        : "☆";
+
+            }
+
+
+            const reviewText =
+                validReviewCount === 1
+                    ? "1 Review"
+                    : validReviewCount +
+                      " Reviews";
+
+
+            summaryStarsElement.innerHTML =
+                summaryStars +
+                `
+                <span id="reviewCount">
+                    ${reviewText}
+                </span>
+                `;
+
+        }
+
+
+        /* =========================
+           LOAD REVIEW LIST
+        ========================= */
+
+        reviewList.innerHTML = "";
+
+
+        snapshot.forEach(
+            function(reviewDoc) {
+
+                const review =
+                    reviewDoc.data();
+
+
+                let rating =
+                    Number(
+                        review.rating
+                    );
+
+
+                if (
+                    !Number.isFinite(
+                        rating
+                    )
+                ) {
+
+                    rating = 1;
+
+                }
+
+
+                rating =
+                    Math.max(
+                        1,
+                        Math.min(
+                            5,
+                            rating
+                        )
+                    );
+
+
+                let stars = "";
+
+
+                for (
+                    let i = 1;
+                    i <= 5;
+                    i++
+                ) {
+
+                    stars +=
+                        i <= rating
+                            ? "★"
+                            : "☆";
+
+                }
+
+
+                const reviewItem =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                reviewItem.className =
+                    "customer-review-item";
+
+
+                reviewItem.innerHTML = `
+
+                    <div
+                        class="customer-review-header"
+                    >
+
+                        <div
+                            class="customer-review-stars"
+                        >
+                            ${stars}
+                        </div>
+
+                        <div
+                            class="customer-name"
+                        >
+                            ${
+                                review.customerName ||
+                                "Customer"
+                            }
+                        </div>
+
                     </div>
 
-                    <div class="customer-name">
-                        ${review.customerName || "Customer"}
+
+                    <div
+                        class="customer-review-text"
+                    >
+                        ${
+                            review.reviewText ||
+                            ""
+                        }
                     </div>
 
-                </div>
+                `;
 
-                <div class="customer-review-text">
-                    ${review.reviewText || ""}
-                </div>
 
-            `;
+                reviewList.appendChild(
+                    reviewItem
+                );
 
-            reviewList.appendChild(
-                reviewItem
-            );
+            }
+        );
 
-        });
 
     } catch (error) {
 
@@ -1774,6 +2000,28 @@ async function loadProductReviews() {
             "Load Reviews Error:",
             error
         );
+
+
+        if (averageRatingElement) {
+
+            averageRatingElement.textContent =
+                "⭐ 0 / 5";
+
+        }
+
+
+        if (summaryStarsElement) {
+
+            summaryStarsElement.innerHTML =
+                `
+                ☆☆☆☆☆
+                <span id="reviewCount">
+                    0 Reviews
+                </span>
+                `;
+
+        }
+
 
         reviewList.innerHTML = `
             <div
@@ -1786,9 +2034,10 @@ async function loadProductReviews() {
                 Unable to load reviews.
             </div>
         `;
-    }
-}
 
+    }
+
+}
 /* =====================================================
    CREATE IMAGE DOTS
 ===================================================== */
