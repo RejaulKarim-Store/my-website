@@ -1734,10 +1734,38 @@ window.submitProductReview =
 
         if (rating < 1) {
 
-            alert("Please select a rating.");
+    const message =
+        document.createElement("div");
 
-            return;
-        }
+    message.innerText =
+        "Please select a rating.";
+
+    message.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #dc3545;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: bold;
+        z-index: 9999;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    `;
+
+    document.body.appendChild(message);
+
+    setTimeout(
+        function() {
+            message.remove();
+        },
+        2500
+    );
+
+    return;
+}
 
         if (!reviewText) {
 
