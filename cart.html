@@ -30,6 +30,31 @@
             margin: 0;
         }
 
+.cart-header {
+position: relative;
+}
+
+    .cart-back-button {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        background: transparent;
+        border: none;
+        color: white;
+
+        font-size: 30px;
+        line-height: 1;
+        padding: 5px;
+
+        cursor: pointer;
+    }
+
+    .cart-back-button:active {
+        transform: translateY(-50%) scale(0.90);
+    }
+
 
         .cart-container {
             width: 90%;
@@ -547,9 +572,18 @@ body {
 <body>
 
 
-    <h1>
-        RK Store - Cart
-    </h1>
+    <h1 class="cart-header"><button
+    type="button"
+    class="cart-back-button"
+    onclick="history.back()"
+    aria-label="Go Back"
+>
+    ←
+</button>
+
+RK Store - Cart
+
+</h1>
 
 
     <div
