@@ -108,6 +108,50 @@ body {
 }
 
 
+/* =========================
+HEADER BACK BUTTON
+========================= */
+
+.header-back-button {
+
+position: absolute;
+
+left: 12px;
+
+top: 50%;
+
+transform: translateY(-50%);
+
+width: 38px;
+
+height: 38px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+text-decoration: none;
+
+color: white;
+
+font-size: 30px;
+
+font-weight: bold;
+
+border-radius: 8px;
+
+}
+
+.header-back-button:active {
+
+background: rgba(255, 255, 255, 0.2);
+
+transform: translateY(-50%) scale(0.92);
+
+}
+
 
 /* =========================
    HEADER SETTINGS BUTTON
@@ -429,7 +473,16 @@ position: relative;
 
 <header class="header">
 
-    
+    <a
+href="index.html"
+class="header-back-button"
+aria-label="Back to Home"
+
+>
+
+←
+
+</a>
 
     <div class="header-title">
     My Account
