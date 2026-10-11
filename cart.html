@@ -2344,6 +2344,27 @@ function(index, checked) {
 
 </div>
 
+<script>
+function goBackFromCart() {
+
+    const openedFrom =
+        sessionStorage.getItem("rkCartOpenedFrom");
+
+    if (openedFrom === "home") {
+
+        sessionStorage.removeItem("rkCartOpenedFrom");
+
+        window.location.href = "index.html";
+
+    } else {
+
+        history.back();
+
+    }
+
+}
+</script>
+
 </body>
 
 </html>
