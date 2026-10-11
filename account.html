@@ -159,51 +159,45 @@ transform: translateY(-50%) scale(0.92);
 
 .header-settings-button {
 
-    position: absolute;
+position: absolute;
 
-    right: 10px;
+right: 10px;
 
-    top: 50%;
+top: 50%;
 
-    transform: translateY(-50%);
+transform: translateY(-50%);
 
-    text-decoration: none;
+width: 38px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f1f1f1
-        );
+height: 38px;
 
-    color: #333;
+display: flex;
 
-    border: 1px solid #d5d5d5;
+align-items: center;
 
-    border-radius: 8px;
+justify-content: center;
 
-    padding: 7px 10px;
+text-decoration: none;
 
-    font-size: 13px;
+background: transparent;
 
-    font-weight: bold;
+color: white;
 
-    box-shadow:
-        0 3px 0 #b5b5b5;
+border: none;
 
-}
+border-radius: 8px;
 
-.header-settings-button:active {
+padding: 0;
 
-    transform:
-        translateY(
-            calc(-50% + 3px)
-        );
+font-size: 25px;
 
-    box-shadow:
-        0 1px 0 #b5b5b5;
+cursor: pointer;
+
+-webkit-tap-highlight-color: transparent;
 
 }
+
+
 /* =========================
    ACCOUNT CONTENT
 ========================= */
@@ -489,11 +483,17 @@ aria-label="Back to Home"
 </div>
 
 <a
-    href="settings.html"
-    class="header-settings-button"
+href="settings.html"
+class="header-settings-button"
+aria-label="Settings"
+title="Settings"
+
 >
-    ⚙️ Settings
+
+⚙️
+
 </a>
+
 
 </header>
 
