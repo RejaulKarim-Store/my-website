@@ -2345,12 +2345,16 @@ function(index, checked) {
 </div>
 
 <script>
+
 function goBackFromCart() {
 
     const openedFrom =
         sessionStorage.getItem("rkCartOpenedFrom");
 
-    if (openedFrom === "home") {
+    if (
+        openedFrom === "home" ||
+        openedFrom === "account"
+    ) {
 
         sessionStorage.removeItem("rkCartOpenedFrom");
 
@@ -2363,6 +2367,7 @@ function goBackFromCart() {
     }
 
 }
+
 </script>
 
 </body>
