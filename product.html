@@ -3528,18 +3528,16 @@ if (availableSizes.length > 0) {
 
 
         const existingProduct =
-            cart.find(
-                function(item) {
+    cart.find(
+        function(item) {
 
-                    return (
-                        Number(
-                            item.productId
-                        ) ===
-                        productNumber
-                    );
-
-                }
+            return (
+                Number(item.productId) === productNumber &&
+                (item.selectedSize || "") === selectedSize
             );
+
+        }
+    );
 
 
         if (
@@ -3598,6 +3596,9 @@ if (availableSizes.length > 0) {
 
                 productId:
                     productNumber,
+
+selectedSize:
+    selectedSize,
 
                 name:
                     currentProduct.name,
