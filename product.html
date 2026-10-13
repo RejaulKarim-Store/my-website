@@ -1405,7 +1405,7 @@ const sizeOptions =
     document.getElementById("sizeOptions");
 
 const availableSizes =
-    String(data.size || "")
+    String(data.customerSizes || "")
         .split(",")
         .map(size => size.trim())
         .filter(size => size !== "");
@@ -2716,6 +2716,14 @@ async function loadFirebaseDescription() {
                         )
 
                         : currentProduct.size,
+
+
+                customerSizes:
+                    firebaseData.customerSizes !== undefined
+                        ? String(
+                            firebaseData.customerSizes
+                        )
+                        : (currentProduct.customerSizes || ""),
 
 
                 material:
