@@ -746,17 +746,30 @@ button.action-button:hover {
 
 <!-- =========================
      PRODUCT SIZE SELECTION
-========================= --><div id="sizeSelection" style="display:none; margin:12px 0 15px 0; text-align:left;"><p style="margin:0 0 10px 0; font-size:15px; font-weight:bold; color:#333;">
+========================= --><div id="sizeSelection" style="display:none; margin:8px 0; text-align:left;"><label
+    for="sizeOptions"
+    style="font-size:14px; font-weight:bold; color:#333; margin-right:8px;"
+>
     Select Size:
-</p>
+</label>
 
-<div id="sizeOptions" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
-
-<p id="selectedSizeText" style="margin:10px 0 0 0; font-size:14px; color:#555;">
-    Selected Size: None
-</p>
+<select
+    id="sizeOptions"
+    style="
+        padding:6px 10px;
+        border:1px solid #ccc;
+        border-radius:5px;
+        background:#fff;
+        font-size:14px;
+        color:#333;
+        max-width:150px;
+    "
+>
+    <option value="">Select Size</option>
+</select>
 
 </div>
+
 
     <p id="productPrice">
         Price: ৳0
@@ -1382,74 +1395,45 @@ function showProduct(data) {
 
 
     /* =========================
-       SIZE SELECTION
-    ========================= */
+SIZE DROPDOWN
+========================= */
 
-    const sizeSelection =
-        document.getElementById("sizeSelection");
+const sizeSelection =
+    document.getElementById("sizeSelection");
 
-    const sizeOptions =
-        document.getElementById("sizeOptions");
+const sizeOptions =
+    document.getElementById("sizeOptions");
 
-    const selectedSizeText =
-        document.getElementById("selectedSizeText");
+const availableSizes =
+    String(data.size || "")
+        .split(",")
+        .map(size => size.trim())
+        .filter(size => size !== "");
 
-    const availableSizes =
-        String(data.size || "")
-            .split(",")
-            .map(size => size.trim())
-            .filter(size => size !== "");
+sizeOptions.innerHTML =
+    '<option value="">Select Size</option>';
 
-    sizeOptions.innerHTML = "";
-    selectedSizeText.textContent = "Selected Size: None";
+if (availableSizes.length > 0) {
 
-    if (availableSizes.length > 0) {
+    sizeSelection.style.display = "block";
 
-        sizeSelection.style.display = "block";
+    availableSizes.forEach(function(size) {
 
-        availableSizes.forEach(function(size) {
+        const option =
+            document.createElement("option");
 
-            const sizeButton = document.createElement("button");
+        option.value = size;
+        option.textContent = size;
 
-            sizeButton.type = "button";
-            sizeButton.textContent = size;
+        sizeOptions.appendChild(option);
 
-            sizeButton.style.padding = "8px 14px";
-            sizeButton.style.border = "1px solid #ccc";
-            sizeButton.style.borderRadius = "5px";
-            sizeButton.style.background = "#fff";
-            sizeButton.style.color = "#333";
-            sizeButton.style.fontSize = "14px";
-            sizeButton.style.cursor = "pointer";
+    });
 
-            sizeButton.addEventListener("click", function() {
+} else {
 
-                sizeOptions.querySelectorAll("button").forEach(
-                    function(button) {
-                        button.style.background = "#fff";
-                        button.style.color = "#333";
-                        button.style.borderColor = "#ccc";
-                    }
-                );
+    sizeSelection.style.display = "none";
 
-                sizeButton.style.background = "#ff6600";
-                sizeButton.style.color = "#fff";
-                sizeButton.style.borderColor = "#ff6600";
-
-                selectedSizeText.textContent =
-                    "Selected Size: " + size;
-            });
-
-            sizeOptions.appendChild(sizeButton);
-
-        });
-
-    } else {
-
-        sizeSelection.style.display = "none";
-
-    }
-
+}
     /* =========================
        PRICE
     ========================= */
