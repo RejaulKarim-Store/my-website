@@ -512,6 +512,20 @@ body.admin-verified {
 
     </div>
 
+<!-- =========================
+     CUSTOMER SIZE SELECTION
+========================= --><div class="row"><label>
+    Customer Size Selection:
+</label>
+
+<input
+    type="text"
+    id="customerSizes"
+    placeholder="S, M, L, XL, 2XL"
+>
+
+</div>
+
 
     <!-- =========================
          MATERIAL
@@ -1467,6 +1481,11 @@ discountPrice:
             size:
                 document.getElementById(
                     "size"
+                ).value.trim(),
+
+            customerSizes:
+                document.getElementById(
+                    "customerSizes"
                 ).value.trim(),
 
             material:
