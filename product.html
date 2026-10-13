@@ -3479,6 +3479,33 @@ document.getElementById(
         }
 
 
+/* =========================
+   CHECK CUSTOMER SIZE
+========================= */
+
+const availableSizes =
+    String(currentProduct.customerSizes || "")
+        .split(",")
+        .map(size => size.trim())
+        .filter(size => size !== "");
+
+let selectedSize = "";
+
+if (availableSizes.length > 0) {
+
+    selectedSize =
+        document.getElementById("sizeOptions").value;
+
+    if (!selectedSize) {
+
+        alert("Please select a size first.");
+
+        return;
+
+    }
+
+}
+
         if (
             Number(currentProduct.stock) <= 0
         ) {
