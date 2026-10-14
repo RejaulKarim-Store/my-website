@@ -1023,6 +1023,12 @@ function formatPrice(price) {
                             ${currentName}
                         </strong>
 
+${
+product.selectedSize
+? "<p style=" margin:6px 0; font-size:13px; color:#555; "> Size: <strong>${product.selectedSize}</strong> </p>"
+: ""
+}
+
 
                         ${
                             currentDiscount > 0 &&
@@ -3305,6 +3311,10 @@ firebaseProducts.push({
 
     quantity:
         quantity,
+
+    selectedSize:
+        product.selectedSize || "",
+
 
     image:
         currentImage
