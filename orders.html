@@ -1138,6 +1138,26 @@ totalAmount +=
 
         </p>
 
+        ${
+            product.selectedSize
+                ? `
+                    <p style="
+                        margin:6px 0;
+                        font-size:15px;
+                        color:#333;
+                    ">
+                        <strong>Size:</strong>
+                        <span style="
+                            color:#ff6600;
+                            font-weight:bold;
+                        ">
+                            ${escapeHTML(product.selectedSize)}
+                        </span>
+                    </p>
+                  `
+                : ""
+        }
+
 
        <p>
 
