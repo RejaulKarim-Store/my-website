@@ -1811,7 +1811,7 @@ invoiceTotal +=
     subtotal;
 
 
-                    invoiceProducts += `
+                                        invoiceProducts += `
 
                         <tr>
 
@@ -1821,6 +1821,21 @@ invoiceTotal +=
                                     product.name ||
                                     "Product " +
                                     (index + 1)
+                                }
+
+                                ${
+                                    product.selectedSize
+                                        ? `
+                                            <br>
+                                            <span style="
+                                                color:#ff6600;
+                                                font-size:12px;
+                                                font-weight:bold;
+                                            ">
+                                                Size: ${product.selectedSize}
+                                            </span>
+                                          `
+                                        : ""
                                 }
 
                             </td>
