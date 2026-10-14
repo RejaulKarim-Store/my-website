@@ -1024,9 +1024,17 @@ function formatPrice(price) {
                         </strong>
 
 ${
-product.selectedSize
-? "<p style=" margin:6px 0; font-size:13px; color:#555; "> Size: <strong>${product.selectedSize}</strong> </p>"
-: ""
+    product.selectedSize
+        ? `
+            <p style="
+                margin:6px 0;
+                font-size:13px;
+                color:#555;
+            ">
+                Size: <strong>${product.selectedSize}</strong>
+            </p>
+          `
+        : ""
 }
 
 
