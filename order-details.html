@@ -1098,6 +1098,22 @@ const productImage =
 
                             </div>
 
+                            ${
+                                product.selectedSize
+                                    ? `
+                                        <div class="product-info">
+                                            Size:
+                                            <strong style="
+                                                color:#ff6600;
+                                                font-weight:bold;
+                                            ">
+                                                ${product.selectedSize}
+                                            </strong>
+                                        </div>
+                                      `
+                                    : ""
+                            }
+
 
                             <div class="product-info">
 
