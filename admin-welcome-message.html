@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RK Store - Welcome Message Settings</title>
+
+    <meta
+        name="theme-color"
+        content="#ff6600"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #ff6600;
+            color: white;
+            padding: 14px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .back-button {
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 19px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #ff6600;
+        }
+
+        .save-button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #ff6600;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-button:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .note {
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fff7ed;
+            color: #8a4b08;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <button
+            class="back-button"
+            onclick="window.location.href='admin-menu.html'"
+            aria-label="Back to Admin Menu"
+        >
+            ←
+        </button>
+
+        <h2>Welcome Message Settings</h2>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="card">
+
+            <h3>📢 Homepage Welcome Message</h3>
+
+            <p class="description">
+                এখানে যে মেসেজ লিখে Save করবেন, সেটিই আপনার
+                হোমপেজের Welcome Animation-এ দেখানোর ব্যবস্থা করা হবে।
+            </p>
+
+            <label for="welcomeMessage">
+                আপনার Welcome Message লিখুন
+            </label>
+
+            <textarea
+                id="welcomeMessage"
+                maxlength="250"
+                placeholder="যেমন: Welcome to RK Store"
+            ></textarea>
+
+            <button
+                type="button"
+                class="save-button"
+                id="saveButton"
+            >
+                Save Welcome Message
+            </button>
+
+            <div
+                class="status"
+                id="status"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+            <div class="note">
+                মনে রাখবেন: এই পেজের মেসেজ Firestore-এ সংরক্ষণ করা হবে।
+                এরপর হোমপেজের অ্যানিমেশনের সঙ্গে এটি যুক্ত করতে হবে।
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+        import {
+            getAuth,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkBQaphKKz_Wxd1GgKAVoxqR4taKvzdEM",
+            authDomain: "rk-store-5fb24.firebaseapp.com",
+            projectId: "rk-store-5fb24",
+            storageBucket: "rk-store-5fb24.firebasestorage.app",
+            messagingSenderId: "407275549697",
+            appId: "1:407275549697:web:41043b49bf7182cecffc00"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+        const messageInput = document.getElementById("welcomeMessage");
+
+        const saveButton = document.getElementById("saveButton");
+
+        const status = document.getElementById("status");
+
+
+        const welcomeMessageRef = doc(
+            db,
+            "siteSettings",
+            "welcomeMessage"
+        );
+
+
+        let isAdmin = false;
+
+
+        function showStatus(message, color) {
+
+            status.textContent = message;
+
+            status.style.color = color;
+
+        }
+
+
+        saveButton.disabled = true;
+
+
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+
+                window.location.replace("admin-login.html");
+
+                return;
+
+            }
+
+
+            if (
+                !user.email ||
+                user.email.toLowerCase() !== "rejaul.imam@gmail.com"
+            ) {
+
+                window.location.replace("admin-login.html");
+
+                return;
+
+            }
+
+
+            isAdmin = true;
+
+            saveButton.disabled = false;
+
+            showStatus("Loading saved message...", "#666");
+
+
+            try {
+
+                const snapshot = await getDoc(welcomeMessageRef);
+
+                if (snapshot.exists()) {
+
+                    messageInput.value = snapshot.data().text || "";
+
+                }
+
+                showStatus("You can now edit your welcome message.", "#16803c");
+
+            } catch (error) {
+
+                console.error("Load error:", error);
+
+                showStatus(
+                    "Could not load the saved message. Please check your Firestore rules and connection.",
+                    "#c62828"
+                );
+
+            }
+
+        });
+
+
+        saveButton.addEventListener("click", async () => {
+
+            if (!isAdmin) {
+
+                showStatus("Admin access is required.", "#c62828");
+
+                return;
+
+            }
+
+
+            const message = messageInput.value.trim();
+
+
+            if (!message) {
+
+                showStatus("Please write a welcome message first.", "#c628
