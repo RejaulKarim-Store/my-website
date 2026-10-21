@@ -1604,9 +1604,9 @@ import {
 import {
     getFirestore,
     doc,
-    getDocFromServer
+    getDocFromServer,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-
 
 /* =====================================================
    FIREBASE CONFIG
@@ -1648,6 +1648,47 @@ const db =
 const auth =
     getAuth(app);
 
+
+/* =====================================================
+   HOMEPAGE ADMIN WELCOME MESSAGE
+===================================================== */
+
+const welcomeMessageRef =
+    doc(db, "siteSettings", "welcomeMessage");
+
+onSnapshot(
+    welcomeMessageRef,
+    function(snapshot) {
+
+        if (!snapshot.exists()) {
+            return;
+        }
+
+        const message =
+            String(snapshot.data().text || "").trim();
+
+        if (message === "") {
+            return;
+        }
+
+        document
+            .querySelectorAll(".welcome-color-text")
+            .forEach(function(element) {
+
+                element.textContent = message;
+
+            });
+
+    },
+    function(error) {
+
+        console.error(
+            "Welcome Message Loading Error:",
+            error
+        );
+
+    }
+);
 
 /* =====================================================
    PRODUCT DATA
