@@ -1672,12 +1672,16 @@ onSnapshot(
         }
 
         document
-            .querySelectorAll(".welcome-color-text")
-            .forEach(function(element) {
+.querySelectorAll(".welcome-color-text")
+.forEach(function(element, index) {
 
-                element.textContent = message;
+    if (index === 0) {
+        element.textContent = message;
+    } else {
+        element.textContent = "";
+    }
 
-            });
+});
 
     },
     function(error) {
