@@ -343,4 +343,50 @@ alert("Save button is working!");
 
             if (!message) {
 
-                showStatus("Please write a welcome message first.", "#c628
+showStatus(
+    "Please write a welcome message first.",
+    "#c62828"
+);
+
+messageInput.focus();
+
+return;
+
+}
+
+saveButton.disabled = true;
+
+showStatus("Saving message...", "#666");
+
+try {
+
+await setDoc(welcomeMessageRef, {
+    text: message,
+    updatedAt: new Date()
+});
+
+showStatus(
+    "Welcome message saved successfully!",
+    "#16803c"
+);
+
+} catch (error) {
+
+console.error("Save error:", error);
+
+showStatus(
+    "Could not save the message. Please check Firestore rules and connection.",
+    "#c62828"
+);
+
+} finally {
+
+saveButton.disabled = false;
+
+}
+
+    });
+
+</script>
+
+</body></html>
