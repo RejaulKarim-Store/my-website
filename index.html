@@ -3043,6 +3043,25 @@ window.openSettingsHelp = function() {
 
 
 
+/* বাইরে চাপ দিলে Settings Menu বন্ধ হবে */
+
+document.addEventListener("click", function(event) {
+    const menu = document.getElementById("settingsMenu");
+    const settingsButton = document.querySelector(
+        ".header-settings-button"
+    );
+
+    if (!menu || !settingsButton) return;
+
+    if (
+        menu.style.display === "block" &&
+        !menu.contains(event.target) &&
+        !settingsButton.contains(event.target)
+    ) {
+        menu.style.display = "none";
+    }
+});
+
 /* =====================================================
    HELP LINE POPUP
 ===================================================== */
