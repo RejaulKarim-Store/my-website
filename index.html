@@ -2782,74 +2782,32 @@ function() {
 
 
 /* =====================================================
-   THREE DOT → HOLD FOR 7 SECONDS FOR ADMIN LOGIN
+THREE DOT → TAP 7 TIMES FOR ADMIN LOGIN
 ===================================================== */
 
-let threeDotHoldTimer = null;
+let threeDotTapCount = 0;
+let threeDotTapTimer = null;
 
-let threeDotHoldTriggered = false;
+window.toggleThreeDotMenu = function() {
 
-const threeDotButton =
-    document.querySelector(".three-dot-button");
+threeDotTapCount++;
 
+clearTimeout(threeDotTapTimer);
 
-threeDotButton.addEventListener(
-    "pointerdown",
-    function(event) {
+if (threeDotTapCount >= 7) {
 
-        event.preventDefault();
+    threeDotTapCount = 0;
 
-        threeDotHoldTriggered = false;
+    window.location.href = "admin-login.html";
 
-        clearTimeout(threeDotHoldTimer);
-
-        threeDotHoldTimer = setTimeout(
-            function() {
-
-                threeDotHoldTriggered = true;
-
-                window.location.href =
-                    "admin-login.html";
-
-            },
-            7000
-        );
-
-    }
-);
-
-
-function cancelThreeDotHold() {
-
-    clearTimeout(threeDotHoldTimer);
-
-    threeDotHoldTimer = null;
-
+    return;
 }
 
+threeDotTapTimer = setTimeout(function() {
 
-threeDotButton.addEventListener(
-    "pointerup",
-    cancelThreeDotHold
-);
+    threeDotTapCount = 0;
 
-
-threeDotButton.addEventListener(
-    "pointerleave",
-    cancelThreeDotHold
-);
-
-
-threeDotButton.addEventListener(
-    "pointercancel",
-    cancelThreeDotHold
-);
-
-
-window.toggleThreeDotMenu =
-function() {
-
-    /* Admin Menu এখন শুধু ৭ সেকেন্ড ধরে রাখলে খুলবে */
+}, 3000);
 
 };
 
