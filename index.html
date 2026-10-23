@@ -3042,22 +3042,6 @@ window.openSettingsHelp = function() {
 };
 
 
-window.exitStore = function() {
-    const menu = document.getElementById("settingsMenu");
-
-    if (menu) {
-        menu.style.display = "none";
-    }
-
-    window.close();
-
-    setTimeout(function() {
-        alert(
-            "RK Store বন্ধ করতে আপনার ফোনের Back বা Home বাটন ব্যবহার করুন।"
-        );
-    }, 300);
-};
-
 
 /* =====================================================
    HELP LINE POPUP
