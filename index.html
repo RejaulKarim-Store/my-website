@@ -2782,50 +2782,76 @@ function() {
 
 
 /* =====================================================
-   THREE DOT → 3 CLICKS REQUIRED FOR ADMIN LOGIN
+   THREE DOT → HOLD FOR 7 SECONDS FOR ADMIN LOGIN
 ===================================================== */
 
-let threeDotClickCount = 0;
+let threeDotHoldTimer = null;
 
-let threeDotClickTimer = null;
+let threeDotHoldTriggered = false;
+
+const threeDotButton =
+    document.querySelector(".three-dot-button");
+
+
+threeDotButton.addEventListener(
+    "pointerdown",
+    function(event) {
+
+        event.preventDefault();
+
+        threeDotHoldTriggered = false;
+
+        clearTimeout(threeDotHoldTimer);
+
+        threeDotHoldTimer = setTimeout(
+            function() {
+
+                threeDotHoldTriggered = true;
+
+                window.location.href =
+                    "admin-login.html";
+
+            },
+            7000
+        );
+
+    }
+);
+
+
+function cancelThreeDotHold() {
+
+    clearTimeout(threeDotHoldTimer);
+
+    threeDotHoldTimer = null;
+
+}
+
+
+threeDotButton.addEventListener(
+    "pointerup",
+    cancelThreeDotHold
+);
+
+
+threeDotButton.addEventListener(
+    "pointerleave",
+    cancelThreeDotHold
+);
+
+
+threeDotButton.addEventListener(
+    "pointercancel",
+    cancelThreeDotHold
+);
+
 
 window.toggleThreeDotMenu =
 function() {
 
-    threeDotClickCount++;
-
-    if (threeDotClickCount === 3) {
-
-        threeDotClickCount = 0;
-
-        clearTimeout(
-            threeDotClickTimer
-        );
-
-        window.location.href =
-            "admin-login.html";
-
-        return;
-
-    }
-
-    clearTimeout(
-        threeDotClickTimer
-    );
-
-    threeDotClickTimer =
-        setTimeout(
-            function() {
-
-                threeDotClickCount = 0;
-
-            },
-            1500
-        );
+    /* Admin Menu এখন শুধু ৭ সেকেন্ড ধরে রাখলে খুলবে */
 
 };
-
-
 
 
 /* =====================================================
