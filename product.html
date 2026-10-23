@@ -656,6 +656,37 @@ button.action-button:hover {
 }
 
 
+/* =========================
+   FIXED BOTTOM FOOTER
+========================= */
+
+.product-action-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.12);
+    z-index: 1500;
+}
+
+.product-action-footer .action-button {
+    flex: 1;
+    margin: 0;
+    min-height: 44px;
+    background: #ff6600;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
 </style>
 
 </head>
