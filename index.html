@@ -162,6 +162,38 @@ h1 {
     opacity: 1;
 }
 
+
+/* =========================
+HEADER SETTINGS ICON
+========================= */
+
+.header-settings-button {
+position: absolute;
+
+top: 50%;
+right: 12px;
+
+transform: translateY(-50%);
+
+background: transparent;
+color: white;
+
+border: none;
+border-radius: 5px;
+
+padding: 5px;
+
+font-size: 25px;
+line-height: 1;
+
+cursor: pointer;
+
+box-shadow: none;
+
+z-index: 10;
+
+}
+
 /* =========================
    HELP BUTTON
 ========================= */
@@ -1235,12 +1267,13 @@ nav a:active {
     RK Store
 
     <button
-        type="button"
-        class="header-help-button"
-        onclick="toggleHelpLine()"
-    >
-        ☎️ Help Line
-    </button>
+type="button"
+class="header-settings-button"
+onclick="toggleSettingsMenu()"
+aria-label="Settings"
+>
+⚙️
+</button>
 
 </h1>
 
