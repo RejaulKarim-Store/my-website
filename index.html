@@ -3059,32 +3059,31 @@ document.addEventListener(
                 "helpBox"
             );
 
-        const helpButton =
+        const settingsButton =
             document.querySelector(
-                ".header-help-button"
+                ".header-settings-button"
             );
 
+        const settingsMenu =
+            document.getElementById(
+                "settingsMenu"
+            );
 
         if (
-            helpBox.style.display ===
-            "block"
-            &&
-            !helpBox.contains(
-                event.target
-            )
-            &&
-            !helpButton.contains(
-                event.target
-            )
+            helpBox &&
+            helpBox.style.display === "block" &&
+            !helpBox.contains(event.target) &&
+            !(settingsButton && settingsButton.contains(event.target)) &&
+            !(settingsMenu && settingsMenu.contains(event.target))
         ) {
 
-            helpBox.style.display =
-                "none";
+            helpBox.style.display = "none";
 
         }
 
     }
 );
+
 
 /* =====================================================
    CLOSE THREE DOT MENU
