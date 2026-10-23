@@ -195,6 +195,61 @@ z-index: 10;
 }
 
 /* =========================
+   SETTINGS MENU
+========================= */
+
+#settingsMenu {
+    display: none;
+
+    position: fixed;
+
+    top: 70px;
+    right: 10px;
+
+    width: 170px;
+
+    background: #ffffff;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 10px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.20);
+
+    padding: 8px;
+
+    z-index: 6000;
+}
+
+#settingsMenu button {
+    display: block;
+
+    width: 100%;
+
+    text-align: left;
+
+    background: #ffffff;
+
+    color: #333333;
+
+    padding: 12px;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+}
+
+#settingsMenu button + button {
+    border-top: 1px solid #eeeeee;
+}
+
+#settingsMenu button:hover {
+    background: #f5f5f5;
+}
+
+/* =========================
    HELP BUTTON
 ========================= */
 
