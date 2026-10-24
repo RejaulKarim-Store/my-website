@@ -2937,6 +2937,13 @@ async function loadFirebaseDescription() {
                         : (currentProduct.customerSizes || ""),
 
 
+customerColors:
+    firebaseData.customerColors !== undefined
+        ? String(
+            firebaseData.customerColors
+        )
+        : (currentProduct.customerColors || ""),
+
                 material:
                     firebaseData.material !== undefined &&
                     String(
