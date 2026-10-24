@@ -836,30 +836,103 @@ body {
 
 <!-- =========================
      PRODUCT SIZE SELECTION
-========================= --><div id="sizeSelection" style="display:none; margin:8px 0; text-align:left;"><label
-    for="sizeOptions"
-    style="font-size:14px; font-weight:bold; color:#333; margin-right:8px;"
->
-    Select Size:
-</label>
-
-<select
-    id="sizeOptions"
+========================= --><!-- =========================
+     SIZE AND COLOR SELECTION
+========================= --><div
+    id="variantSelection"
     style="
-        padding:6px 10px;
-        border:1px solid #ccc;
-        border-radius:5px;
-        background:#fff;
-        font-size:14px;
-        color:#333;
-        max-width:150px;
+        display:none;
+        margin:8px 0;
+        text-align:left;
+        gap:10px;
+        align-items:center;
+    "
+><!-- SELECT SIZE -->
+
+<div
+    id="sizeSelection"
+    style="
+        flex:1;
+        min-width:0;
     "
 >
-    <option value="">Select Size</option>
-</select>
+
+    <label
+        for="sizeOptions"
+        style="
+            display:block;
+            font-size:14px;
+            font-weight:bold;
+            color:#333;
+            margin-bottom:5px;
+        "
+    >
+        Select Size:
+    </label>
+
+    <select
+        id="sizeOptions"
+        style="
+            width:100%;
+            padding:6px 8px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            background:#fff;
+            font-size:14px;
+            color:#333;
+        "
+    >
+
+        <option value="">Select Size</option>
+
+    </select>
 
 </div>
 
+
+<!-- SELECT COLOR -->
+
+<div
+    id="colorSelection"
+    style="
+        flex:1;
+        min-width:0;
+    "
+>
+
+    <label
+        for="colorOptions"
+        style="
+            display:block;
+            font-size:14px;
+            font-weight:bold;
+            color:#333;
+            margin-bottom:5px;
+        "
+    >
+        Select Color:
+    </label>
+
+    <select
+        id="colorOptions"
+        style="
+            width:100%;
+            padding:6px 8px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            background:#fff;
+            font-size:14px;
+            color:#333;
+        "
+    >
+
+        <option value="">Select Color</option>
+
+    </select>
+
+</div>
+
+</div>
 
     <p id="productPrice">
         Price: ৳0
