@@ -835,102 +835,112 @@ body {
     </h2>
 
 <!-- =========================
-     PRODUCT SIZE SELECTION
-========================= --><!-- =========================
      SIZE AND COLOR SELECTION
-========================= --><div
+========================= -->
+
+<div
     id="variantSelection"
     style="
         display:none;
         margin:8px 0;
         text-align:left;
-        gap:10px;
+        gap:8px;
         align-items:center;
     "
-><!-- SELECT SIZE -->
-
-<div
-    id="sizeSelection"
-    style="
-        flex:1;
-        min-width:0;
-    "
 >
 
-    <label
-        for="sizeOptions"
-        style="
-            display:block;
-            font-size:14px;
-            font-weight:bold;
-            color:#333;
-            margin-bottom:5px;
-        "
-    >
-        Select Size:
-    </label>
+    <!-- SELECT SIZE -->
 
-    <select
-        id="sizeOptions"
+    <div
+        id="sizeSelection"
         style="
-            width:100%;
-            padding:6px 8px;
-            border:1px solid #ccc;
-            border-radius:5px;
-            background:#fff;
-            font-size:14px;
-            color:#333;
+            flex:1;
+            min-width:0;
+            display:flex;
+            align-items:center;
+            gap:5px;
         "
     >
 
-        <option value="">Select Size</option>
+        <label
+            for="sizeOptions"
+            style="
+                font-size:14px;
+                font-weight:bold;
+                color:#333;
+                white-space:nowrap;
+            "
+        >
+            Size:
+        </label>
 
-    </select>
+        <select
+            id="sizeOptions"
+            style="
+                flex:1;
+                min-width:0;
+                width:100%;
+                padding:6px 4px;
+                border:1px solid #ccc;
+                border-radius:5px;
+                background:#fff;
+                font-size:13px;
+                color:#333;
+            "
+        >
 
-</div>
+            <option value="">Select Size</option>
+
+        </select>
+
+    </div>
 
 
-<!-- SELECT COLOR -->
+    <!-- SELECT COLOR -->
 
-<div
-    id="colorSelection"
-    style="
-        flex:1;
-        min-width:0;
-    "
->
-
-    <label
-        for="colorOptions"
+    <div
+        id="colorSelection"
         style="
-            display:block;
-            font-size:14px;
-            font-weight:bold;
-            color:#333;
-            margin-bottom:5px;
+            flex:1;
+            min-width:0;
+            display:flex;
+            align-items:center;
+            gap:5px;
         "
     >
-        Select Color:
-    </label>
 
-    <select
-        id="colorOptions"
-        style="
-            width:100%;
-            padding:6px 8px;
-            border:1px solid #ccc;
-            border-radius:5px;
-            background:#fff;
-            font-size:14px;
-            color:#333;
-        "
-    >
+        <label
+            for="colorOptions"
+            style="
+                font-size:14px;
+                font-weight:bold;
+                color:#333;
+                white-space:nowrap;
+            "
+        >
+            Color:
+        </label>
 
-        <option value="">Select Color</option>
+        <select
+            id="colorOptions"
+            style="
+                flex:1;
+                min-width:0;
+                width:100%;
+                padding:6px 4px;
+                border:1px solid #ccc;
+                border-radius:5px;
+                background:#fff;
+                font-size:13px;
+                color:#333;
+            "
+        >
 
-    </select>
+            <option value="">Select Color</option>
 
-</div>
+        </select>
+
+    </div>
 
 </div>
 
