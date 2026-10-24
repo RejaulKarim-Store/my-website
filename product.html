@@ -1583,21 +1583,60 @@ if (availableSizes.length > 0) {
 
 } else {
 
-    sizeSelection.style.display = "none";
+sizeSelection.style.display = "none";
 
 }
 
-/* Show size and color area when sizes exist */
+/* =========================
+CUSTOMER COLOR SELECTION
+========================= */
 
-if (availableSizes.length > 0) {
+const availableColors =
+String(data.customerColors || "")
+.split(",")
+.map(color => color.trim())
+.filter(color => color !== "");
 
-    variantSelection.style.display = "flex";
+colorOptions.innerHTML =
+'<option value="">Select Color</option>';
+
+if (availableColors.length > 0) {
+
+colorSelection.style.display = "flex";
+
+availableColors.forEach(function(color) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = color;
+    option.textContent = color;
+
+    colorOptions.appendChild(option);
+
+});
 
 } else {
 
-    variantSelection.style.display = "none";
+colorSelection.style.display = "none";
 
 }
+
+/* Show selection area when size or color exists */
+
+if (
+availableSizes.length > 0 ||
+availableColors.length > 0
+) {
+
+variantSelection.style.display = "flex";
+
+} else {
+
+variantSelection.style.display = "none";
+
+}
+
 
 
     /* =========================
