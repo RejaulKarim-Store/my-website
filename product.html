@@ -1534,8 +1534,11 @@ function showProduct(data) {
 
 
     /* =========================
-SIZE DROPDOWN
+   SIZE DROPDOWN
 ========================= */
+
+const variantSelection =
+    document.getElementById("variantSelection");
 
 const sizeSelection =
     document.getElementById("sizeSelection");
@@ -1573,6 +1576,20 @@ if (availableSizes.length > 0) {
     sizeSelection.style.display = "none";
 
 }
+
+/* Show size and color area when sizes exist */
+
+if (availableSizes.length > 0) {
+
+    variantSelection.style.display = "flex";
+
+} else {
+
+    variantSelection.style.display = "none";
+
+}
+
+
     /* =========================
        PRICE
     ========================= */
