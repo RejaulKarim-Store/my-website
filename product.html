@@ -1604,6 +1604,39 @@ String(data.customerColors || "")
 .map(color => color.trim())
 .filter(color => color !== "");
 
+
+/* =========================
+   COLOR TO IMAGE MAPPING
+   Keep Existing Image Slider
+========================= */
+
+colorOptions.onchange = function() {
+
+    const selectedColorIndex =
+        availableColors.indexOf(this.value);
+
+    // No color selected: show first available image
+    if (selectedColorIndex < 0) {
+        showImage(0);
+        return;
+    }
+
+    // Find the original image assigned to this color
+    const selectedImagePath =
+        data.images[selectedColorIndex];
+
+    // Find that image in the existing valid image list
+    const actualImageIndex =
+        productImages.indexOf(selectedImagePath);
+
+    // Change image only if the assigned image exists
+    if (actualImageIndex >= 0) {
+        showImage(actualImageIndex);
+    }
+
+};
+
+
 colorOptions.innerHTML =
 '<option value="">Select Color</option>';
 
