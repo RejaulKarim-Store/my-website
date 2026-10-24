@@ -1345,6 +1345,12 @@ updateDiscountPrice();
         data.customerSizes || "";
 
 
+document.getElementById(
+    "customerColors"
+).value =
+    data.customerColors || "";
+
+
     document.getElementById(
         "material"
     ).value =
@@ -1511,6 +1517,13 @@ discountPrice:
                 document.getElementById(
                     "customerSizes"
                 ).value.trim(),
+
+
+customerColors:
+    document.getElementById(
+        "customerColors"
+    ).value.trim(),
+
 
             material:
                 document.getElementById(
