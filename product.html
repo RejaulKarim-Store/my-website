@@ -3565,16 +3565,17 @@ const selectedColor =
 
 
             const existingProduct =
-    cart.find(
-        function(item) {
+cart.find(
+function(item) {
 
-            return (
-                Number(item.productId) === productNumber &&
-                (item.selectedSize || "") === selectedSize
-            );
+        return (
+            Number(item.productId) === productNumber &&
+            (item.selectedSize || "") === selectedSize &&
+            (item.selectedColor || "") === selectedColor
+        );
 
-        }
-    );
+    }
+);
 
 
             if (
