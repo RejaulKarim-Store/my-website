@@ -3799,7 +3799,8 @@ if (availableSizes.length > 0) {
 
             return (
                 Number(item.productId) === productNumber &&
-                (item.selectedSize || "") === selectedSize
+                (item.selectedSize || "") === selectedSize &&
+                (item.selectedColor || "") === selectedColor
             );
 
         }
