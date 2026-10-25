@@ -2449,7 +2449,10 @@ async function createImageDots() {
 
 
     currentImageIndex =
-        0;
+    Math.min(
+        currentImageIndex,
+        productImages.length - 1
+    );
 
 
     /* =========================
