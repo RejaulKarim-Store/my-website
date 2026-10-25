@@ -1595,41 +1595,43 @@ sizeSelection.style.display = "none";
 }
 
 /* =========================
-CUSTOMER COLOR SELECTION
+   CUSTOMER COLOR SELECTION
 ========================= */
 
 const availableColors =
-String(data.customerColors || "")
-.split(",")
-.map(color => color.trim())
-.filter(color => color !== "");
+    String(data.customerColors || "")
+        .split(",")
+        .map(color => color.trim())
+        .filter(color => color !== "");
 
 
 /* =========================
-   COLOR TO IMAGE MAPPING
-   Keep Existing Image Slider
+   COLOR DROPDOWN
 ========================= */
+
+colorOptions.innerHTML =
+    '<option value="">Select Color</option>';
+
 
 colorOptions.onchange = function() {
 
     const selectedColorIndex =
         availableColors.indexOf(this.value);
 
-    // No color selected: show first available image
+    // No color selected: show the first image
     if (selectedColorIndex < 0) {
         showImage(0);
         return;
     }
 
-    // Find the original image assigned to this color
+    // Find the image assigned to the selected color
     const selectedImagePath =
+        data.images &&
         data.images[selectedColorIndex];
 
-    // Find that image in the existing valid image list
     const actualImageIndex =
         productImages.indexOf(selectedImagePath);
 
-    // Change image only if the assigned image exists
     if (actualImageIndex >= 0) {
         showImage(actualImageIndex);
     }
@@ -1637,52 +1639,53 @@ colorOptions.onchange = function() {
 };
 
 
-colorOptions.innerHTML =
-'<option value="">Select Color</option>';
+/* =========================
+   SHOW AVAILABLE COLORS
+========================= */
 
 if (availableColors.length > 0) {
 
-colorSelection.style.display = "flex";
+    colorSelection.style.display = "flex";
 
+    availableColors.forEach(function(color) {
 
-if (availableColors.length > 0) {
+        const option =
+            document.createElement("option");
 
-colorSelection.style.display = "flex";
+        option.value = color;
+        option.textContent = color;
 
-availableColors.forEach(function(color) {
+        colorOptions.appendChild(option);
 
-    const option =
-        document.createElement("option");
-
-    option.value = color;
-    option.textContent = color;
-
-    colorOptions.appendChild(option);
-
-});
+    });
 
 } else {
+
     colorSelection.style.display = "none";
+
     colorOptions.value = "";
+
     showImage(0);
+
 }
 
-/* Show selection area when size or color exists */
+
+/* =========================
+   SHOW SIZE AND COLOR AREA
+========================= */
 
 if (
-availableSizes.length > 0 ||
-availableColors.length > 0
+    availableSizes.length > 0 ||
+    availableColors.length > 0
 ) {
 
-variantSelection.style.display = "flex";
+    variantSelection.style.display = "flex";
 
 } else {
 
-variantSelection.style.display = "none";
+    variantSelection.style.display = "none";
 
 }
-
-
 
     /* =========================
        PRICE
@@ -2484,21 +2487,19 @@ async function createImageDots() {
 
 
     /* =========================
-       SHOW FIRST VALID IMAGE
-    ========================= */
+   SHOW CURRENT VALID IMAGE
+========================= */
 
-    const productImage =
-        document.getElementById(
-            "productImage"
-        );
+const productImage =
+    document.getElementById(
+        "productImage"
+    );
 
+productImage.style.display =
+    "block";
 
-    productImage.style.display =
-        "block";
-
-
-    productImage.src =
-        productImages[0];
+productImage.src =
+    productImages[currentImageIndex];
 
 
     /* =========================
