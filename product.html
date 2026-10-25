@@ -3390,8 +3390,13 @@ if (availableSizes.length > 0) {
 }
 
 
+/* =========================
+   GET SELECTED COLOR
+========================= */
+
 const selectedColor =
     document.getElementById("colorOptions").value || "";
+
 
 
         if (
@@ -3862,13 +3867,16 @@ if (availableSizes.length > 0) {
             cart.push({
 
                 productId:
-                    productNumber,
+    productNumber,
 
 selectedSize:
     selectedSize,
 
-                name:
-                    currentProduct.name,
+selectedColor:
+    selectedColor,
+
+name:
+    currentProduct.name,
 
                 price:
                     Number(
