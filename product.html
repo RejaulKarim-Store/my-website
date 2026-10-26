@@ -3345,6 +3345,56 @@ setTimeout(
 }
 
 
+/* =========================
+   GET SELECTED PRODUCT IMAGE
+========================= */
+
+function getSelectedProductImage() {
+
+    const colorOptions =
+        document.getElementById("colorOptions");
+
+    const selectedColor =
+        colorOptions ? colorOptions.value : "";
+
+    // Color নির্বাচন না করলে প্রথম ছবি
+    if (!selectedColor) {
+
+        return currentProduct.images &&
+            currentProduct.images.length > 0
+                ? currentProduct.images[0]
+                : "";
+
+    }
+
+    // নির্বাচিত Color-এর সঙ্গে যুক্ত ছবি
+    const availableColors =
+        String(currentProduct.customerColors || "")
+            .split(",")
+            .map(color => color.trim())
+            .filter(color => color !== "");
+
+    const selectedColorIndex =
+        availableColors.indexOf(selectedColor);
+
+    if (
+        selectedColorIndex >= 0 &&
+        currentProduct.images &&
+        currentProduct.images[selectedColorIndex]
+    ) {
+
+        return currentProduct.images[selectedColorIndex];
+
+    }
+
+    // Color-এর ছবি না পাওয়া গেলে প্রথম ছবি
+    return currentProduct.images &&
+        currentProduct.images.length > 0
+            ? currentProduct.images[0]
+            : "";
+
+}
+
 /* =====================================================
    ADD TO CART
 ===================================================== */
