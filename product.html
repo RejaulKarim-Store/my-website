@@ -3908,12 +3908,7 @@ document.getElementById("colorOptions").value || "";
 
 
             existingProduct.image =
-                currentProduct.images &&
-                currentProduct.images.length > 0
-
-                    ? currentProduct.images[0]
-
-                    : "";
+    getSelectedProductImage();
 
         }
 
@@ -3955,12 +3950,7 @@ name:
                         : null,
 
                 image:
-                    currentProduct.images &&
-                    currentProduct.images.length > 0
-
-                        ? currentProduct.images[0]
-
-                        : "",
+    getSelectedProductImage(),
 
                 quantity:
                     1
