@@ -1184,6 +1184,63 @@ function formatPrice(price) {
 
 
 
+
+/* =====================================================
+MERGE DUPLICATE CART PRODUCTS
+===================================================== */
+
+function mergeDuplicateCartProducts(cart) {
+
+const mergedCart = [];
+
+cart.forEach(function(product) {
+
+    const productId = Number(product.productId);
+
+    const selectedSize = String(
+        product.selectedSize || ""
+    ).trim().toLowerCase();
+
+    const selectedColor = String(
+        product.selectedColor || ""
+    ).trim().toLowerCase();
+
+    const existingProduct = mergedCart.find(
+        function(item) {
+
+            return (
+                Number(item.productId) === productId &&
+                String(item.selectedSize || "")
+                    .trim().toLowerCase() === selectedSize &&
+                String(item.selectedColor || "")
+                    .trim().toLowerCase() === selectedColor
+            );
+
+        }
+    );
+
+    if (existingProduct) {
+
+        existingProduct.quantity =
+            (Number(existingProduct.quantity) || 1) +
+            (Number(product.quantity) || 1);
+
+    } else {
+
+        mergedCart.push({
+            ...product,
+            quantity: Number(product.quantity) || 1
+        });
+
+    }
+
+});
+
+return mergedCart;
+
+}
+
+
         /* =====================================================
            SHOW CART
         ===================================================== */
@@ -1191,13 +1248,19 @@ function formatPrice(price) {
         window.showCart =
         function() {
 
-            const cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "cart"
-                    )
-                ) || [];
+            let cart =
+JSON.parse(
+localStorage.getItem(
+"cart"
+)
+) || [];
 
+cart = mergeDuplicateCartProducts(cart);
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
 
 
 /* =====================================================
