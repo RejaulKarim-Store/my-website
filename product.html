@@ -2358,207 +2358,82 @@ async function loadProductReviews() {
     }
 
 }
+
 /* =====================================================
    CREATE IMAGE DOTS
 ===================================================== */
 
-
-let dotsGeneration = 0;
-
-async function createImageDots() {
-
-    const myGeneration =
-        ++dotsGeneration;
+function createImageDots() {
 
     const dotsContainer =
-        document.getElementById(
-            "imageDots"
-        );
+        document.getElementById("imageDots");
 
+    const productImage =
+        document.getElementById("productImage");
 
-    dotsContainer.innerHTML =
-        "";
-
+    dotsContainer.innerHTML = "";
 
     if (
+        !Array.isArray(productImages) ||
         productImages.length === 0
     ) {
 
-        return;
-
-    }
-
-
-    const imagesToCheck =
-        [...productImages];
-
-
-    const validImages =
-        await Promise.all(
-
-            imagesToCheck.map(
-                function(image) {
-
-                    return new Promise(
-                        function(resolve) {
-
-                            const testImage =
-                                new Image();
-
-
-                            testImage.onload =
-                                function() {
-
-                                    resolve(
-                                        image
-                                    );
-
-                                };
-
-
-                            testImage.onerror =
-                                function() {
-
-                                    resolve(
-                                        null
-                                    );
-
-                                };
-
-
-                            testImage.src =
-                                image;
-
-                        }
-                    );
-
-                }
-            )
-
-        );
-
-    if (
-        myGeneration !== dotsGeneration
-    ) {
+        productImage.style.display = "none";
 
         return;
 
     }
 
-
-    productImages =
-        validImages.filter(
-            function(image) {
-
-                return image !== null;
-
-            }
-        );
-
-
-    currentImageIndex =
-    Math.min(
-        currentImageIndex,
-        productImages.length - 1
+    currentImageIndex = Math.max(
+        0,
+        Math.min(
+            currentImageIndex,
+            productImages.length - 1
+        )
     );
 
+    productImage.style.display = "block";
 
-    /* =========================
-       NO VALID IMAGE
-    ========================= */
+    productImage.onerror = function() {
 
-    if (
-        productImages.length === 0
-    ) {
+        console.warn(
+            "Product image could not be loaded:",
+            this.src
+        );
 
-        const productImage =
-            document.getElementById(
-                "productImage"
-            );
+    };
 
-
-        productImage.style.display =
-            "none";
-
-
-        return;
-
-    }
-
-
-    /* =========================
-   SHOW CURRENT VALID IMAGE
-========================= */
-
-const productImage =
-    document.getElementById(
-        "productImage"
-    );
-
-productImage.style.display =
-    "block";
-
-productImage.src =
-    productImages[currentImageIndex];
-
-
-    /* =========================
-       CREATE DOTS
-    ========================= */
+    productImage.src =
+        productImages[currentImageIndex];
 
     productImages.forEach(
         function(image, index) {
 
-            /*
-               ১টি ছবি থাকলে
-               কোনো dot থাকবে না।
-            */
-
-            if (
-                productImages.length === 1
-            ) {
-
+            if (productImages.length === 1) {
                 return;
-
             }
-
 
             const dot =
-                document.createElement(
-                    "span"
-                );
+                document.createElement("span");
 
+            dot.className = "image-dot";
 
-            dot.className =
-                "image-dot";
+            if (index === currentImageIndex) {
 
-
-            if (
-                index === 0
-            ) {
-
-                dot.classList.add(
-                    "active"
-                );
+                dot.classList.add("active");
 
             }
-
 
             dot.addEventListener(
                 "click",
                 function() {
 
-                    showImage(
-                        index
-                    );
+                    showImage(index);
 
                 }
             );
 
-
-            dotsContainer.appendChild(
-                dot
-            );
+            dotsContainer.appendChild(dot);
 
         }
     );
