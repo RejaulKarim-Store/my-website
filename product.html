@@ -2313,208 +2313,139 @@ async function loadProductReviews() {
 ===================================================== */  
   
   
-let dotsGeneration = 0;  
-  
-async function createImageDots() {  
-  
-    const myGeneration =  
-        ++dotsGeneration;  
-  
-    const dotsContainer =  
-        document.getElementById(  
-            "imageDots"  
-        );  
-  
-  
-    dotsContainer.innerHTML =  
-        "";  
-  
-  
-    if (  
-        productImages.length === 0  
-    ) {  
-  
-        return;  
-  
-    }  
-  
-  
-    const imagesToCheck =  
-        [...productImages];  
-  
-  
-    const validImages =  
-        await Promise.all(  
-  
-            imagesToCheck.map(  
-                function(image) {  
-  
-                    return new Promise(  
-                        function(resolve) {  
-  
-                            const testImage =  
-                                new Image();  
-  
-  
-                            testImage.onload =  
-                                function() {  
-  
-                                    resolve(  
-                                        image  
-                                    );  
-  
-                                };  
-  
-  
-                            testImage.onerror =  
-                                function() {  
-  
-                                    resolve(  
-                                        null  
-                                    );  
-  
-                                };  
-  
-  
-                            testImage.src =  
-                                image;  
-  
-                        }  
-                    );  
-  
-                }  
-            )  
-  
-        );  
-  
-    if (  
-        myGeneration !== dotsGeneration  
-    ) {  
-  
-        return;  
-  
-    }  
-  
-  
-    productImages =  
-        validImages.filter(  
-            function(image) {  
-  
-                return image !== null;  
-  
-            }  
-        );  
-  
-  
-    currentImageIndex =  
-    Math.min(  
-        currentImageIndex,  
-        productImages.length - 1  
-    );  
-  
-  
-    /* =========================  
-       NO VALID IMAGE  
-    ========================= */  
-  
-    if (  
-        productImages.length === 0  
-    ) {  
-  
-        const productImage =  
-            document.getElementById(  
-                "productImage"  
-            );  
-  
-  
-        productImage.style.display =  
-            "none";  
-  
-  
-        return;  
-  
-    }  
-  
-  
-    /* =========================  
-   SHOW CURRENT VALID IMAGE  
-========================= */  
-  
-const productImage =  
-    document.getElementById(  
-        "productImage"  
-    );  
-  
-productImage.style.display =  
-    "block";  
-  
-productImage.src =  
-    productImages[currentImageIndex];  
-  
-  
-    /* =========================  
-       CREATE DOTS  
-    ========================= */  
-  
-    productImages.forEach(  
-        function(image, index) {  
-  
-            /*  
-               ১টি ছবি থাকলে  
-               কোনো dot থাকবে না।  
-            */  
-  
-            if (  
-                productImages.length === 1  
-            ) {  
-  
-                return;  
-  
-            }  
-  
-  
-            const dot =  
-                document.createElement(  
-                    "span"  
-                );  
-  
-  
-            dot.className =  
-                "image-dot";  
-  
-  
-            if (  
-                index === 0  
-            ) {  
-  
-                dot.classList.add(  
-                    "active"  
-                );  
-  
-            }  
-  
-  
-            dot.addEventListener(  
-                "click",  
-                function() {  
-  
-                    showImage(  
-                        index  
-                    );  
-  
-                }  
-            );  
-  
-  
-            dotsContainer.appendChild(  
-                dot  
-            );  
-  
-        }  
-    );  
-  
-}  
-  
+
+let dotsGeneration = 0;
+
+// Retry image loading up to 3 times
+async function checkProductImage(imagePath) {
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+
+        const loaded = await new Promise(function(resolve) {
+
+            const testImage = new Image();
+
+            let finished = false;
+
+            const timeoutId = setTimeout(function() {
+                finish(false);
+            }, 8000);
+
+            function finish(result) {
+
+                if (finished) return;
+
+                finished = true;
+
+                clearTimeout(timeoutId);
+
+                resolve(result);
+            }
+
+            testImage.onload = function() {
+                finish(true);
+            };
+
+            testImage.onerror = function() {
+                finish(false);
+            };
+
+            testImage.src = imagePath;
+
+        });
+
+        if (loaded) {
+            return imagePath;
+        }
+
+        if (attempt < 3) {
+
+            await new Promise(function(resolve) {
+                setTimeout(resolve, 500);
+            });
+
+        }
+    }
+
+    return null;
+}
+
+
+async function createImageDots() {
+
+    const myGeneration = ++dotsGeneration;
+
+    const dotsContainer =
+        document.getElementById("imageDots");
+
+    dotsContainer.innerHTML = "";
+
+    if (productImages.length === 0) {
+        return;
+    }
+
+    const imagesToCheck = [...productImages];
+
+    const validImages = await Promise.all(
+        imagesToCheck.map(function(image) {
+            return checkProductImage(image);
+        })
+    );
+
+    if (myGeneration !== dotsGeneration) {
+        return;
+    }
+
+    productImages = validImages.filter(function(image) {
+        return image !== null;
+    });
+
+    currentImageIndex = Math.min(
+        currentImageIndex,
+        productImages.length - 1
+    );
+
+    if (productImages.length === 0) {
+
+        const productImage =
+            document.getElementById("productImage");
+
+        productImage.style.display = "none";
+
+        return;
+    }
+
+    const productImage =
+        document.getElementById("productImage");
+
+    productImage.style.display = "block";
+
+    productImage.src = productImages[currentImageIndex];
+
+    productImages.forEach(function(image, index) {
+
+        if (productImages.length === 1) {
+            return;
+        }
+
+        const dot = document.createElement("span");
+
+        dot.className = "image-dot";
+
+        if (index === currentImageIndex) {
+            dot.classList.add("active");
+        }
+
+        dot.addEventListener("click", function() {
+            showImage(index);
+        });
+
+        dotsContainer.appendChild(dot);
+
+    });
+
+}
+
   
 /* =====================================================  
    SHOW IMAGE  
