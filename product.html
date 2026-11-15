@@ -2415,9 +2415,10 @@ async function createImageDots() {
         return;
     }
 
-    // Keep all original product images.
-// Temporary loading failures must not remove images.
-productImages = imagesToCheck;
+    // Keep only successfully loaded product images.
+productImages = validImages.filter(function(image) {
+    return image !== null;
+});
 
     currentImageIndex = Math.min(
         currentImageIndex,
