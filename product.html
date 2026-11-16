@@ -113,20 +113,15 @@ h1 {
    IMAGE SLIDER  
 ========================= */  
   
-.image-slider {  
-  
-    position: relative;  
-  
-    width: 100%;  
-  
-    max-width: 350px;  
-  
-    margin: auto;  
-  
-    overflow: hidden;  
-  
-    border-radius: 10px;  
-}  
+.image-slider {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    height: 350px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px;
+}
   
 .image-slider img {  
   
@@ -2327,70 +2322,151 @@ async function loadProductReviews() {
     }  
   
 }  
-/* =====================================================  
-   CREATE IMAGE DOTS  
-===================================================== */  
-  
-  
+
+
+
+
+
+/* =====================================================
+   CREATE IMAGE DOTS - PROGRESSIVE LOADING
+===================================================== */
 
 let dotsGeneration = 0;
 
-// Retry image loading up to 6 times
-async function checkProductImage(imagePath) {
+let failedImageIndexes = [];
 
-    for (let attempt = 1; attempt <= 6; attempt++) {
 
-        const loaded = await new Promise(function(resolve) {
+function updateImageDots() {
 
-            const testImage = new Image();
+    const dots = document.querySelectorAll(".image-dot");
 
-            let finished = false;
+    dots.forEach(function(dot) {
 
-            const timeoutId = setTimeout(function() {
-    finish(false);
-}, 9500);
+        dot.classList.toggle(
+            "active",
+            Number(dot.dataset.imageIndex) === currentImageIndex
+        );
 
-            function finish(result) {
+    });
 
-                if (finished) return;
-
-                finished = true;
-
-                clearTimeout(timeoutId);
-
-                resolve(result);
-            }
-
-            testImage.onload = function() {
-                finish(true);
-            };
-
-            testImage.onerror = function() {
-                finish(false);
-            };
-
-            testImage.src = imagePath;
-
-        });
-
-        if (loaded) {
-            return imagePath;
-        }
-
-        if (attempt < 3) {
-
-            await new Promise(function(resolve) {
-                setTimeout(resolve, 500);
-            });
-
-        }
-    }
-
-    return null;
 }
 
 
-async function createImageDots() {
+function addImageDot(index, generation) {
+
+    if (generation !== dotsGeneration) {
+        return;
+    }
+
+    const dotsContainer =
+        document.getElementById("imageDots");
+
+    if (
+        dotsContainer.querySelector(
+            '[data-image-index="' + index + '"]'
+        )
+    ) {
+        return;
+    }
+
+    const dot = document.createElement("span");
+
+    dot.className = "image-dot";
+
+    dot.dataset.imageIndex = index;
+
+    dot.addEventListener("click", function() {
+
+        showImage(index);
+
+    });
+
+    // Keep dots in original image order.
+    const existingDots =
+        Array.from(
+            dotsContainer.querySelectorAll(".image-dot")
+        );
+
+    const nextDot = existingDots.find(function(existingDot) {
+
+        return Number(existingDot.dataset.imageIndex) > index;
+
+    });
+
+    if (nextDot) {
+
+        dotsContainer.insertBefore(dot, nextDot);
+
+    } else {
+
+        dotsContainer.appendChild(dot);
+
+    }
+
+    updateImageDots();
+
+}
+
+
+function checkProductImage(imagePath, index, generation, attempt = 1) {
+
+    if (generation !== dotsGeneration) {
+        return;
+    }
+
+    const testImage = new Image();
+
+    testImage.onload = function() {
+
+        if (generation !== dotsGeneration) {
+            return;
+        }
+
+        failedImageIndexes =
+            failedImageIndexes.filter(function(failedIndex) {
+                return failedIndex !== index;
+            });
+
+        addImageDot(index, generation);
+
+    };
+
+    testImage.onerror = function() {
+
+        if (generation !== dotsGeneration) {
+            return;
+        }
+
+        // Retry independently without blocking other images.
+        if (attempt < 3) {
+
+            setTimeout(function() {
+
+                checkProductImage(
+                    imagePath,
+                    index,
+                    generation,
+                    attempt + 1
+                );
+
+            }, 500);
+
+        } else {
+
+            if (!failedImageIndexes.includes(index)) {
+                failedImageIndexes.push(index);
+            }
+
+        }
+
+    };
+
+    testImage.src = imagePath;
+
+}
+
+
+function createImageDots() {
 
     const myGeneration = ++dotsGeneration;
 
@@ -2399,148 +2475,59 @@ async function createImageDots() {
 
     dotsContainer.innerHTML = "";
 
-    if (productImages.length === 0) {
-        return;
-    }
-
-    const imagesToCheck = [...productImages];
-
-    const validImages = await Promise.all(
-        imagesToCheck.map(function(image) {
-            return checkProductImage(image);
-        })
-    );
-
-    if (myGeneration !== dotsGeneration) {
-        return;
-    }
-
-    // Keep only successfully loaded product images.
-productImages = validImages.filter(function(image) {
-    return image !== null;
-});
-
-    currentImageIndex = Math.min(
-        currentImageIndex,
-        productImages.length - 1
-    );
+    failedImageIndexes = [];
 
     if (productImages.length === 0) {
-
-        const productImage =
-            document.getElementById("productImage");
-
-        productImage.style.display = "none";
-
         return;
     }
 
-    const productImage =
-        document.getElementById("productImage");
+    // Start checking every image independently.
+    // No Promise.all() and no waiting for all images.
 
-    productImage.style.display = "block";
+    productImages.forEach(function(imagePath, index) {
 
-    productImage.src = productImages[currentImageIndex];
-
-    productImages.forEach(function(image, index) {
-
-        if (productImages.length === 1) {
-            return;
-        }
-
-        const dot = document.createElement("span");
-
-        dot.className = "image-dot";
-
-        if (index === currentImageIndex) {
-            dot.classList.add("active");
-        }
-
-        dot.addEventListener("click", function() {
-            showImage(index);
-        });
-
-        dotsContainer.appendChild(dot);
+        checkProductImage(
+            imagePath,
+            index,
+            myGeneration
+        );
 
     });
 
 }
 
+
   
-/* =====================================================  
-   SHOW IMAGE  
-===================================================== */  
-  
-function showImage(index) {  
-  
-    if (  
-        productImages.length === 0  
-    ) {  
-  
-        return;  
-  
-    }  
-  
-  
-    if (  
-        index < 0 ||  
-        index >= productImages.length  
-    ) {  
-  
-        return;  
-  
-    }  
-  
-  
-    currentImageIndex =  
-        index;  
-  
-  
-    const image =  
-        document.getElementById(  
-            "productImage"  
-        );  
-  
-  
-    image.style.display =  
-        "block";  
-  
-  
-    image.src =  
-        productImages[  
-            currentImageIndex  
-        ];  
-  
-  
-    const dots =  
-        document.querySelectorAll(  
-            ".image-dot"  
-        );  
-  
-  
-    dots.forEach(  
-        function(dot, i) {  
-  
-            dot.classList.remove(  
-                "active"  
-            );  
-  
-  
-            if (  
-                i === currentImageIndex  
-            ) {  
-  
-                dot.classList.add(  
-                    "active"  
-                );  
-  
-            }  
-  
-        }  
-    );  
-  
-}  
-  
+/* =====================================================
+   SHOW IMAGE
+===================================================== */
+
+function showImage(index) {
+
+    if (
+        productImages.length === 0 ||
+        index < 0 ||
+        index >= productImages.length
+    ) {
+        return;
+    }
+
+    currentImageIndex = index;
+
+    const image =
+        document.getElementById("productImage");
+
+    image.style.display = "block";
+
+    image.onerror = function() {
+        this.style.display = "none";
+    };
+
+    image.src = productImages[currentImageIndex];
+
+    updateImageDots();
+
+}
   
 /* =====================================================  
    NEXT IMAGE  
