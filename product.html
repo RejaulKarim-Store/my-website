@@ -2529,85 +2529,52 @@ function showImage(index) {
 
 }
   
-/* =====================================================  
-   NEXT IMAGE  
-===================================================== */  
-  
-document.getElementById(  
-    "nextButton"  
-).addEventListener(  
-    "click",  
-    function() {  
-  
-        if (  
-            productImages.length === 0  
-        ) {  
-  
-            return;  
-  
-        }  
-  
-  
-        currentImageIndex++;  
-  
-  
-        if (  
-            currentImageIndex >=  
-            productImages.length  
-        ) {  
-  
-            currentImageIndex =  
-                0;  
-  
-        }  
-  
-  
-        showImage(  
-            currentImageIndex  
-        );  
-  
-    }  
-);  
-  
-  
-/* =====================================================  
-   PREVIOUS IMAGE  
-===================================================== */  
-  
-document.getElementById(  
-    "prevButton"  
-).addEventListener(  
-    "click",  
-    function() {  
-  
-        if (  
-            productImages.length === 0  
-        ) {  
-  
-            return;  
-  
-        }  
-  
-  
-        currentImageIndex--;  
-  
-  
-        if (  
-            currentImageIndex < 0  
-        ) {  
-  
-            currentImageIndex =  
-                productImages.length - 1;  
-  
-        }  
-  
-  
-        showImage(  
-            currentImageIndex  
-        );  
-  
-    }  
-);  
+/* =====================================================
+   NEXT / PREVIOUS IMAGE
+===================================================== */
+
+function moveImage(direction) {
+
+    if (productImages.length <= 1) {
+        return;
+    }
+
+    let nextIndex = currentImageIndex;
+
+    for (let i = 0; i < productImages.length; i++) {
+
+        nextIndex =
+            (nextIndex + direction + productImages.length)
+            % productImages.length;
+
+        // Skip images confirmed as unavailable.
+        if (!failedImageIndexes.includes(nextIndex)) {
+
+            showImage(nextIndex);
+
+            return;
+
+        }
+
+    }
+
+}
+
+
+document.getElementById("nextButton").addEventListener(
+    "click",
+    function() {
+        moveImage(1);
+    }
+);
+
+
+document.getElementById("prevButton").addEventListener(
+    "click",
+    function() {
+        moveImage(-1);
+    }
+);
   
   
 /* =====================================================  
