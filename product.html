@@ -2621,80 +2621,32 @@ imageSlider.addEventListener(
 );  
   
   
-/* =====================================================  
-   HANDLE SWIPE  
-===================================================== */  
-  
-function handleSwipe() {  
-  
-    if (  
-        productImages.length <= 1  
-    ) {  
-  
-        return;  
-  
-    }  
-  
-  
-    const swipeDistance =  
-        touchEndX -  
-        touchStartX;  
-  
-  
-    /* SWIPE LEFT */  
-  
-    if (  
-        swipeDistance < -50  
-    ) {  
-  
-        currentImageIndex++;  
-  
-  
-        if (  
-            currentImageIndex >=  
-            productImages.length  
-        ) {  
-  
-            currentImageIndex =  
-                0;  
-  
-        }  
-  
-  
-        showImage(  
-            currentImageIndex  
-        );  
-  
-    }  
-  
-  
-    /* SWIPE RIGHT */  
-  
-    else if (  
-        swipeDistance > 50  
-    ) {  
-  
-        currentImageIndex--;  
-  
-  
-        if (  
-            currentImageIndex < 0  
-        ) {  
-  
-            currentImageIndex =  
-                productImages.length - 1;  
-  
-        }  
-  
-  
-        showImage(  
-            currentImageIndex  
-        );  
-  
-    }  
-  
-}  
-  
+/* =====================================================
+   HANDLE SWIPE
+===================================================== */
+
+function handleSwipe() {
+
+    if (productImages.length <= 1) {
+        return;
+    }
+
+    const swipeDistance =
+        touchEndX - touchStartX;
+
+    if (swipeDistance < -50) {
+
+        moveImage(1);
+
+    }
+
+    else if (swipeDistance > 50) {
+
+        moveImage(-1);
+
+    }
+
+}
   
 /* =====================================================  
    LOAD FIREBASE DESCRIPTION  
