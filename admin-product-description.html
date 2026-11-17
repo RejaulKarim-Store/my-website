@@ -1481,6 +1481,69 @@ saveButton.addEventListener(
             productSerial.value;
 
 
+/* =========================
+   SIZE WISE PRICE VALIDATION
+========================= */
+
+const sizePriceMap = {};
+
+const sizePriceText =
+    sizePrices.value.trim();
+
+if (sizePriceText !== "") {
+
+    const entries =
+        sizePriceText.split(",");
+
+    for (const entry of entries) {
+
+        const parts =
+            entry.split(":");
+
+        if (parts.length !== 2) {
+
+            showMessage(
+                "Invalid Size Price Format. Example: S:400, M:450",
+                "red"
+            );
+
+            return;
+        }
+
+        const size =
+            parts[0].trim().toUpperCase();
+
+        const priceText =
+            parts[1].trim();
+
+        const price =
+            Number(priceText);
+
+        if (
+            size === "" ||
+            priceText === "" ||
+            !Number.isFinite(price) ||
+            price < 0 ||
+            Object.prototype.hasOwnProperty.call(
+                sizePriceMap,
+                size
+            )
+        ) {
+
+            showMessage(
+                "Please check Size-wise Price.",
+                "red"
+            );
+
+            return;
+        }
+
+        sizePriceMap[size] = price;
+
+    }
+
+}
+
         const price =
             Number(
                 productPrice.value
