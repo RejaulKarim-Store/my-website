@@ -1371,6 +1371,16 @@ updateDiscountPrice();
         data.customerSizes || "";
 
 
+/* LOAD SIZE WISE PRICE */
+
+sizePrices.value =
+    data.sizePrices
+    ? Object.entries(data.sizePrices)
+        .map(([size, price]) => size + ":" + price)
+        .join(", ")
+    : "";
+
+
 document.getElementById(
     "customerColors"
 ).value =
