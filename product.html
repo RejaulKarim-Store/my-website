@@ -2786,6 +2786,17 @@ async function loadFirebaseDescription() {
                         )  
                         : (currentProduct.customerSizes || ""),  
   
+
+/* =========================
+   LOAD SIZE WISE PRICE
+========================= */
+
+sizePrices:
+    firebaseData.sizePrices &&
+    typeof firebaseData.sizePrices === "object"
+        ? firebaseData.sizePrices
+        : (currentProduct.sizePrices || {}),
+
   
 customerColors:  
     firebaseData.customerColors !== undefined  
