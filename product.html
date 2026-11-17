@@ -1824,6 +1824,71 @@ function getPriceDetails(data, selectedSize = "") {
 }
 
 
+/* =========================
+   UPDATE PRODUCT PRICE
+========================= */
+
+function updateProductPrice(data, selectedSize = "") {
+
+    const priceDetails =
+        getPriceDetails(data, selectedSize);
+
+    const originalPrice =
+        priceDetails.originalPrice;
+
+    const discount =
+        priceDetails.discount;
+
+    const discountPrice =
+        priceDetails.discountPrice;
+
+    const discountInfo =
+        document.getElementById("productDiscountInfo");
+
+    const originalPriceElement =
+        document.getElementById("productOriginalPrice");
+
+    const discountPercentElement =
+        document.getElementById("productDiscountPercent");
+
+    const discountPriceElement =
+        document.getElementById("productDiscountPrice");
+
+    if (
+        discountPrice !== null &&
+        discountPrice < originalPrice
+    ) {
+
+        document.getElementById("productPrice").textContent = "";
+
+        originalPriceElement.innerHTML =
+            "Original Price: " +
+            '<span style="text-decoration:line-through;">৳' +
+            formatPrice(originalPrice) +
+            "</span>";
+
+        discountPercentElement.textContent =
+            formatPrice(discount) + "% OFF";
+
+        discountPriceElement.textContent =
+            "Discount Price: ৳" +
+            formatPrice(discountPrice);
+
+        discountInfo.style.display = "block";
+
+    } else {
+
+        document.getElementById("productPrice").textContent =
+            "Price: ৳" + formatPrice(originalPrice);
+
+        discountInfo.style.display = "none";
+
+    }
+
+}
+
+
+
 /* =====================================================  
    SHOW DESCRIPTION  
 ===================================================== */  
