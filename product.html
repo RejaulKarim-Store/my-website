@@ -1834,16 +1834,24 @@ function getPriceDetails(data, selectedSize = "") {
             ? data.sizePrices
             : {};
 
+    const normalizedSize =
+        String(selectedSize).trim().toUpperCase();
+
+    const matchingSize =
+        Object.keys(sizePrices).find(function(size) {
+
+            return size.trim().toUpperCase() === normalizedSize;
+
+        });
+
     const hasSizePrice =
-        selectedSize !== "" &&
-        Object.prototype.hasOwnProperty.call(
-            sizePrices,
-            selectedSize
-        );
+        normalizedSize !== "" &&
+        matchingSize !== undefined &&
+        Number.isFinite(Number(sizePrices[matchingSize]));
 
     const originalPrice =
         hasSizePrice
-            ? Number(sizePrices[selectedSize])
+            ? Number(sizePrices[matchingSize])
             : basePrice;
 
     let discountPrice = null;
@@ -1862,11 +1870,17 @@ function getPriceDetails(data, selectedSize = "") {
 
     } else {
 
+        const hasSavedDiscountPrice =
+            data.discountPrice !== null &&
+            data.discountPrice !== undefined &&
+            data.discountPrice !== "";
+
         const savedDiscountPrice =
             Number(data.discountPrice);
 
         if (
             discount > 0 &&
+            hasSavedDiscountPrice &&
             Number.isFinite(savedDiscountPrice) &&
             savedDiscountPrice < originalPrice
         ) {
