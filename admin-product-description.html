@@ -528,6 +528,24 @@ body.admin-verified {
 
 
 <!-- =========================
+     SIZE WISE PRICE
+========================= -->
+
+<div class="row">
+
+    <label>
+        Size-wise Price (৳):
+    </label>
+
+    <input
+        type="text"
+        id="sizePrices"
+        placeholder="S:400, M:450, L:500, XL:550"
+    >
+
+</div>
+
+<!-- =========================
      CUSTOMER COLOR SELECTION
 ========================= -->
 
@@ -887,6 +905,14 @@ const discount =
 const discountPrice =
     document.getElementById(
         "discountPrice"
+    );
+
+
+/* SIZE WISE PRICE ELEMENT */
+
+const sizePrices =
+    document.getElementById(
+        "sizePrices"
     );
 
 
