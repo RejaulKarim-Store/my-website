@@ -1814,6 +1814,79 @@ function formatPrice(price) {
   
 }  
   
+
+
+/* =========================
+   SIZE WISE PRICE
+========================= */
+
+function getPriceDetails(data, selectedSize = "") {
+
+    const basePrice =
+        Number(data.price) || 0;
+
+    const discount =
+        Number(data.discount) || 0;
+
+    const sizePrices =
+        data.sizePrices &&
+        typeof data.sizePrices === "object"
+            ? data.sizePrices
+            : {};
+
+    const hasSizePrice =
+        selectedSize !== "" &&
+        Object.prototype.hasOwnProperty.call(
+            sizePrices,
+            selectedSize
+        );
+
+    const originalPrice =
+        hasSizePrice
+            ? Number(sizePrices[selectedSize])
+            : basePrice;
+
+    let discountPrice = null;
+
+    if (hasSizePrice) {
+
+        if (discount > 0) {
+
+            discountPrice =
+                Math.round(
+                    originalPrice -
+                    (originalPrice * discount / 100)
+                );
+
+        }
+
+    } else {
+
+        const savedDiscountPrice =
+            Number(data.discountPrice);
+
+        if (
+            discount > 0 &&
+            Number.isFinite(savedDiscountPrice) &&
+            savedDiscountPrice < originalPrice
+        ) {
+
+            discountPrice =
+                savedDiscountPrice;
+
+        }
+
+    }
+
+    return {
+        originalPrice: originalPrice,
+        discount: discount,
+        discountPrice: discountPrice
+    };
+
+}
+
+
 /* =====================================================  
    SHOW DESCRIPTION  
 ===================================================== */  
