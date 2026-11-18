@@ -3296,19 +3296,90 @@ const currentName =
     productData.name || "Product";
 
 
-const currentPrice =
+let currentPrice =
     Number(productData.price);
 
 
-
 const currentDiscount =
-    Number(productData.discount) || 0;
+    Math.min(
+        100,
+        Math.max(
+            0,
+            Number(productData.discount) || 0
+        )
+    );
 
-const currentDiscountPrice =
+
+let currentDiscountPrice =
     Number(productData.discountPrice);
+
+
+/* =========================================
+   PLACE ORDER SIZE-WISE PRICE
+========================================= */
+
+const sizePrices =
+    productData.sizePrices || {};
+
+const selectedSize =
+    String(
+        product.selectedSize || ""
+    ).trim().toUpperCase();
+
+if (selectedSize) {
+
+    const matchedSize =
+        Object.keys(sizePrices).find(
+            function(size) {
+
+                return (
+                    size.trim().toUpperCase() ===
+                    selectedSize
+                );
+
+            }
+        );
+
+    if (matchedSize !== undefined) {
+
+        const sizePrice =
+            Number(sizePrices[matchedSize]);
+
+        if (
+            Number.isFinite(sizePrice) &&
+            sizePrice >= 0
+        ) {
+
+            currentPrice = sizePrice;
+
+            currentDiscountPrice =
+                currentDiscount > 0
+                    ? sizePrice *
+                      (1 - currentDiscount / 100)
+                    : null;
+
+        }
+
+    }
+
+}
+
 
 let finalPrice =
     currentPrice;
+
+
+if (
+    currentDiscount > 0 &&
+    Number.isFinite(currentDiscountPrice) &&
+    currentDiscountPrice < currentPrice
+) {
+
+    finalPrice =
+        currentDiscountPrice;
+
+}
+
 
 if (
     currentDiscount > 0 &&
