@@ -929,60 +929,142 @@ async function loadCartStocks() {
 
 
             /*
-             * সর্বশেষ Firebase Name + Price
-             *
-             * Firebase information পাওয়া গেলে
-             * শুধু Name এবং Price update হবে।
-             */
-
-            if (
-                info !== null
-            ) {
-
-                if (
-                    info.name
-                ) {
-
-                    product.name =
-                        info.name;
-
-                }
-
-
-                if (
-                    Number.isFinite(
-                        info.price
-                    )
-                ) {
-
-                    product.price =
-                        info.price;
-
-                }
-
-            }
-
-
-/* PRODUCT DISCOUNT + DISCOUNT PRICE */
+ * সর্বশেষ Firebase Name + Size-wise Price
+ */
 
 if (
     info !== null
 ) {
 
+    if (info.name) {
+
+        product.name =
+            info.name;
+
+    }
+
+
+    const sizePrices =
+        info.sizePrices || {};
+
+
+    const selectedSize =
+        String(
+            product.selectedSize || ""
+        ).trim().toUpperCase();
+
+
+    let selectedSizePrice =
+        null;
+
+
+    /*
+     * নির্বাচিত সাইজের দাম খোঁজা
+     */
+
+    if (selectedSize) {
+
+        const matchedSize =
+            Object.keys(sizePrices).find(
+                function(size) {
+
+                    return (
+                        size.trim().toUpperCase() ===
+                        selectedSize
+                    );
+
+                }
+            );
+
+
+        if (matchedSize !== undefined) {
+
+            const sizePrice =
+                Number(
+                    sizePrices[matchedSize]
+                );
+
+
+            if (
+                Number.isFinite(sizePrice) &&
+                sizePrice >= 0
+            ) {
+
+                selectedSizePrice =
+                    sizePrice;
+
+            }
+
+        }
+
+    }
+
+
+    /*
+     * নির্বাচিত সাইজের দাম পাওয়া গেলে
+     * সেটিই ব্যবহার হবে।
+     *
+     * না পাওয়া গেলে আগের সাধারণ দাম থাকবে।
+     */
+
+    const finalPrice =
+        selectedSizePrice !== null
+            ? selectedSizePrice
+            : info.price;
+
+
+    if (
+        Number.isFinite(finalPrice)
+    ) {
+
+        product.price =
+            finalPrice;
+
+    }
+
+
+    /*
+     * Firebase Discount Percentage
+     */
+
     product.discount =
-        Number.isFinite(
-            info.discount
-        )
+        Number.isFinite(info.discount)
             ? info.discount
             : 0;
 
 
-    product.discountPrice =
-        Number.isFinite(
-            info.discountPrice
-        )
-            ? info.discountPrice
-            : null;
+    /*
+     * Size-wise Discount Price
+     */
+
+    if (
+        selectedSizePrice !== null &&
+        product.discount > 0
+    ) {
+
+        product.discountPrice =
+            selectedSizePrice *
+            (1 - product.discount / 100);
+
+    }
+
+    else if (
+        selectedSizePrice === null
+    ) {
+
+        product.discountPrice =
+            Number.isFinite(info.discountPrice)
+                ? info.discountPrice
+                : null;
+
+    }
+
+    else {
+
+        product.discountPrice =
+            null;
+
+    }
 
 }
 
