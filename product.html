@@ -3558,28 +3558,14 @@ function(item) {
                     currentProduct.name;  
   
   
-                existingProduct.price =  
-                    Number(  
-                        currentProduct.price  
-                    ) || 0;  
-  
-  
-                existingProduct.discount =  
-                    Number(  
-                        currentProduct.discount  
-                    ) || 0;  
-  
-  
-                existingProduct.discountPrice =  
-                    Number.isFinite(  
-                        Number(  
-                            currentProduct.discountPrice  
-                        )  
-                    )  
-                        ? Number(  
-                            currentProduct.discountPrice  
-                        )  
-                        : null;  
+                existingProduct.price =
+    selectedPriceDetails.originalPrice;
+
+existingProduct.discount =
+    selectedPriceDetails.discount;
+
+existingProduct.discountPrice =
+    selectedPriceDetails.discountPrice;
   
   
                 existingProduct.image =  
