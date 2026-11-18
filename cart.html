@@ -776,6 +776,12 @@ RK Store - Cart
             ? price
             : null,
 
+    sizePrices:
+        data.sizePrices &&
+        typeof data.sizePrices === "object"
+            ? data.sizePrices
+            : {},
+
     discount:
         Number.isFinite(
             Number(data.discount)
