@@ -3706,6 +3706,10 @@ GET SELECTED COLOR
 const selectedColor =  
 document.getElementById("colorOptions").value || "";  
   
+
+const selectedPriceDetails =
+    getPriceDetails(currentProduct, selectedSize);
+
         if (  
             Number(currentProduct.stock) <= 0  
         ) {  
@@ -3757,28 +3761,15 @@ document.getElementById("colorOptions").value || "";
                 currentProduct.name;  
   
   
-            existingProduct.price =  
-                Number(  
-                    currentProduct.price  
-                ) || 0;  
-  
-  
-            existingProduct.discount =  
-                Number(  
-                    currentProduct.discount  
-                ) || 0;  
-  
-  
-            existingProduct.discountPrice =  
-                Number.isFinite(  
-                    Number(  
-                        currentProduct.discountPrice  
-                    )  
-                )  
-                    ? Number(  
-                        currentProduct.discountPrice  
-                    )  
-                    : null;  
+            existingProduct.price =
+    selectedPriceDetails.originalPrice;
+
+existingProduct.discount =
+    selectedPriceDetails.discount;
+
+existingProduct.discountPrice =
+    selectedPriceDetails.discountPrice;
+
   
   
             existingProduct.image =  
@@ -3802,26 +3793,13 @@ selectedColor:
 name:  
     currentProduct.name,  
   
-                price:  
-                    Number(  
-                        currentProduct.price  
-                    ) || 0,  
-  
-                discount:  
-                    Number(  
-                        currentProduct.discount  
-                    ) || 0,  
-  
-                discountPrice:  
-                    Number.isFinite(  
-                        Number(  
-                            currentProduct.discountPrice  
-                        )  
-                    )  
-                        ? Number(  
-                            currentProduct.discountPrice  
-                        )  
-                        : null,  
+                price: selectedPriceDetails.originalPrice,
+
+discount: selectedPriceDetails.discount,
+
+discountPrice: selectedPriceDetails.discountPrice,
+
+
   
                 image:  
     getSelectedProductImage(),  
