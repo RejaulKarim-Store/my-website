@@ -955,6 +955,56 @@ function formatPrice(price) {
 
                     }
 
+/* =========================================
+   CHECKOUT SIZE-WISE PRICE
+========================================= */
+
+const sizePrices =
+    productData.sizePrices || {};
+
+const selectedSize =
+    String(
+        product.selectedSize || ""
+    ).trim().toUpperCase();
+
+if (selectedSize) {
+
+    const matchedSize =
+        Object.keys(sizePrices).find(
+            function(size) {
+
+                return (
+                    size.trim().toUpperCase() ===
+                    selectedSize
+                );
+
+            }
+        );
+
+    if (matchedSize !== undefined) {
+
+        const sizePrice =
+            Number(sizePrices[matchedSize]);
+
+        if (
+            Number.isFinite(sizePrice) &&
+            sizePrice >= 0
+        ) {
+
+            currentPrice = sizePrice;
+
+            currentDiscountPrice =
+                currentDiscount > 0
+                    ? sizePrice *
+                      (1 - currentDiscount / 100)
+                    : null;
+
+        }
+
+    }
+
+}
+
 
                     productImage =
                         productData.image ||
