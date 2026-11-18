@@ -1907,14 +1907,20 @@ function showDescription(data) {
         data.name || "-";  
   
   
-    const originalPrice =  
-    Number(data.price) || 0;  
-  
-const discount =  
-    Number(data.discount) || 0;  
-  
-const discountPrice =  
-    Number(data.discountPrice);  
+    const selectedSize =
+    document.getElementById("sizeOptions").value;
+
+const priceDetails =
+    getPriceDetails(data, selectedSize);
+
+const originalPrice =
+    priceDetails.originalPrice;
+
+const discount =
+    priceDetails.discount;
+
+const discountPrice =
+    priceDetails.discountPrice;
   
   
 const descriptionPrice =  
