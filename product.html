@@ -3591,26 +3591,11 @@ name:
 currentProduct.name,  
   
   
-                    price:  
-                        Number(  
-                            currentProduct.price  
-                        ) || 0,  
-  
-                    discount:  
-                        Number(  
-                            currentProduct.discount  
-                        ) || 0,  
-  
-                    discountPrice:  
-                        Number.isFinite(  
-                            Number(  
-                                currentProduct.discountPrice  
-                            )  
-                        )  
-                            ? Number(  
-                                currentProduct.discountPrice  
-                            )  
-                            : null,  
+                    price: selectedPriceDetails.originalPrice,
+
+discount: selectedPriceDetails.discount,
+
+discountPrice: selectedPriceDetails.discountPrice,
   
                     image:  
     getSelectedProductImage(),  
