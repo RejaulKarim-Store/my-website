@@ -3886,6 +3886,8 @@ loadProductReviews();
 }  
   
 
+
+
 // =========================
 // RK STORE PRODUCT SHARE
 // WHATSAPP + MESSENGER
@@ -3897,9 +3899,6 @@ function getProductShareMessage() {
 
     const selectedSize =
         document.getElementById("sizeOptions").value;
-
-    const selectedColor =
-        document.getElementById("colorOptions").value;
 
     const priceDetails =
         getPriceDetails(product, selectedSize);
@@ -3918,9 +3917,7 @@ function getProductShareMessage() {
     ) {
 
         priceText =
-            "Original Price: ৳" + formatPrice(originalPrice) +
-            "\nDiscount: " + formatPrice(priceDetails.discount) + "% OFF" +
-            "\nDiscount Price: ৳" + formatPrice(discountPrice);
+            "Price: ৳" + formatPrice(discountPrice);
 
     } else {
 
@@ -3929,25 +3926,14 @@ function getProductShareMessage() {
 
     }
 
-    const imagePath =
-        getSelectedProductImage();
-
-    const imageUrl = imagePath
-        ? new URL(imagePath, window.location.href).href
-        : "";
-
-    const message =
-        "RK Store - Product Information\n\n" +
-        "Product: " + (product.name || "RK Store Product") + "\n" +
-        priceText + "\n" +
-        (selectedSize ? "Size: " + selectedSize + "\n" : "") +
-        (selectedColor ? "Color: " + selectedColor + "\n" : "") +
-        "Description: " + (product.details || "See product page for details.") +
+    return (
+        "RK Store\n\n" +
+        "Product: " + (product.name || "RK Store Product") +
+        "\n" +
+        priceText +
         "\n\n" +
-        (imageUrl ? "Product Image: " + imageUrl + "\n" : "") +
-        "Product Link: " + window.location.href;
-
-    return message;
+        "Product Link: " + window.location.href
+    );
 }
 
 
@@ -3962,13 +3948,11 @@ if (whatsappButton) {
 
         event.preventDefault();
 
-        const message = getProductShareMessage();
+        const message =
+            encodeURIComponent(getProductShareMessage());
 
-        const whatsappUrl =
-            "https://wa.me/8801609201437?text=" +
-            encodeURIComponent(message);
-
-        window.open(whatsappUrl, "_blank");
+        window.location.href =
+            "https://wa.me/?text=" + message;
 
     });
 
@@ -3986,45 +3970,18 @@ if (messengerButton) {
 
         event.preventDefault();
 
-        const message = getProductShareMessage();
+        const productLink =
+            encodeURIComponent(window.location.href);
 
-        window.open("https://m.me/RKStoresbd", "_blank");
-
-        if (
-            navigator.clipboard &&
-            navigator.clipboard.writeText
-        ) {
-
-            navigator.clipboard.writeText(message)
-                .then(function() {
-
-                    alert(
-                        "প্রোডাক্টের তথ্য কপি হয়েছে। Messenger চ্যাটে Paste করে পাঠিয়ে দিন।"
-                    );
-
-                })
-                .catch(function() {
-
-                    prompt(
-                        "প্রোডাক্টের তথ্য কপি করুন:",
-                        message
-                    );
-
-                });
-
-        } else {
-
-            prompt(
-                "প্রোডাক্টের তথ্য কপি করুন:",
-                message
-            );
-
-        }
+        window.location.href =
+            "https://www.facebook.com/dialog/send?link=" +
+            productLink +
+            "&app_id=966242223397117&redirect_uri=" +
+            encodeURIComponent(window.location.href);
 
     });
 
 }
-
 
 
 </script> 
