@@ -3885,6 +3885,148 @@ loadProductReviews();
   
 }  
   
+
+// =========================
+// RK STORE PRODUCT SHARE
+// WHATSAPP + MESSENGER
+// =========================
+
+function getProductShareMessage() {
+
+    const product = currentProduct;
+
+    const selectedSize =
+        document.getElementById("sizeOptions").value;
+
+    const selectedColor =
+        document.getElementById("colorOptions").value;
+
+    const priceDetails =
+        getPriceDetails(product, selectedSize);
+
+    const originalPrice =
+        priceDetails.originalPrice;
+
+    const discountPrice =
+        priceDetails.discountPrice;
+
+    let priceText = "";
+
+    if (
+        discountPrice !== null &&
+        discountPrice < originalPrice
+    ) {
+
+        priceText =
+            "Original Price: ৳" + formatPrice(originalPrice) +
+            "\nDiscount: " + formatPrice(priceDetails.discount) + "% OFF" +
+            "\nDiscount Price: ৳" + formatPrice(discountPrice);
+
+    } else {
+
+        priceText =
+            "Price: ৳" + formatPrice(originalPrice);
+
+    }
+
+    const imagePath =
+        getSelectedProductImage();
+
+    const imageUrl = imagePath
+        ? new URL(imagePath, window.location.href).href
+        : "";
+
+    const message =
+        "RK Store - Product Information\n\n" +
+        "Product: " + (product.name || "RK Store Product") + "\n" +
+        priceText + "\n" +
+        (selectedSize ? "Size: " + selectedSize + "\n" : "") +
+        (selectedColor ? "Color: " + selectedColor + "\n" : "") +
+        "Description: " + (product.details || "See product page for details.") +
+        "\n\n" +
+        (imageUrl ? "Product Image: " + imageUrl + "\n" : "") +
+        "Product Link: " + window.location.href;
+
+    return message;
+}
+
+
+// WHATSAPP BUTTON
+
+const whatsappButton =
+    document.querySelector(".footer-whatsapp");
+
+if (whatsappButton) {
+
+    whatsappButton.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        const message = getProductShareMessage();
+
+        const whatsappUrl =
+            "https://wa.me/8801609201437?text=" +
+            encodeURIComponent(message);
+
+        window.open(whatsappUrl, "_blank");
+
+    });
+
+}
+
+
+// MESSENGER BUTTON
+
+const messengerButton =
+    document.querySelector(".footer-messenger");
+
+if (messengerButton) {
+
+    messengerButton.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        const message = getProductShareMessage();
+
+        window.open("https://m.me/RKStoresbd", "_blank");
+
+        if (
+            navigator.clipboard &&
+            navigator.clipboard.writeText
+        ) {
+
+            navigator.clipboard.writeText(message)
+                .then(function() {
+
+                    alert(
+                        "প্রোডাক্টের তথ্য কপি হয়েছে। Messenger চ্যাটে Paste করে পাঠিয়ে দিন।"
+                    );
+
+                })
+                .catch(function() {
+
+                    prompt(
+                        "প্রোডাক্টের তথ্য কপি করুন:",
+                        message
+                    );
+
+                });
+
+        } else {
+
+            prompt(
+                "প্রোডাক্টের তথ্য কপি করুন:",
+                message
+            );
+
+        }
+
+    });
+
+}
+
+
+
 </script> 
 
 
