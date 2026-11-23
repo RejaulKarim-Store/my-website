@@ -233,7 +233,7 @@ const darkMode =
 // Load saved preference
 
 darkMode.checked =
-    localStorage.getItem("rkDarkMode") === "true";
+    localStorage.getItem("rkDisplayMode") === "dark";
 
 
 // Save preference when changed
@@ -241,13 +241,14 @@ darkMode.checked =
 darkMode.addEventListener("change", function() {
 
     localStorage.setItem(
-        "rkDarkMode",
-        darkMode.checked ? "true" : "false"
+        "rkDisplayMode",
+        darkMode.checked ? "dark" : "light"
     );
 
 });
 
 </script>
+
 
 </body>
 
