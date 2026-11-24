@@ -422,6 +422,36 @@ const redirectPage =
     urlParams.get("redirect");
 
 
+/* ==================================================
+   SAFE LOGIN REDIRECT
+================================================== */
+
+function redirectAfterLogin() {
+
+    const allowedPages = [
+        "account.html",
+        "checkout.html",
+        "customer-orders.html"
+    ];
+
+    if (
+        allowedPages.includes(redirectPage)
+    ) {
+
+        window.location.href =
+            redirectPage;
+
+    }
+
+    else {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
 
 /* ==================================================
    ELEMENTS
