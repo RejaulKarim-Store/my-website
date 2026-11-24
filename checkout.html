@@ -3909,7 +3909,20 @@ button.innerText =
        <button
     type="button"
     class="rk-message-button"
-    onclick="closeRKMessage(); if (document.getElementById('rkMessageOverlay').dataset.goHome === 'true') window.location.href='index.html';"
+    onclick="
+        const overlay = document.getElementById('rkMessageOverlay');
+        const redirectUrl = overlay.dataset.redirectUrl;
+        const goHome = overlay.dataset.goHome;
+
+        closeRKMessage();
+
+        if (redirectUrl) {
+            window.location.href = redirectUrl;
+        }
+        else if (goHome === 'true') {
+            window.location.href = 'index.html';
+        }
+    "
 >
     OK
 </button>
