@@ -1803,7 +1803,9 @@ async function useSavedAddress() {
         );
 
     if (!saved) {
-        alert("No saved address found.");
+        showRKMessage(
+    "No saved address found.\nকোনো সংরক্ষিত ঠিকানা পাওয়া যায়নি।"
+);
         return;
     }
 
@@ -1850,9 +1852,9 @@ async function useSavedAddress() {
 
     if (!division) {
 
-        alert(
-            "Saved division could not be found."
-        );
+        showRKMessage(
+    "Saved division could not be found.\nসংরক্ষিত বিভাগ খুঁজে পাওয়া যায়নি।"
+);
 
         return;
     }
@@ -1893,9 +1895,9 @@ async function useSavedAddress() {
 
     if (!Array.isArray(districts)) {
 
-        alert(
-            "Saved district data could not be loaded."
-        );
+        showRKMessage(
+    "Saved district data could not be loaded.\nসংরক্ষিত জেলার তথ্য লোড করা যায়নি।"
+);
 
         return;
     }
