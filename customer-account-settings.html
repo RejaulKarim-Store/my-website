@@ -143,10 +143,7 @@
             cursor: not-allowed;
         }
 
-        .logout-button {
-            color: #b3261e;
-        }
-
+        
         /* HELP TEXT */
 
         .notice {
@@ -256,22 +253,7 @@
                 id="statusMessage"
                 role="status"
                 aria-live="polite"
-            ></div>
-
-
-            <!-- LOGOUT -->
-
-            <div class="section-title">
-                👤 Account
-            </div>
-
-            <button
-                type="button"
-                class="setting-button logout-button"
-                id="logoutButton"
-            >
-                🚪 Logout
-            </button>
+            ></div>  
 
         </div>
 
@@ -288,11 +270,10 @@
         } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
         import {
-            getAuth,
-            onAuthStateChanged,
-            signOut,
-            sendPasswordResetEmail
-        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+    getAuth,
+    onAuthStateChanged,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
         const firebaseConfig = {
@@ -329,13 +310,10 @@
             document.getElementById("customerEmail");
 
         const changePasswordButton =
-            document.getElementById("changePasswordButton");
+    document.getElementById("changePasswordButton");
 
-        const logoutButton =
-            document.getElementById("logoutButton");
-
-        const statusMessage =
-            document.getElementById("statusMessage");
+const statusMessage =
+    document.getElementById("statusMessage");
 
 
         let currentUser = null;
@@ -364,18 +342,14 @@
 
             if (!user) {
 
-                customerEmail.textContent =
-                    "You are not logged in.";
+    customerEmail.textContent =
+        "You are not logged in.";
 
-                changePasswordButton.disabled = true;
+    changePasswordButton.disabled = true;
 
-                showStatus(
-                    "Please log in to view your account settings."
-                );
+    return;
 
-                return;
-
-            }
+}
 
 
             if (user.email) {
@@ -480,40 +454,7 @@
         );
 
 
-        /* =========================
-           LOGOUT
-        ========================= */
-
-        logoutButton.addEventListener(
-            "click",
-            async function() {
-
-                logoutButton.disabled = true;
-
-                try {
-
-                    await signOut(auth);
-
-                    window.location.href =
-                        "index.html";
-
-                } catch (error) {
-
-                    console.error(
-                        "Logout Error:",
-                        error
-                    );
-
-                    showStatus(
-                        "Logout failed. Please check your connection and try again."
-                    );
-
-                    logoutButton.disabled = false;
-
-                }
-
-            }
-        );
+        
 
     </script>
 
