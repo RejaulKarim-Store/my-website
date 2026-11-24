@@ -205,6 +205,46 @@
 }
 
 
+/* =========================================
+   RK STORE MESSAGE POPUP
+========================================= */
+
+.rk-message-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.rk-message-box {
+    width: min(300px, 85%);
+    background: white;
+    border-radius: 8px;
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+
+.rk-message-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 16px;
+    white-space: pre-line;
+}
+
+.rk-message-button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 24px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
     </style>
 
 </head>
@@ -276,6 +316,40 @@
     </div>
 
 
+<!-- RK STORE CUSTOM MESSAGE POPUP -->
+
+<div
+    id="rkMessageOverlay"
+    class="rk-message-overlay"
+    style="display: none;"
+>
+    <div class="rk-message-box">
+
+        <div
+            id="rkMessageText"
+            class="rk-message-text"
+        ></div>
+
+        <button
+            type="button"
+            class="rk-message-button"
+            onclick="
+                const overlay = document.getElementById('rkMessageOverlay');
+                const goHome = overlay.dataset.goHome;
+
+                closeRKMessage();
+
+                if (goHome === 'true') {
+                    window.location.href = 'index.html';
+                }
+            "
+        >
+            OK
+        </button>
+
+    </div>
+</div>
+
     <script type="module">
 
     import {
@@ -335,12 +409,10 @@
 
             await signOut(auth);
 
-            alert(
-                "You have been logged out."
-            );
-
-            window.location.href =
-                "index.html";
+            showRKMessage(
+    "You have been logged out.\nআপনি সফলভাবে আপনার অ্যাকাউন্ট থেকে লগআউট করেছেন।",
+    true
+);
 
         }
 
@@ -351,13 +423,47 @@
                 error
             );
 
-            alert(
-                "Logout failed. Please try again."
-            );
+            showRKMessage(
+    "Logout failed. Please try again.\nলগআউট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
+);
 
         }
 
     };
+
+</script>
+
+
+<script>
+
+/* =========================================
+   RK STORE CUSTOM MESSAGE FUNCTION
+========================================= */
+
+function showRKMessage(message, goHome = false) {
+
+    const overlay =
+        document.getElementById("rkMessageOverlay");
+
+    document.getElementById(
+        "rkMessageText"
+    ).textContent = message;
+
+    overlay.dataset.goHome =
+        goHome ? "true" : "false";
+
+    overlay.style.display = "flex";
+
+}
+
+
+function closeRKMessage() {
+
+    document.getElementById(
+        "rkMessageOverlay"
+    ).style.display = "none";
+
+}
 
 </script>
 
