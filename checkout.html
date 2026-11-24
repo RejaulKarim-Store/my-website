@@ -2993,9 +2993,9 @@ if (
     paymentMethod !== "cod"
 ) {
 
-    alert(
-        "This payment method is not available yet. Please select Cash on Delivery."
-    );
+    showRKMessage(
+    "This payment method is not available yet. Please select Cash on Delivery.\nএই পেমেন্ট পদ্ধতি এখনো চালু হয়নি। অনুগ্রহ করে ক্যাশ অন ডেলিভারি নির্বাচন করুন।"
+);
 
     return;
 
@@ -3016,9 +3016,9 @@ if (
 
 if (cart.length === 0) {
 
-    alert(
-        "No products selected for checkout."
-    );
+    showRKMessage(
+    "No products selected for checkout.\nচেকআউট করার জন্য কোনো পণ্য নির্বাচন করা হয়নি।"
+);
 
     return;
 
@@ -3044,10 +3044,10 @@ if (cart.length === 0) {
             quantity <= 0
         ) {
 
-            alert(
-                product.name +
-                " has an invalid quantity."
-            );
+            showRKMessage(
+    product.name +
+    " has an invalid quantity.\nএই পণ্যের পরিমাণ সঠিক নয়।"
+);
 
             return;
 
