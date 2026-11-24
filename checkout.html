@@ -2930,10 +2930,12 @@ async function() {
    MOBILE NUMBER VALIDATION
 ========================================= */
 
+
 if (!/^01[0-9]{9}$/.test(mobile)) {
 
-    alert(
-        "Please enter a valid 11 digit Bangladesh mobile number.\n\nExample: 01712345678"
+    showRKMessage(
+        "Please enter a valid 11 digit Bangladesh mobile number.\nExample: 01712345678\n\nঅনুগ্রহ করে ১১ ডিজিটের একটি বৈধ বাংলাদেশি মোবাইল নম্বর দিন।\nউদাহরণ: 01712345678",
+        false
     );
 
     document
