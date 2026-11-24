@@ -2708,19 +2708,19 @@ async function() {
 
     if (!user) {
 
-        alert(
-            "Please login to your customer account first."
-        );
+    showRKMessage(
+        "Please login to your customer account first.",
+        false
+    );
 
+    document.getElementById(
+        "rkMessageOverlay"
+    ).dataset.redirectUrl =
+        "customer-login.html";
 
-        window.location.href =
-            "customer-login.html";
+    return;
 
-
-        return;
-
-    }
-
+}
 
     currentUser =
         user;
